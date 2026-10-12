@@ -43,9 +43,10 @@
   background: var(--superficieBase);
 }
 
-/* Tudo que vem por cima do fundo. */
-.corpo > .barra-lateral,
-.corpo > .visualizacao {
+/* Tudo que vem por cima do fundo. Com peso zero (:where), para não
+   vencer a gaveta da lateral em telas estreitas (app.css), que precisa
+   trocar o position por absolute. */
+:where(.corpo > .barra-lateral, .corpo > .visualizacao) {
   position: relative;
   z-index: 1;
 }

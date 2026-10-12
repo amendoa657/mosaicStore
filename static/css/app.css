@@ -1423,7 +1423,7 @@ a.cartao:hover,
   min-height: 56px;
 }
 .linha-instalado {
-  grid-template-columns: minmax(0, 1fr) 132px 92px 104px 104px;
+  grid-template-columns: minmax(0, 1fr) 132px 84px 92px 96px;
 }
 .linha-atualizacao {
   grid-template-columns: minmax(0, 1fr) 124px 148px 96px 104px;
@@ -1436,6 +1436,12 @@ a.cartao:hover,
   font-size: 10px;
   letter-spacing: 0.12em;
   color: var(--corTextoTerciario);
+}
+/* Os rótulos das colunas seguem o cabeçalho, não o estilo da célula (a
+   coluna de versão tem fonte e cor próprias para os valores). */
+.cabecalho-tabela > div {
+  font: inherit;
+  color: inherit;
 }
 .linha-pacote:not(.cabecalho-tabela) {
   border-bottom: 1px solid var(--corSeparador);
@@ -1515,6 +1521,244 @@ a.cartao:hover,
 }
 .versao-nova {
   color: var(--corDestaque);
+}
+
+/* ---------- Instalados ---------- */
+/* Resumo no topo: o total grande, a faixa de blocos com a parte de cada
+   fonte (o "mosaico" do sistema) e a legenda. Cores chapadas, nos tons que
+   cada fonte já tem na barra lateral. */
+.resumo-instalados {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    "total mosaico"
+    "total legenda";
+  align-items: center;
+  column-gap: 32px;
+  row-gap: 12px;
+  padding: 24px 26px 22px;
+  flex: none;
+}
+.resumo-total {
+  grid-area: total;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.resumo-total strong {
+  font-family: var(--fonteUi);
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+.resumo-total span {
+  font-size: 13px;
+  color: var(--corTextoSecundario);
+}
+.resumo-total em {
+  font-style: normal;
+  font-family: var(--fonteMono);
+  font-size: 12px;
+  color: var(--corTextoTerciario);
+}
+.mosaico-fontes {
+  grid-area: mosaico;
+  display: flex;
+  gap: 4px;
+  height: 14px;
+  align-self: end;
+}
+.mosaico-fontes i {
+  flex: 1 1 0;
+  min-width: 8px;
+  border-radius: 4px;
+  background: var(--tom);
+  /* Cada bloco também é uma tecla: a borda de baixo mais escura. */
+  box-shadow: 0 2px 0 color-mix(in oklab, var(--tom) 45%, black);
+  transform-origin: left center;
+  animation: crescer-bloco 0.5s var(--ease-out) backwards;
+}
+.mosaico-fontes i:nth-child(2) { animation-delay: 60ms; }
+.mosaico-fontes i:nth-child(3) { animation-delay: 120ms; }
+@keyframes crescer-bloco {
+  from { transform: scaleX(0.04); }
+}
+.legenda-fontes {
+  grid-area: legenda;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 12px;
+  color: var(--corTextoSecundario);
+  align-self: start;
+}
+.legenda-fontes li {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.legenda-fontes li > i {
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  background: var(--tom);
+}
+.legenda-fontes li > span {
+  font-family: var(--fonteMono);
+  font-size: 11.5px;
+  color: var(--corTextoTerciario);
+}
+.legenda-atualizar {
+  margin-left: auto;
+}
+.legenda-atualizar a {
+  font-weight: 600;
+  color: var(--corDestaque);
+}
+
+/* Chips com a contagem ao lado do rótulo. */
+.chip-contado {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.chip-contado span {
+  font-family: var(--fonteMono);
+  font-size: 10.5px;
+  opacity: 0.7;
+}
+
+/* O campo que filtra a lista na hora, no fim da barra de filtros. */
+.filtro-lista {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 210px;
+  height: 29px;
+  padding: 0 11px;
+  border-radius: var(--raio-p);
+  background: var(--superficieElevada);
+  color: var(--corTextoTerciario);
+  border: 1px solid transparent;
+  cursor: text;
+  transition:
+    border-color var(--dur-curta) ease,
+    width var(--dur-media) var(--ease-out);
+}
+.filtro-lista:focus-within {
+  border-color: var(--corDestaque);
+  color: var(--corTextoJanela);
+  width: 260px;
+}
+.filtro-lista:focus-within .lupa {
+  border-color: var(--corDestaque);
+}
+.filtro-lista input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: var(--corTextoJanela);
+  font-family: var(--fonteMono);
+  font-size: 12px;
+}
+.filtro-lista input:focus {
+  outline: none;
+}
+.filtro-lista input::placeholder {
+  color: var(--corTextoTerciario);
+}
+.filtro-lista input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+/* A linha: ícone no tom do pacote, nome e descrição ao lado. */
+.nome-instalado {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  color: inherit;
+}
+.nome-instalado:hover {
+  color: inherit;
+}
+.nome-instalado:hover strong {
+  color: var(--corDestaque);
+}
+.icone-34 {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  font-size: 13px;
+}
+.col-tamanho {
+  font-family: var(--fonteMono);
+  font-size: 12px;
+  color: var(--corTextoTerciario);
+  white-space: nowrap;
+}
+.selo-local {
+  background: var(--superficieElevada);
+  color: var(--corTextoSecundario);
+}
+
+/* Remover fica discreto e só ganha corpo com a linha em foco: numa lista
+   de mil pacotes, mil botões acesos seriam só ruído. */
+.btn-remover {
+  opacity: 0;
+  transition:
+    opacity var(--dur-curta) ease,
+    background var(--dur-curta) ease,
+    color var(--dur-curta) ease;
+}
+.linha-instalado:hover .btn-remover,
+.btn-remover:focus-visible {
+  opacity: 1;
+}
+.btn-remover:hover,
+.btn-remover:focus-visible {
+  --tecla: var(--corFundoDestrutivoSuave);
+  background: var(--tecla);
+  color: var(--corDestrutiva);
+}
+@media (hover: none) {
+  .btn-remover {
+    opacity: 1;
+  }
+}
+
+/* Só o primeiro lote entra animado; os outros aparecem já no lugar. */
+.pilha-instalados .lote-linhas + .lote-linhas .linha-pacote {
+  animation: none;
+}
+.lote-linhas[hidden],
+.linha-pacote[hidden] {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .resumo-instalados {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "total" "mosaico" "legenda";
+    padding: 20px 18px;
+  }
+  .filtro-lista,
+  .filtro-lista:focus-within {
+    width: 100%;
+    margin-left: 0;
+  }
+  .linha-instalado .col-tamanho {
+    display: none;
+  }
 }
 
 .barra-progresso {

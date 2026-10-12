@@ -23,6 +23,8 @@
 {% macro selo(pacote) %}
   {% if pacote.repositorio == "aur" %}
     <span class="selo selo-aur">AUR</span>
+  {% elif pacote.repositorio == "local" %}
+    <span class="selo selo-local">local</span>
   {% elif pacote.repositorio %}
     <span class="selo selo-oficial">{{ pacote.repositorio }}</span>
   {% endif %}
