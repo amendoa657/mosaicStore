@@ -28,8 +28,10 @@ def getConfiguracoes():
 
 @pageBp.get("/instalados")
 def getInstalados():
+    
     return render_template(
-        "pacote.html",
+        "instalados.html",
+        pacotes=s.buscarInstalados(),
         contagens=None,
         fontes=fontes
     )

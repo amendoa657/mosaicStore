@@ -29,3 +29,12 @@ def instalarPacoteParu(pacote):
     )
 
     return resultado
+
+
+def getInstalados():
+
+    saida = subprocess.run(["pacman", "-Qq"], capture_output=True, text=True).stdout
+    instalados = saida.split()
+
+    return instalados
+

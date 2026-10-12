@@ -1,12 +1,13 @@
 import queue
 import threading
-import time
+from collections import deque
 
 from system.packageManager import instalarPacoteParu
 
 filaDeDownloads = queue.Queue()
 statusDownloads = {}
-terminal = []
+
+terminal = deque(maxlen=400)   # no lugar de: terminal = []
 
 
 def processarFila():

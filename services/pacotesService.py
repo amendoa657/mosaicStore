@@ -5,8 +5,17 @@ import requests
 
 import repositories.pacotesRepository as r
 from models.pacoteAntigo import Pacote
+from system.packageManager import getInstalados
 
 destaque = "nvim-lazy"
+
+
+def buscarInstalados():
+    instalados = getInstalados()
+
+    resultado = r.buscarPacotesPorNomes(instalados)
+
+    return resultado
 
 
 def buscarPkgBuild(pacote):

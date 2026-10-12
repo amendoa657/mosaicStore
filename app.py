@@ -46,7 +46,7 @@ if __name__ == "__main__":
         height=800,
         min_size=(900, 600),
     )
-    #app.run(debug=True, use_reloader=False)
-
     silenciarAvisosQt()
-    webview.start(debug=False)
+
+    app.run(debug=True, use_reloader=False)
+    #webview.start(debug=False)

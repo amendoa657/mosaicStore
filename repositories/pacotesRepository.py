@@ -4,6 +4,21 @@ import requests
 
 from database.connect import getConnection
 from models.pacote import Pacote
+from system.packageManager import getInstalados
+
+
+def buscarPacotesPorNomes(pacotes):
+    con = getConnection()
+    cursor = con.cursor()
+
+    marcas = ",".join("?" * len(pacotes))
+    cursor.execute(f"SELECT * FROM pacotes WHERE nome IN ({marcas})", pacotes)
+    
+    resultado = [Pacote.fromColuna(coluna) for coluna in cursor.fetchall()]
+
+    return resultado
+
+
 
 
 def buscarPacotes(termo):
