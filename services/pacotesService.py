@@ -12,10 +12,12 @@ destaque = "nvim-lazy"
 
 def buscarInstalados():
     instalados = getInstalados()
+    pacotes = r.buscarPacotesPorNomes(list(instalados))
 
-    resultado = r.buscarPacotesPorNomes(instalados)
-
-    return resultado
+    for p in pacotes:
+        p.versaoInstalado = instalados[p.nome]["versao"]      # the installed one, not the database's
+        p.tamanho = instalados[p.nome]["tamanho"]
+    return pacotes
 
 
 def buscarPkgBuild(pacote):

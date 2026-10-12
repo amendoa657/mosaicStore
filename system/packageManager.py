@@ -32,9 +32,21 @@ def instalarPacoteParu(pacote):
 
 
 def getInstalados():
+    saida = subprocess.run(
+        ["pacman", "-Qi"],
+        capture_output=True, text=True,
+        env={**os.environ, "LC_ALL": "C"},
+    ).stdout
 
-    saida = subprocess.run(["pacman", "-Qq"], capture_output=True, text=True).stdout
-    instalados = saida.split()
-
+    instalados = {}
+    for bloco in saida.strip().split("\n\n"):        # one block per package
+        campos = {}
+        for linha in bloco.splitlines():
+            chave, _, valor = linha.partition(" : ")
+            campos[chave.strip()] = valor.strip()
+        instalados[campos["Name"]] = {
+            "versao": campos["Version"],
+            "tamanho": campos["Installed Size"].replace(".", ","),  # "268,70 MiB"
+        }
     return instalados
 

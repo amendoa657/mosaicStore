@@ -10,6 +10,8 @@ class Pacote:
     popularidade: float
     url: str
     versao: str
+    versaoInstalado: str
+    tamanho: str
     criadores: str
     licensas: str
     dependencias: str
@@ -25,6 +27,8 @@ class Pacote:
             popularidade=coluna["popularidade"],
             url=coluna["url"],
             versao=coluna["versao"],
+            versaoInstalado = "",
+            tamanho = "",
             criadores=coluna["criadores"],
             licensas=coluna["licensas"],
             dependencias=coluna["dependencias"],
