@@ -156,6 +156,39 @@ document.addEventListener(
   { capture: true, passive: true },
 );
 
+/* 10. Filtro da lista de Instalados: esconde na hora as linhas que não
+       batem com o que foi digitado (nome ou descrição), e os lotes que
+       ficaram vazios. Esc limpa. */
+document.querySelectorAll("[data-filtrar-lista]").forEach((campo) => {
+  const tabela = document.querySelector(".tabela");
+  const lotes = [...tabela.querySelectorAll(".lote-linhas")];
+  const vazio = tabela.querySelector("[data-filtro-vazio]");
+
+  const filtrar = () => {
+    const termo = campo.value.trim().toLowerCase();
+    let algum = false;
+    for (const lote of lotes) {
+      let noLote = false;
+      for (const linha of lote.children) {
+        const bate = !termo || linha.dataset.filtro.includes(termo);
+        linha.hidden = !bate;
+        noLote ||= bate;
+      }
+      lote.hidden = !noLote;
+      algum ||= noLote;
+    }
+    if (vazio) vazio.hidden = algum;
+  };
+
+  campo.addEventListener("input", filtrar);
+  campo.addEventListener("keydown", (evento) => {
+    if (evento.key === "Escape" && campo.value) {
+      campo.value = "";
+      filtrar();
+    }
+  });
+});
+
 /* A saída do build começa rolada até o fim, que é onde está o que interessa. */
 const terminal = document.querySelector(".terminal-saida");
 if (terminal) {
