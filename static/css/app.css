@@ -1426,7 +1426,10 @@ a.cartao:hover,
   grid-template-columns: minmax(0, 1fr) 132px 84px 92px 96px;
 }
 .linha-atualizacao {
-  grid-template-columns: minmax(0, 1fr) 124px 148px 96px 104px;
+  grid-template-columns: minmax(0, 1fr) 190px 84px 92px 104px;
+}
+.linha-atualizacao.sem-download {
+  grid-template-columns: minmax(0, 1fr) 190px 84px 104px;
 }
 .cabecalho-tabela {
   min-height: 30px;
@@ -1527,7 +1530,7 @@ a.cartao:hover,
 /* Resumo no topo: o total grande, a faixa de blocos com a parte de cada
    fonte (o "mosaico" do sistema) e a legenda. Cores chapadas, nos tons que
    cada fonte já tem na barra lateral. */
-.resumo-instalados {
+.resumo-pacotes {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   grid-template-areas:
@@ -1620,6 +1623,145 @@ a.cartao:hover,
 .legenda-atualizar a {
   font-weight: 600;
   color: var(--corDestaque);
+}
+
+/* ---------- Atualizações ---------- */
+/* O resumo ganha uma terceira coluna com as ações da página. */
+.resumo-pacotes.com-acoes {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    "total mosaico acoes"
+    "total legenda acoes";
+}
+.resumo-acoes {
+  grid-area: acoes;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Verificar: a marca pequena dentro da tecla gira enquanto a página nova
+   (que roda o checkupdates) não chega. */
+.btn-verificar .glifo-sync {
+  width: 14px;
+  height: 14px;
+}
+.btn-verificar:hover .glifo-sync {
+  transform: rotate(90deg);
+}
+.btn-verificar.verificando {
+  pointer-events: none;
+  transform: translateY(2px);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, var(--corTextoJanela) 4%, transparent),
+    0 0 0 transparent;
+}
+.btn-verificar.verificando .glifo-sync {
+  animation: blocos-girando 1.6s infinite;
+}
+
+/* Faixa de aviso da AUR: a mesma voz do aviso na página do pacote. */
+.aviso-aur-faixa {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 0 26px 18px;
+  padding: 12px 16px;
+  border-radius: var(--raio-m);
+  background: var(--corFundoDestrutivoSuave);
+  color: var(--corTextoDestrutivo, var(--corDestrutiva));
+  flex: none;
+}
+.aviso-aur-faixa > i {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid var(--corDestrutiva);
+  color: var(--corDestrutiva);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  display: grid;
+  place-items: center;
+  margin-top: 1px;
+}
+.aviso-aur-faixa p {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+.aviso-aur-faixa strong {
+  color: var(--corDestrutiva);
+  font-weight: 600;
+}
+
+/* A mudança de versão: a nova em cima, com só o pedaço que mudou aceso; a
+   antiga embaixo, apagada. */
+.col-mudanca {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  font-family: var(--fonteMono);
+  white-space: nowrap;
+}
+.col-mudanca .versao-nova {
+  font-size: 12.5px;
+  color: var(--corTextoJanela);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.col-mudanca mark {
+  background: var(--corFundoDestaqueSuave);
+  color: var(--corDestaque);
+  border-radius: 3px;
+  padding: 0 2px;
+  margin-left: 1px;
+}
+.col-mudanca .versao-antiga {
+  font-size: 11px;
+  color: var(--corTextoTerciario);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Tudo em dia: a marca grande no meio da página, que gira no hover. */
+.em-dia {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: auto;
+  padding: 56px 26px;
+  text-align: center;
+}
+.glifo-em-dia {
+  width: 76px;
+  height: 76px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  animation: assentar-marca 0.6s var(--ease-out) backwards;
+}
+.em-dia:hover .glifo-em-dia {
+  transform: rotate(90deg);
+}
+@keyframes assentar-marca {
+  from { transform: scale(0.6) rotate(-90deg); opacity: 0; }
+}
+.em-dia h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.em-dia p {
+  margin: 0 0 8px;
+  color: var(--corTextoSecundario);
+  max-width: 340px;
+  text-wrap: pretty;
 }
 
 /* Chips com a contagem ao lado do rótulo. */
@@ -1746,10 +1888,21 @@ a.cartao:hover,
 }
 
 @media (max-width: 760px) {
-  .resumo-instalados {
+  .resumo-pacotes,
+  .resumo-pacotes.com-acoes {
     grid-template-columns: minmax(0, 1fr);
-    grid-template-areas: "total" "mosaico" "legenda";
+    grid-template-areas: "total" "mosaico" "legenda" "acoes";
     padding: 20px 18px;
+  }
+  .resumo-acoes .form-acao .btn,
+  .resumo-acoes .btn {
+    flex: 1;
+  }
+  .aviso-aur-faixa {
+    margin: 0 18px 16px;
+  }
+  .linha-atualizacao .col-tamanho {
+    display: none;
   }
   .filtro-lista,
   .filtro-lista:focus-within {
@@ -3160,6 +3313,10 @@ button.dep {
 @media (max-width: 720px) {
   .linha-pacote {
     grid-template-columns: minmax(0, 1fr) 104px;
+  }
+  .linha-atualizacao,
+  .linha-atualizacao.sem-download {
+    grid-template-columns: minmax(0, 1fr) 140px 96px;
   }
   .linha-pacote .col-versao,
   .linha-pacote .col-fonte {

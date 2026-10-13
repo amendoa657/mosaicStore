@@ -6,7 +6,7 @@
     pacotes  list  todos os pacotes instalados (a lista do pacman, completada
                    com os dados do banco). Cada um:
                      nome         str   obrigatório
-                     versao       str   a versão instalada
+                     versaoInstalado  str   a versão instalada (se faltar, vale `versao`)
                      descricao    str   pode vir vazia (pacote fora do banco)
                      repositorio  str   "core" | "extra" | "multilib" | "aur" | "local"
                                         "local" = instalado mas fora do banco
@@ -45,7 +45,7 @@
   {# Resumo: quantos são, quanto ocupam e de onde vieram. A faixa de blocos
      é o próprio mosaico: cada fonte ocupa a largura da sua parte. #}
   {% if pacotes %}
-    <section class="resumo-instalados">
+    <section class="resumo-pacotes">
       <div class="resumo-total">
         <strong>{{ "{:,}".format(pacotes | length).replace(",", ".") }}</strong>
         <span>pacotes instalados{% if espaco %}<em> · {{ espaco }} em disco</em>{% endif %}</span>
@@ -113,7 +113,7 @@
                 </span>
               </a>
               <div class="col-versao">
-                <span>{{ pacote.versao }}</span>
+                <span>{{ pacote.versaoInstalado or pacote.versao }}</span>
                 {% if pacote.nova_versao %}<span class="versao-nova">→ {{ pacote.nova_versao }}</span>{% endif %}
               </div>
               <div class="col-fonte">{{ selo(pacote) }}</div>

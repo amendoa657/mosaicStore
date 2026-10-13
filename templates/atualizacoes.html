@@ -1,67 +1,161 @@
 {#
   Atualizações pendentes.
 
-    pacotes         list  precisam ter versao e nova_versao
-    total_download  str   já formatado, ex.: "393 MiB"
+  Variáveis:
+
+    pacotes         list  os pacotes com atualização. Cada um:
+                            nome             str
+                            descricao        str
+                            repositorio      str   "core" | "extra" | ... | "aur"
+                            versaoInstalado  str   a versão que está no sistema
+                            versao           str   a versão nova
+                          (também aceita o par versao = instalada, nova_versao = nova)
+                            download         str   tamanho do download, opcional
+    total_download  str   soma já formatada, ex.: "393 MiB" (opcional)
+
+  O filtro por fonte vem da URL (?fonte=oficiais|aur) e é aplicado aqui.
 #}
 {% extends "base.html" %}
-{% from "_macros.html" import botao, vazio %}
+{% from "_macros.html" import icone, selo %}
 
 {% set pagina = "atualizacoes" %}
+{% set pacotes = pacotes or [] %}
+{% set fonte = request.args.get("fonte", "") %}
+{% set aur = pacotes | selectattr("repositorio", "equalto", "aur") | list %}
+{% set oficiais = pacotes | rejectattr("repositorio", "equalto", "aur") | list %}
+{% set lista = {"oficiais": oficiais, "aur": aur}.get(fonte, pacotes) %}
+{% set com_download = pacotes | selectattr("download") | list | length > 0 %}
+
+{#
+  A mudança de versão: a nova em destaque, só com o pedaço que mudou aceso,
+  e a antiga embaixo. "144.0-1 → 144.0.2-1" acende ".2-1". Nunca corta um
+  número no meio: "1.15.10-1 → 1.15.12-1" acende "12-1", não "2-1".
+#}
+{% macro mudanca(antiga, nova) %}
+  {% set ns = namespace(i=0, igual=true, corte=0) %}
+  {% for c in nova %}
+    {% if ns.igual and loop.index0 < antiga | length and antiga[loop.index0] == c %}
+      {% set ns.i = loop.index0 + 1 %}
+    {% else %}
+      {% set ns.igual = false %}
+    {% endif %}
+  {% endfor %}
+  {% if ns.i > 0 and ns.i < nova | length and nova[ns.i].isalnum() and nova[ns.i - 1].isalnum() %}
+    {% for k in range(ns.i) %}{% if not nova[k].isalnum() %}{% set ns.corte = k + 1 %}{% endif %}{% endfor %}
+    {% set ns.i = ns.corte %}
+  {% endif %}
+  {# Só o pkgrel mudou (o número depois do último "-"): é uma recompilação. #}
+  {% set recompila = "-" in nova and "-" in antiga and nova.rsplit("-", 1)[0] == antiga.rsplit("-", 1)[0] %}
+  <span class="versao-nova">{{ nova[:ns.i] }}<mark>{{ nova[ns.i:] }}</mark></span>
+  <span class="versao-antiga">de {{ antiga }}{% if recompila %} · recompilação{% endif %}</span>
+{% endmacro %}
+
 {% block titulo %}Atualizações — Mosaic{% endblock %}
-{% block classe_conteudo %}pilha{% endblock %}
+{% block classe_conteudo %}pilha pilha-atualizacoes{% endblock %}
 
 {% block conteudo %}
 
-  <div class="barra-filtros">
-    <span class="contagem-resultados">
-      {% if pacotes %}
-        {{ pacotes | length }} {{ "atualizações" if pacotes | length > 1 else "atualização" }}
-        {%- if total_download %} · {{ total_download }} para baixar{% endif %}
-      {% else %}
-        tudo atualizado
-      {% endif %}
-    </span>
+  {% if pacotes %}
 
-    <div class="ordenacao">
-      <form class="form-acao" method="post" action="/sincronizar">
-        <button class="btn">Verificar agora</button>
-      </form>
-      {% if pacotes %}
-        <form class="form-acao" method="post" action="/atualizar-tudo">
-          <button class="btn btn-primario">Atualizar tudo</button>
-        </form>
-      {% endif %}
-    </div>
-  </div>
-
-  <div class="tabela">
-    {% if pacotes %}
-      <div class="linha-pacote linha-atualizacao cabecalho-tabela">
-        <div>PACOTE</div>
-        <div class="col-versao">ATUAL</div>
-        <div class="col-versao">NOVA</div>
-        <div class="col-versao">DOWNLOAD</div>
-        <div></div>
+    <section class="resumo-pacotes com-acoes">
+      <div class="resumo-total">
+        <strong>{{ pacotes | length }}</strong>
+        <span>{{ "atualizações disponíveis" if pacotes | length > 1 else "atualização disponível" }}{% if total_download %}<em> · {{ total_download }} para baixar</em>{% endif %}</span>
       </div>
 
-      {% for pacote in pacotes %}
-        <div class="linha-pacote linha-atualizacao">
-          <a class="nome-pacote" href="/pacote/{{ pacote.nome }}">
-            <strong>{{ pacote.nome }}</strong>
-            <span>{{ pacote.descricao }}</span>
-          </a>
-          <div class="col-versao versao-antiga">{{ pacote.versaoInstalado }}</div>
-          <div class="col-versao versao-nova">{{ pacote.versao }}</div>
-          <div class="col-versao">{{ pacote.download }}</div>
-          <div class="col-acao">{{ botao(pacote) }}</div>
-        </div>
-      {% endfor %}
+      <div class="mosaico-fontes" role="img"
+           aria-label="Oficiais: {{ oficiais | length }}, AUR: {{ aur | length }}">
+        {% if oficiais %}<i class="tom-2" style="flex-grow: {{ oficiais | length }}"></i>{% endif %}
+        {% if aur %}<i class="tom-1" style="flex-grow: {{ aur | length }}"></i>{% endif %}
+      </div>
 
-    {% else %}
-      {{ vazio("Sistema em dia", "Nenhuma atualização pendente nas fontes ativas.",
-               '<a class="btn" href="/">Voltar a descobrir</a>') }}
+      <ul class="legenda-fontes">
+        {% if oficiais %}<li class="tom-2"><i aria-hidden="true"></i>Oficiais<span>{{ oficiais | length }}</span></li>{% endif %}
+        {% if aur %}<li class="tom-1"><i aria-hidden="true"></i>AUR<span>{{ aur | length }}</span></li>{% endif %}
+      </ul>
+
+      <div class="resumo-acoes">
+        <a class="btn btn-g btn-verificar" href="/atualizacoes" data-verificar>
+          <i class="glifo-sync" aria-hidden="true"></i><span data-rotulo-verificar>Verificar agora</span>
+        </a>
+        <form class="form-acao" method="post" action="/atualizar-tudo">
+          <button class="btn btn-g btn-primario">Atualizar tudo</button>
+        </form>
+      </div>
+    </section>
+
+    {# Pacote da AUR é compilado na máquina: o aviso aparece antes de atualizar. #}
+    {% if aur %}
+      <div class="aviso-aur-faixa">
+        <i aria-hidden="true">!</i>
+        <p>
+          <strong>{{ aur | length }} {{ "pacotes da AUR vão" if aur | length > 1 else "pacote da AUR vai" }} ser {{ "compilados" if aur | length > 1 else "compilado" }} na sua máquina.</strong>
+          Os PKGBUILDs são enviados por usuários; abra o pacote para revisar o script antes.
+        </p>
+      </div>
     {% endif %}
-  </div>
+
+    <div class="barra-filtros">
+      {% for id, rotulo, n in [("", "Todas", pacotes | length), ("oficiais", "Oficiais", oficiais | length), ("aur", "AUR", aur | length)] if n or not id or fonte == id %}
+        <a class="chip chip-contado {{ 'ativo' if fonte == id }}" href="/atualizacoes{{ '?fonte=' ~ id if id }}"
+           {{ 'aria-current=page' if fonte == id }}>{{ rotulo }}<span>{{ n }}</span></a>
+      {% endfor %}
+    </div>
+
+    <div class="tabela">
+      {% if lista %}
+        <div class="linha-pacote linha-atualizacao {{ 'sem-download' if not com_download }} cabecalho-tabela">
+          <div>PACOTE</div>
+          <div>VERSÃO</div>
+          <div class="col-fonte">FONTE</div>
+          {% if com_download %}<div class="col-tamanho">DOWNLOAD</div>{% endif %}
+          <div></div>
+        </div>
+
+        {% for pacote in lista %}
+          {% set antiga = pacote.versaoInstalado or (pacote.versao if pacote.nova_versao else "") %}
+          {% set nova = pacote.nova_versao or pacote.versao %}
+          <div class="linha-pacote linha-atualizacao {{ 'sem-download' if not com_download }}">
+            <a class="nome-instalado" href="/buscar/{{ pacote.nome }}?pagina=atualizacoes">
+              {{ icone(pacote, "icone-34") }}
+              <span class="nome-pacote">
+                <strong>{{ pacote.nome }}</strong>
+                <span>{{ pacote.descricao or "Sem descrição no banco local" }}</span>
+              </span>
+            </a>
+            <div class="col-mudanca">{{ mudanca(antiga or "", nova or "") }}</div>
+            <div class="col-fonte">{{ selo(pacote) }}</div>
+            {% if com_download %}<div class="col-tamanho">{{ pacote.download or "—" }}</div>{% endif %}
+            <div class="col-acao">
+              <form class="form-acao" method="post" action="/atualizar">
+                <input type="hidden" name="pacote" value="{{ pacote.nome }}">
+                <button class="btn btn-primario">Atualizar</button>
+              </form>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="estado-vazio">
+          <div class="glifo-vazio" aria-hidden="true"></div>
+          <h3>Nada nesta fonte</h3>
+          <p>As atualizações pendentes são de outra fonte.</p>
+          <a class="btn" href="/atualizacoes">Ver todas</a>
+        </div>
+      {% endif %}
+    </div>
+
+  {% else %}
+
+    {# Tudo em dia: a marca grande, que gira um quarto de volta no hover. #}
+    <div class="em-dia">
+      <div class="glifo-grande glifo-em-dia" aria-hidden="true"></div>
+      <h2>Tudo em dia</h2>
+      <p>Nenhuma atualização pendente nos repositórios oficiais nem na AUR.</p>
+      <a class="btn btn-g btn-verificar" href="/atualizacoes" data-verificar>
+        <i class="glifo-sync" aria-hidden="true"></i><span data-rotulo-verificar>Verificar de novo</span>
+      </a>
+    </div>
+
+  {% endif %}
 
 {% endblock %}

@@ -189,6 +189,17 @@ document.querySelectorAll("[data-filtrar-lista]").forEach((campo) => {
   });
 });
 
+/* 11. Verificar atualizações: a página nova demora (roda o checkupdates e o
+       paru), então a tecla afunda e a marca gira até ela chegar. */
+document.querySelectorAll("[data-verificar]").forEach((botao) => {
+  botao.addEventListener("click", () => {
+    botao.classList.add("verificando");
+    botao.setAttribute("aria-busy", "true");
+    const rotulo = botao.querySelector("[data-rotulo-verificar]");
+    if (rotulo) rotulo.textContent = "Verificando…";
+  });
+});
+
 /* A saída do build começa rolada até o fim, que é onde está o que interessa. */
 const terminal = document.querySelector(".terminal-saida");
 if (terminal) {
