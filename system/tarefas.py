@@ -37,6 +37,7 @@ def iniciar(nome, trabalho):
             "progresso": None,          # 0 a 100, ou None quando não dá para saber
             "passos": [],               # etapas nomeadas (sincronização dos bancos)
             "linhas": deque(maxlen=400),
+            "total": 0,                 # linhas recebidas desde o começo (a tela usa para saber se mudou)
             "codigo": None,
         }
         _tarefas[nome] = tarefa
@@ -63,6 +64,7 @@ def registrar(tarefa, linha):
     if not linha:
         return
     tarefa["linhas"].append(linha)
+    tarefa["total"] += 1
     tarefa["passo"] = linha.strip()
     contador = _CONTADOR.search(linha)
     if contador and _FASE_PRINCIPAL.search(linha):
@@ -82,6 +84,12 @@ def acompanhar(tarefa, processo):
         raise RuntimeError(f"o comando terminou com código {processo.returncode}")
 
 
+def rodando(nome):
+    """True enquanto a tarefa com esse nome estiver rodando."""
+    tarefa = _tarefas.get(nome)
+    return bool(tarefa and tarefa["situacao"] == "rodando")
+
+
 def estado(nome):
     """O estado da tarefa pronto para virar JSON (ou None se nunca rodou)."""
     tarefa = _tarefas.get(nome)
@@ -95,6 +103,7 @@ def estado(nome):
         "progresso": tarefa["progresso"],
         "passos": [dict(p) for p in tarefa["passos"]],
         "linhas": list(tarefa["linhas"]),
+        "total": tarefa["total"],
         "codigo": tarefa["codigo"],
         "decorrido": int(fim - tarefa["inicio"]),
     }

@@ -11,6 +11,10 @@ systemBp = Blueprint("systemBp", __name__)
 def instalarAur():
     pacote = request.form.get("pacote", "")
 
+    # Com o pacman -Syu rodando, o pacman está travado: mostra a atualização.
+    if tarefas.rodando("sistema"):
+        return redirect("/atualizacoes")
+
     q.statusDownloads[pacote] = {
         "nome": pacote,
         "situacao": "aguardando",

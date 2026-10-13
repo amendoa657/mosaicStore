@@ -13,7 +13,8 @@
                     decorrido  segundos desde o começo
 
   Enquanto roda, o app.js busca /tarefa/<nome>/estado a cada segundo e
-  atualiza a tela; quando acaba, recarrega para mostrar o resultado.
+  atualiza a tela; quando acaba, vai para /tarefa/<nome> com o resultado.
+  Durante o -Syu, /atualizacoes também mostra esta tela.
 #}
 {% extends "base.html" %}
 
@@ -58,7 +59,10 @@
 
 {% block conteudo %}
 
-  <section class="tarefa tarefa-{{ situacao }}" data-tarefa="{{ nome }}" data-situacao="{{ situacao }}">
+  {# Ao terminar, a tela vai para /tarefa/<nome>, que mostra o resultado
+     (mesmo quando ela foi aberta por /atualizacoes durante o -Syu). #}
+  <section class="tarefa tarefa-{{ situacao }}" data-tarefa="{{ nome }}" data-situacao="{{ situacao }}"
+           data-ao-terminar="/tarefa/{{ nome }}">
 
     <div class="tarefa-topo">
       <div class="glifo-grande glifo-tarefa" aria-hidden="true"></div>
@@ -107,7 +111,7 @@
           <span class="rotulo">SAÍDA</span>
           <span class="alvo">{{ textos.comando }}</span>
         </div>
-        <div class="terminal-saida" data-saida>
+        <div class="terminal-saida" data-saida data-total="{{ tarefa.total }}">
           {% for linha in tarefa.linhas %}
             <div class="{{ 'indent' if not linha.startswith(('::', '==>')) }}">{{ linha }}</div>
           {% else %}

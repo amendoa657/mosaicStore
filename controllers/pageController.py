@@ -2,6 +2,7 @@ from flask import Blueprint, render_template
 
 import services.pacotesService as s
 import system.downloadQueue as q
+import system.tarefas as tarefas
 from config.fontes import fontes
 from config.tema import getTema
 
@@ -39,6 +40,16 @@ def getInstalados():
 
 @pageBp.get("/atualizacoes")
 def getAtualizacoes():
+    # Durante o pacman -Syu a tela de Atualizações vira a tela dele: não faz
+    # sentido listar (nem atualizar) pacote por pacote no meio da atualização.
+    if tarefas.rodando("sistema"):
+        return render_template(
+            "tarefa.html",
+            nome="sistema",
+            tarefa=tarefas.estado("sistema"),
+            contagens=None,
+            fontes=fontes
+        )
     return render_template(
         "atualizacoes.html",
         pacotes=s.buscarAtualizacoes(),

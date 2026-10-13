@@ -203,7 +203,9 @@ document.querySelectorAll("[data-verificar]").forEach((botao) => {
 /* 12. Tarefa longa (atualizar o sistema, sincronizar os bancos). Enquanto
        ela roda, busca o estado a cada segundo e atualiza passo, barra,
        etapas e saída; o relógio anda sozinho entre uma busca e outra.
-       Quando a tarefa termina, recarrega a página para mostrar o resultado. */
+       Quando a tarefa termina, vai para /tarefa/<nome>, que mostra o
+       resultado. A saída é redesenhada pelo total de linhas recebidas (que
+       só cresce), não pelo tamanho da lista: ela guarda só as últimas 400. */
 const telaTarefa = document.querySelector('[data-tarefa][data-situacao="rodando"]');
 if (telaTarefa) {
   const nome = telaTarefa.dataset.tarefa;
@@ -213,7 +215,7 @@ if (telaTarefa) {
   const saida = telaTarefa.querySelector("[data-saida]");
   const passos = telaTarefa.querySelector("[data-passos]");
   let decorrido = Number(relogio?.dataset.decorrido || 0);
-  let linhasMostradas = -1;
+  let totalMostrado = Number(saida?.dataset.total ?? -1);
 
   const formatar = (s) => `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
   const tique = setInterval(() => {
@@ -221,9 +223,9 @@ if (telaTarefa) {
     if (relogio) relogio.textContent = formatar(decorrido);
   }, 1000);
 
-  const desenharSaida = (linhas) => {
-    if (!saida || linhas.length === linhasMostradas) return;
-    linhasMostradas = linhas.length;
+  const desenharSaida = (linhas, total) => {
+    if (!saida || total === totalMostrado) return;
+    totalMostrado = total;
     const noFim = saida.scrollHeight - saida.scrollTop - saida.clientHeight < 40;
     saida.replaceChildren(
       ...linhas.map((linha) => {
@@ -250,7 +252,9 @@ if (telaTarefa) {
     }
     if (!estado || estado.situacao !== "rodando") {
       clearInterval(tique);
-      location.reload();
+      const destino = telaTarefa.dataset.aoTerminar;
+      if (destino && location.pathname !== destino) location.assign(destino);
+      else location.reload();
       return;
     }
     decorrido = estado.decorrido;
@@ -270,7 +274,7 @@ if (telaTarefa) {
         item.querySelector("em").textContent = rotulos[p.estado];
       });
     }
-    desenharSaida(estado.linhas);
+    desenharSaida(estado.linhas, estado.total);
     setTimeout(acompanhar, 1000);
   };
 
