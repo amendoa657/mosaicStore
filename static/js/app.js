@@ -102,6 +102,16 @@ window.addEventListener("pagehide", () => {
   } catch (erro) {}
 });
 
+/* Barras animadas que são recriadas a cada atualização da fila: o atraso
+   negativo põe a animação no ponto em que ela estaria pelo relógio, então
+   o bloco continua correndo em vez de voltar ao começo a cada 2 s. */
+const sincronizarBarras = () => {
+  document.querySelectorAll(".barra-viva > i").forEach((barra) => {
+    barra.style.animationDelay = `-${Math.round(performance.now() % 2600)}ms`;
+  });
+};
+sincronizarBarras();
+
 /* 8. Fila ao vivo. Enquanto algo instala, busca esta mesma página a cada 2 s
       e troca só o que muda (lista, alvo, contagem e saída do terminal), em
       vez de recarregar a janela inteira. A saída só desce sozinha se você
@@ -127,6 +137,8 @@ if (document.querySelector("[data-fila-ao-vivo]")) {
       const vindo = novo.querySelector(seletor);
       if (atual && vindo && atual.innerHTML !== vindo.innerHTML) atual.innerHTML = vindo.innerHTML;
     }
+
+    sincronizarBarras();
 
     const saida = document.querySelector(".terminal-saida");
     const saidaNova = novo.querySelector(".terminal-saida");
@@ -280,6 +292,26 @@ if (telaTarefa) {
 
   if (saida) saida.scrollTop = saida.scrollHeight;
   setTimeout(acompanhar, 1000);
+}
+
+/* 13. Configurações: mostra o valor de cada cor do tema ao lado da
+       amostra, e a barra de salvar avisa quando algo mudou. */
+document.querySelectorAll("[data-cor-var]").forEach((codigo) => {
+  const valor = getComputedStyle(document.documentElement).getPropertyValue(codigo.dataset.corVar).trim();
+  if (valor) codigo.textContent = valor;
+});
+const formConfig = document.querySelector("[data-form-config]");
+if (formConfig) {
+  const estado = formConfig.querySelector("[data-estado-salvar]");
+  const descartar = formConfig.querySelector("[data-descartar]");
+  const marcar = (mudou) => {
+    estado.classList.toggle("mudou", mudou);
+    estado.textContent = mudou ? "Alterações não salvas" : "Tudo salvo";
+    descartar.disabled = !mudou;
+  };
+  formConfig.addEventListener("input", () => marcar(true));
+  formConfig.addEventListener("change", () => marcar(true));
+  formConfig.addEventListener("reset", () => setTimeout(() => marcar(false)));
 }
 
 /* A saída do build começa rolada até o fim, que é onde está o que interessa. */

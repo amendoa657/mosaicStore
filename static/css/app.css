@@ -807,13 +807,17 @@ mark {
 
 /* O cartão herda o tom do próprio ícone para a borda do hover. */
 .cartao-app:has(.tom-0),
-.item-fila:has(.tom-0) { --tom: var(--corDestaque); }
+.item-fila:has(.tom-0),
+.item-agora:has(.tom-0) { --tom: var(--corDestaque); }
 .cartao-app:has(.tom-1),
-.item-fila:has(.tom-1) { --tom: var(--corAcentoSecundario); }
+.item-fila:has(.tom-1),
+.item-agora:has(.tom-1) { --tom: var(--corAcentoSecundario); }
 .cartao-app:has(.tom-2),
-.item-fila:has(.tom-2) { --tom: var(--corAcentoTerciario); }
+.item-fila:has(.tom-2),
+.item-agora:has(.tom-2) { --tom: var(--corAcentoTerciario); }
 .cartao-app:has(.tom-3),
-.item-fila:has(.tom-3) { --tom: var(--corLuzMista); }
+.item-fila:has(.tom-3),
+.item-agora:has(.tom-3) { --tom: var(--corLuzMista); }
 .cartao-app h3 {
   margin: 0;
   font-size: 13.5px;
@@ -1957,6 +1961,262 @@ a.cartao:hover,
   }
 }
 
+/* ---------- Configurações ---------- */
+.config {
+  width: min(760px, 100% - 52px);
+  margin: 36px auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.config-topo h1 {
+  margin: 0 0 6px;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.config-topo p {
+  margin: 0;
+  color: var(--corTextoSecundario);
+}
+.config-secao {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+.config-secao-titulo h2 {
+  margin: 4px 0 6px;
+  font-size: 15px;
+  font-weight: 600;
+}
+.config-secao-titulo p {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--corTextoTerciario);
+  text-wrap: pretty;
+}
+.config-cartao {
+  padding: 6px 18px;
+  display: flex;
+  flex-direction: column;
+}
+.config-nota {
+  margin: 4px 0 14px;
+  font-size: 12.5px;
+  color: var(--corTextoSecundario);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+.config-nota code,
+.config-cartao code {
+  font-family: var(--fonteMono);
+  font-size: 11.5px;
+  color: var(--corTextoJanela);
+}
+
+/* As quatro cores do tema, como a marca: quatro teclas chapadas. */
+.amostras-tema {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  padding: 16px 0 12px;
+}
+.cor-tema {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.cor-tema i {
+  height: 54px;
+  border-radius: 10px;
+  background: var(--cor);
+  box-shadow: 0 3px 0 color-mix(in oklab, var(--cor) 45%, black);
+  margin-bottom: 8px;
+}
+.cor-tema strong {
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.cor-tema code {
+  font-size: 11px !important;
+  color: var(--corTextoTerciario) !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ajuste-manual {
+  border-top: 1px solid var(--corSeparador);
+  padding: 12px 0;
+}
+.ajuste-manual summary {
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--corTextoSecundario);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ajuste-manual summary::-webkit-details-marker {
+  display: none;
+}
+.ajuste-manual summary::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform var(--dur-curta) var(--ease-out);
+}
+.ajuste-manual[open] summary::before {
+  transform: rotate(45deg);
+}
+.ajuste-manual summary:hover {
+  color: var(--corTextoJanela);
+}
+.ajuste-manual .config-nota {
+  margin-top: 10px;
+}
+.ajuste-manual .campo-paleta {
+  margin: 0;
+}
+
+/* Núcleos: teclas de escolha única, a escolhida fica afundada e acesa. */
+.linha-nucleos {
+  flex-wrap: wrap;
+  cursor: default;
+}
+.teclas-nucleos {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.tecla-opcao {
+  position: relative;
+  cursor: pointer;
+}
+.tecla-opcao input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.tecla-opcao span {
+  display: grid;
+  place-items: center;
+  min-width: 38px;
+  height: 30px;
+  padding: 0 9px;
+  border-radius: var(--raio-p);
+  background: var(--superficieElevada);
+  box-shadow: 0 2px 0 color-mix(in oklab, var(--superficieElevada) 45%, black);
+  font-family: var(--fonteMono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--corTextoSecundario);
+  transition:
+    background var(--dur-curta) ease,
+    color var(--dur-curta) ease,
+    transform 90ms ease-out,
+    box-shadow 90ms ease-out;
+}
+.tecla-opcao:hover span {
+  color: var(--corTextoJanela);
+}
+.tecla-opcao input:checked + span {
+  background: var(--corFundoDestaque);
+  color: var(--corTextoDestaque);
+  transform: translateY(2px);
+  box-shadow: 0 0 0 transparent;
+}
+.tecla-opcao input:focus-visible + span {
+  outline: 2px solid var(--corFocoContorno);
+  outline-offset: 2px;
+}
+
+.sobre {
+  padding: 16px 18px;
+  gap: 16px;
+}
+.sobre-marca {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.sobre-marca .glifo-grande {
+  width: 38px;
+  height: 38px;
+  flex: none;
+}
+.sobre-marca:hover .glifo-grande {
+  transform: rotate(90deg);
+}
+.sobre-marca strong {
+  display: block;
+  font-size: 15px;
+}
+.sobre-marca span {
+  font-size: 12.5px;
+  color: var(--corTextoSecundario);
+}
+.sobre .lista-dados a.valor {
+  color: var(--corDestaque);
+}
+
+/* A barra de salvar gruda no pé da área de conteúdo. */
+.barra-salvar {
+  position: sticky;
+  bottom: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin: 0 -26px;
+  padding: 14px 26px 18px;
+  background: var(--superficieBase);
+  border-top: 1px solid var(--corSeparador);
+}
+.estado-salvar {
+  margin-right: auto;
+  font-family: var(--fonteMono);
+  font-size: 12px;
+  color: var(--corTextoTerciario);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.estado-salvar.mudou {
+  color: var(--corDestaque);
+}
+.estado-salvar.mudou::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  background: var(--corDestaque);
+}
+
+@media (max-width: 760px) {
+  .config {
+    width: calc(100% - 36px);
+    margin-top: 24px;
+  }
+  .config-secao {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+  .amostras-tema {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .barra-salvar {
+    margin: 0 -18px;
+    padding-inline: 18px;
+  }
+}
+
 /* Chips com a contagem ao lado do rótulo. */
 .chip-contado {
   display: inline-flex;
@@ -2461,56 +2721,149 @@ button.dep {
   padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 11px;
+  gap: 18px;
   overflow-y: auto;
 }
-.item-fila {
+
+/* O pacote que está instalando: cartão maior, com a última linha do build
+   e a barra animada (a mesma do pacman -Syu: um build não diz quanto falta). */
+.item-agora {
   display: flex;
   flex-direction: column;
-  gap: 11px;
+  gap: 13px;
+  padding: 16px;
   flex: none;
+  border-color: color-mix(in srgb, var(--tom, var(--corDestaque)) 40%, transparent);
 }
-.item-fila .linha {
+.item-agora .rotulo-painel span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.item-agora .glifo-sync {
+  width: 11px;
+  height: 11px;
+}
+.glifo-sync.girando {
+  animation: blocos-girando 1.6s infinite;
+}
+.item-agora .linha {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 13px;
+  min-width: 0;
 }
+.icone-46 {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  font-size: 17px;
+}
+.item-agora .info,
 .item-fila .info {
   flex: 1;
   min-width: 0;
   color: inherit;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 }
+.item-agora .info strong {
+  font-family: var(--fonteMono);
+  font-weight: 600;
+  font-size: 15px;
+}
+.item-agora .info:hover strong,
 .item-fila .info:hover strong {
   color: var(--corDestaque);
 }
+.passo-atual {
+  font-family: var(--fonteMono);
+  font-size: 11.5px;
+  color: var(--corDestaque);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.item-agora .tarefa-barra {
+  height: 10px;
+}
+
+/* Grupos "Na fila" e "Concluídos": linhas compactas. */
+.grupo-fila {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: none;
+}
+.grupo-fila > .rotulo-painel {
+  padding: 0 4px 2px;
+}
+.item-fila {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 9px 11px;
+  border-radius: var(--raio-m);
+  background: var(--superficieCartao);
+  border: 1px solid var(--corBordaVidro);
+  flex: none;
+  transition: background var(--dur-curta) ease;
+}
+.item-fila:hover {
+  background: var(--superficieCartaoHover);
+}
 .item-fila .info strong {
-  display: block;
   font-family: var(--fonteMono);
   font-weight: 600;
-  font-size: 13.5px;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .item-fila .info span {
   font-size: 11.5px;
+  color: var(--corTextoTerciario);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* A posição na fila é uma teclinha com o número. */
+.posicao {
+  width: 22px;
+  height: 22px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  background: var(--superficieElevada);
+  box-shadow: 0 2px 0 color-mix(in oklab, var(--superficieElevada) 45%, black);
+  font-family: var(--fonteMono);
+  font-size: 11px;
+  font-weight: 600;
   color: var(--corTextoSecundario);
 }
-.item-fila .info span.ativo {
+.selo-estado {
+  width: 22px;
+  height: 22px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  background: var(--corFundoDestaqueSuave);
   color: var(--corDestaque);
 }
-.item-fila .info span.pronto {
-  color: var(--corSucesso);
-}
-.item-fila .info span.falhou {
+.item-fila.falhou .selo-estado {
+  background: var(--corFundoDestrutivoSuave);
   color: var(--corDestrutiva);
 }
-.item-fila .pct {
-  font-family: var(--fonteMono);
-  font-size: 12px;
-  color: var(--corTextoSecundario);
-  flex: none;
+.item-fila.falhou .info span {
+  color: var(--corDestrutiva);
 }
-.item-fila.concluido {
-  opacity: 0.9;
+.item-fila.concluido .icone-app {
+  opacity: 0.75;
 }
 .item-fila .btn-cancelar {
   opacity: 0;
@@ -2519,10 +2872,10 @@ button.dep {
 .btn-cancelar:focus-visible {
   opacity: 1;
 }
-.icone-ok {
-  background: var(--corFundoSucesso);
-  color: var(--corTextoSucesso);
-  font-weight: 700;
+@media (hover: none) {
+  .item-fila .btn-cancelar {
+    opacity: 1;
+  }
 }
 .btn-cancelar {
   width: 26px;
@@ -2538,6 +2891,9 @@ button.dep {
 .btn-cancelar:hover {
   background: var(--corFundoDestrutivoSuave);
   color: var(--corDestrutiva);
+}
+.fila-vazia {
+  padding-top: 64px;
 }
 .resumo-fila {
   margin-top: auto;
@@ -2929,10 +3285,12 @@ button.dep {
   text-wrap: pretty;
 }
 
+/* O interruptor é uma tecla que desliza num trilho: quadradinha, com a
+   borda de baixo mais escura, como os botões. Ligado, o trilho acende. */
 .interruptor {
   position: relative;
-  width: 42px;
-  height: 24px;
+  width: 46px;
+  height: 26px;
   flex: none;
 }
 .interruptor-entrada {
@@ -2946,31 +3304,40 @@ button.dep {
 .interruptor i {
   position: absolute;
   inset: 0;
-  border-radius: 12px;
+  border-radius: 8px;
   background: var(--superficieElevada);
-  transition:
-    background var(--dur-media) ease,
-    box-shadow var(--dur-media) ease;
+  box-shadow: inset 0 2px 0 color-mix(in oklab, black 30%, transparent);
+  transition: background var(--dur-media) ease;
 }
 .interruptor i::after {
   content: "";
   position: absolute;
   top: 3px;
   left: 3px;
-  width: 18px;
+  width: 20px;
   height: 18px;
-  border-radius: 50%;
+  border-radius: 5px;
   background: var(--corTextoTerciario);
+  box-shadow: 0 2px 0 color-mix(in oklab, var(--corTextoTerciario) 45%, black);
   transition:
     transform var(--dur-media) var(--ease-out),
-    background var(--dur-media) ease;
+    background var(--dur-media) ease,
+    box-shadow var(--dur-media) ease;
+}
+.interruptor-entrada:active + i::after {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 color-mix(in oklab, var(--corTextoTerciario) 45%, black);
 }
 .interruptor-entrada:checked + i {
   background: var(--corFundoDestaque);
 }
 .interruptor-entrada:checked + i::after {
-  transform: translateX(18px);
+  transform: translateX(20px);
   background: var(--corTextoDestaque);
+  box-shadow: 0 2px 0 color-mix(in oklab, var(--corTextoDestaque) 60%, black);
+}
+.interruptor-entrada:checked:active + i::after {
+  transform: translate(20px, 1px);
 }
 .interruptor-entrada:focus-visible + i {
   outline: 2px solid var(--corFocoContorno);
