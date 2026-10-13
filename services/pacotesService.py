@@ -4,19 +4,30 @@ import time
 import requests
 
 import repositories.pacotesRepository as r
+import system.packageManager as packageManager
 from models.pacoteAntigo import Pacote
-from system.packageManager import getInstalados
 
 destaque = "nvim-lazy"
 
 
 def buscarInstalados():
-    instalados = getInstalados()
+    instalados = packageManager.getInstalados()
     pacotes = r.buscarPacotesPorNomes(list(instalados))
 
     for p in pacotes:
         p.versaoInstalado = instalados[p.nome]["versao"]      # the installed one, not the database's
         p.tamanho = instalados[p.nome]["tamanho"]
+    return pacotes
+
+
+def buscarAtualizacoes():
+    atualizacoes = packageManager.getAtualizacoes()
+    pacotes = r.buscarPacotesPorNomes(list(atualizacoes))
+
+    for p in pacotes:
+        p.versaoInstalado = atualizacoes[p.nome]["versao"]
+        p.versao = atualizacoes[p.nome]["versaoAtualizada"]
+
     return pacotes
 
 

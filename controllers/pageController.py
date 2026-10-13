@@ -41,6 +41,7 @@ def getInstalados():
 def getAtualizacoes():
     return render_template(
         "atualizacoes.html",
+        pacotes=s.buscarAtualizacoes(),
         contagens=None,
         fontes=fontes
     )

@@ -50,3 +50,21 @@ def getInstalados():
         }
     return instalados
 
+def lerAtualizacoes(comando):
+    saida = subprocess.run(
+        comando,
+        capture_output=True, text=True,
+        env={**os.environ, "LC_ALL": "C"},
+    ).stdout
+
+    atualizacoes = {}
+    for linha in saida.splitlines():
+        partes = linha.split()
+        if len(partes) >= 4 and partes[2] == "->":
+            atualizacoes[partes[0]] = {"versao": partes[1], "versaoAtualizada": partes[3]}
+    return atualizacoes
+
+def getAtualizacoes():
+    return lerAtualizacoes(["checkupdates"]) | lerAtualizacoes(["paru", "-Qua"])
+
+
