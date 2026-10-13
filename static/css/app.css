@@ -1764,6 +1764,199 @@ a.cartao:hover,
   text-wrap: pretty;
 }
 
+/* ---------- Tarefas longas (atualizar o sistema, sincronizar bancos) ---------- */
+.tarefa {
+  width: min(760px, 100% - 52px);
+  margin: 40px auto 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.tarefa-topo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+/* A marca grande: gira um quarto de volta por vez enquanto a tarefa roda,
+   assenta quando acaba e perde a cor quando dá erro. */
+.glifo-tarefa {
+  width: 64px;
+  height: 64px;
+  flex: none;
+  border-radius: 5px;
+}
+.tarefa-rodando .glifo-tarefa {
+  animation: blocos-girando 1.6s infinite;
+}
+.tarefa-concluida .glifo-tarefa {
+  animation: assentar-marca 0.6s var(--ease-out) backwards;
+}
+.tarefa-erro .glifo-tarefa {
+  filter: grayscale(1) brightness(0.6);
+}
+.tarefa-titulos {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  flex: 1;
+}
+.tarefa-comando {
+  font-family: var(--fonteMono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--corTextoTerciario);
+}
+.tarefa-titulos h1 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.tarefa-erro .tarefa-titulos h1 {
+  color: var(--corDestrutiva);
+}
+.tarefa-passo {
+  margin: 0;
+  color: var(--corTextoSecundario);
+  font-size: 13px;
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+.tarefa-rodando .tarefa-passo {
+  font-family: var(--fonteMono);
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tarefa-tempo {
+  flex: none;
+  font-family: var(--fonteMono);
+  font-size: 22px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--corTextoTerciario);
+  align-self: flex-start;
+}
+.tarefa-rodando .tarefa-tempo {
+  color: var(--corTextoJanela);
+}
+
+/* A barra: uma tecla comprida. Com progresso conhecido ela enche; sem,
+   um bloco corre de um lado para o outro. */
+.tarefa-barra {
+  height: 12px;
+  border-radius: 6px;
+  background: var(--superficieElevada);
+  box-shadow: inset 0 -2px 0 color-mix(in oklab, var(--superficieElevada) 60%, black);
+  overflow: hidden;
+  position: relative;
+}
+.tarefa-barra > i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--corDestaque);
+  box-shadow: inset 0 -2px 0 color-mix(in oklab, var(--corDestaque) 55%, black);
+  transition: width 0.5s var(--ease-out);
+}
+.tarefa-erro .tarefa-barra > i {
+  background: var(--corDestrutiva);
+  box-shadow: none;
+}
+.tarefa-barra.indeterminada > i {
+  width: 22% !important;
+  animation: bloco-correndo 1.3s var(--ease-in-out) infinite alternate;
+}
+@keyframes bloco-correndo {
+  from { transform: translateX(0); }
+  to { transform: translateX(355%); }
+}
+
+/* Etapas (bancos): o bloquinho no tom da fonte acende quando ela termina. */
+.tarefa-passos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.tarefa-passos li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  border-radius: var(--raio-m);
+  background: var(--superficieCartao);
+  border: 1px solid var(--corBordaVidro);
+  font-family: var(--fonteMono);
+  font-size: 12.5px;
+}
+.tarefa-passos li > i {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  flex: none;
+  box-shadow: inset 0 0 0 1.5px var(--tom);
+  transition: background var(--dur-media) ease;
+}
+.tarefa-passos li em {
+  margin-left: auto;
+  font-style: normal;
+  font-size: 11px;
+  color: var(--corTextoTerciario);
+}
+.tarefa-passos .estado-rodando > i {
+  animation: piscar-bloco 0.9s ease-in-out infinite alternate;
+}
+.tarefa-passos .estado-rodando em {
+  color: var(--corTextoJanela);
+}
+.tarefa-passos .estado-pronto > i {
+  background: var(--tom);
+}
+.tarefa-passos .estado-pronto em {
+  color: var(--corDestaque);
+}
+@keyframes piscar-bloco {
+  to { background: var(--tom); }
+}
+
+.tarefa-terminal .terminal-saida {
+  height: 300px;
+  flex: none;
+}
+.tarefa-acoes {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.tarefa-dica {
+  margin: 0;
+  font-size: 12px;
+  color: var(--corTextoTerciario);
+}
+
+@media (max-width: 760px) {
+  .tarefa {
+    width: calc(100% - 36px);
+    margin-top: 24px;
+  }
+  .tarefa-topo {
+    flex-wrap: wrap;
+  }
+  .glifo-tarefa {
+    width: 48px;
+    height: 48px;
+  }
+  .tarefa-passos {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 /* Chips com a contagem ao lado do rótulo. */
 .chip-contado {
   display: inline-flex;

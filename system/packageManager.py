@@ -31,6 +31,29 @@ def instalarPacoteParu(pacote):
     return resultado
 
 
+def atualizarSistema():
+    """pacman -Syu: sincroniza os bancos do pacman e atualiza tudo dos
+    repositórios oficiais. A senha vem pela mesma janela do askpass que a
+    instalação usa."""
+    caminho = "/tmp/paru_gui_askpass.sh"
+    with open(caminho, "w") as f:
+        f.write('#!/bin/bash\n')
+        f.write('/usr/lib/seahorse/ssh-askpass "Digite sua senha de root: " ')
+
+    os.chmod(caminho, stat.S_IRWXU)
+    ambiente = os.environ.copy()
+    ambiente['SUDO_ASKPASS'] = caminho
+
+    return subprocess.Popen(
+        ["sudo", "-A", "pacman", "-Syu", "--noconfirm"],
+        env=ambiente,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        bufsize=1
+    )
+
+
 def getInstalados():
     saida = subprocess.run(
         ["pacman", "-Qi"],

@@ -1,0 +1,141 @@
+{#
+  Tarefa longa em andamento: atualizar o sistema (pacman -Syu) ou
+  sincronizar os bancos da loja. A tela fica carregando até a tarefa acabar.
+
+    nome    str   "sistema" | "bancos"
+    tarefa  dict  o estado (system/tarefas.py), ou None se ainda não rodou:
+                    situacao   "rodando" | "concluida" | "erro"
+                    passo      a última linha da saída
+                    progresso  0 a 100, ou None (barra corre de um lado ao outro)
+                    passos     etapas nomeadas [{"nome", "estado"}] (bancos)
+                    linhas     a saída do comando
+                    codigo     código de saída, quando terminou
+                    decorrido  segundos desde o começo
+
+  Enquanto roda, o app.js busca /tarefa/<nome>/estado a cada segundo e
+  atualiza a tela; quando acaba, recarrega para mostrar o resultado.
+#}
+{% extends "base.html" %}
+
+{% set situacao = tarefa.situacao if tarefa else "parada" %}
+{% set textos = {
+  "sistema": {
+    "pagina": "atualizacoes",
+    "comando": "pacman -Syu",
+    "parada":    ("Atualizar o sistema", "Sincroniza os bancos do pacman e atualiza todos os pacotes dos repositórios oficiais. O sistema vai pedir sua senha de root."),
+    "rodando":   ("Atualizando o sistema", ""),
+    "concluida": ("Sistema atualizado", "Todos os pacotes dos repositórios oficiais estão na versão mais nova."),
+    "erro":      ("A atualização parou", "O pacman não terminou. A saída abaixo mostra onde ele parou."),
+    "comecar":   "Atualizar agora",
+  },
+  "bancos": {
+    "pagina": "",
+    "comando": "AUR · core · extra",
+    "parada":    ("Sincronizar os bancos", "Baixa de novo a lista de pacotes da AUR, do core e do extra e grava no banco da loja. Não mexe no sistema."),
+    "rodando":   ("Sincronizando os bancos", ""),
+    "concluida": ("Bancos sincronizados", "A busca e as telas já usam as listas novas."),
+    "erro":      ("A sincronização parou", "Algum mirror não respondeu. A saída abaixo mostra onde parou."),
+    "comecar":   "Sincronizar agora",
+  },
+}[nome] %}
+{% set titulo, descricao = textos[situacao] %}
+{% set pagina = textos.pagina %}
+
+{% macro tempo(segundos) -%}
+  {{ "%02d:%02d" | format(segundos // 60, segundos % 60) }}
+{%- endmacro %}
+{% macro duracao(segundos) -%}
+  {%- if segundos < 60 %}{{ segundos }} s
+  {%- else %}{{ segundos // 60 }} min{% if segundos % 60 %} {{ segundos % 60 }} s{% endif %}{% endif -%}
+{%- endmacro %}
+
+{% block titulo %}{{ titulo }} — Mosaic{% endblock %}
+{% block classe_conteudo %}pilha pilha-tarefa{% endblock %}
+
+{% block cabeca %}
+  {% if situacao == "rodando" %}<noscript><meta http-equiv="refresh" content="2"></noscript>{% endif %}
+{% endblock %}
+
+{% block conteudo %}
+
+  <section class="tarefa tarefa-{{ situacao }}" data-tarefa="{{ nome }}" data-situacao="{{ situacao }}">
+
+    <div class="tarefa-topo">
+      <div class="glifo-grande glifo-tarefa" aria-hidden="true"></div>
+      <div class="tarefa-titulos">
+        <span class="tarefa-comando">{{ textos.comando }}</span>
+        <h1>{{ titulo }}</h1>
+        <p class="tarefa-passo" data-passo>
+          {%- if situacao == "rodando" %}{{ tarefa.passo }}
+          {%- elif situacao == "concluida" %}{{ descricao }} Levou {{ duracao(tarefa.decorrido) }}.
+          {%- elif situacao == "erro" %}{{ descricao }}{% if tarefa.codigo is not none %} Código de saída {{ tarefa.codigo }}.{% endif %}
+          {%- else %}{{ descricao }}{% endif -%}
+        </p>
+      </div>
+      {% if tarefa %}
+        <span class="tarefa-tempo" data-tempo data-decorrido="{{ tarefa.decorrido }}">{{ tempo(tarefa.decorrido) }}</span>
+      {% endif %}
+    </div>
+
+    {% if tarefa %}
+      {% set pct = tarefa.progresso if tarefa.progresso is not none else none %}
+      <div class="tarefa-barra {{ 'indeterminada' if pct is none and situacao == 'rodando' }}" data-barra
+           role="progressbar" aria-valuemin="0" aria-valuemax="100" {% if pct is not none %}aria-valuenow="{{ pct }}"{% endif %}>
+        <i style="width: {{ pct if pct is not none else (100 if situacao != 'rodando' else 0) }}%"></i>
+      </div>
+    {% endif %}
+
+    {# As etapas aparecem desde o primeiro quadro, antes da thread preenchê-las. #}
+    {% set etapas = tarefa.passos if tarefa and tarefa.passos else
+         ([{"nome": "AUR", "estado": "esperando"}, {"nome": "core", "estado": "esperando"}, {"nome": "extra", "estado": "esperando"}]
+          if tarefa and nome == "bancos" else []) %}
+    {% if etapas %}
+      <ol class="tarefa-passos" data-passos>
+        {% for passo in etapas %}
+          <li class="estado-{{ passo.estado }} tom-{{ [1, 0, 2][loop.index0 % 3] }}">
+            <i aria-hidden="true"></i>
+            <span>{{ passo.nome }}</span>
+            <em>{{ {"esperando": "na fila", "rodando": "baixando", "pronto": "pronto"}[passo.estado] }}</em>
+          </li>
+        {% endfor %}
+      </ol>
+    {% endif %}
+
+    {% if tarefa %}
+      <section class="terminal tarefa-terminal">
+        <div class="terminal-cabecalho">
+          <span class="rotulo">SAÍDA</span>
+          <span class="alvo">{{ textos.comando }}</span>
+        </div>
+        <div class="terminal-saida" data-saida>
+          {% for linha in tarefa.linhas %}
+            <div class="{{ 'indent' if not linha.startswith(('::', '==>')) }}">{{ linha }}</div>
+          {% else %}
+            <div class="terminal-ocioso">Esperando a primeira linha...</div>
+          {% endfor %}
+          {% if situacao == "rodando" %}<div class="linha-cursor"><i class="caret" aria-hidden="true"></i></div>{% endif %}
+        </div>
+      </section>
+    {% endif %}
+
+    <div class="tarefa-acoes">
+      {% if situacao == "parada" or situacao == "erro" %}
+        <form class="form-acao" method="post" action="/tarefa/{{ nome }}">
+          <button class="btn btn-g btn-primario">{{ "Tentar de novo" if situacao == "erro" else textos.comecar }}</button>
+        </form>
+      {% endif %}
+      {% if situacao == "concluida" or situacao == "erro" or situacao == "parada" %}
+        {% if nome == "sistema" %}
+          <a class="btn btn-g" href="/atualizacoes">Ver atualizações</a>
+        {% else %}
+          <a class="btn btn-g" href="/buscar">Ir para a busca</a>
+        {% endif %}
+      {% endif %}
+      {% if situacao == "rodando" %}
+        <p class="tarefa-dica">Pode sair desta tela: a tarefa continua rodando e você volta aqui quando quiser.</p>
+      {% endif %}
+    </div>
+
+  </section>
+
+{% endblock %}

@@ -200,6 +200,84 @@ document.querySelectorAll("[data-verificar]").forEach((botao) => {
   });
 });
 
+/* 12. Tarefa longa (atualizar o sistema, sincronizar os bancos). Enquanto
+       ela roda, busca o estado a cada segundo e atualiza passo, barra,
+       etapas e saída; o relógio anda sozinho entre uma busca e outra.
+       Quando a tarefa termina, recarrega a página para mostrar o resultado. */
+const telaTarefa = document.querySelector('[data-tarefa][data-situacao="rodando"]');
+if (telaTarefa) {
+  const nome = telaTarefa.dataset.tarefa;
+  const passo = telaTarefa.querySelector("[data-passo]");
+  const barra = telaTarefa.querySelector("[data-barra]");
+  const relogio = telaTarefa.querySelector("[data-tempo]");
+  const saida = telaTarefa.querySelector("[data-saida]");
+  const passos = telaTarefa.querySelector("[data-passos]");
+  let decorrido = Number(relogio?.dataset.decorrido || 0);
+  let linhasMostradas = -1;
+
+  const formatar = (s) => `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
+  const tique = setInterval(() => {
+    decorrido += 1;
+    if (relogio) relogio.textContent = formatar(decorrido);
+  }, 1000);
+
+  const desenharSaida = (linhas) => {
+    if (!saida || linhas.length === linhasMostradas) return;
+    linhasMostradas = linhas.length;
+    const noFim = saida.scrollHeight - saida.scrollTop - saida.clientHeight < 40;
+    saida.replaceChildren(
+      ...linhas.map((linha) => {
+        const div = document.createElement("div");
+        if (!/^(::|==>)/.test(linha)) div.className = "indent";
+        div.textContent = linha;
+        return div;
+      }),
+    );
+    const cursor = document.createElement("div");
+    cursor.className = "linha-cursor";
+    cursor.innerHTML = '<i class="caret" aria-hidden="true"></i>';
+    saida.append(cursor);
+    if (noFim) saida.scrollTop = saida.scrollHeight;
+  };
+
+  const acompanhar = async () => {
+    let estado;
+    try {
+      estado = await (await fetch(`/tarefa/${nome}/estado`, { cache: "no-store" })).json();
+    } catch (erro) {
+      setTimeout(acompanhar, 2000);
+      return;
+    }
+    if (!estado || estado.situacao !== "rodando") {
+      clearInterval(tique);
+      location.reload();
+      return;
+    }
+    decorrido = estado.decorrido;
+    if (passo) passo.textContent = estado.passo;
+    if (barra) {
+      const conhecido = estado.progresso !== null;
+      barra.classList.toggle("indeterminada", !conhecido);
+      barra.firstElementChild.style.width = conhecido ? `${estado.progresso}%` : "";
+      if (conhecido) barra.setAttribute("aria-valuenow", estado.progresso);
+    }
+    if (passos && estado.passos.length) {
+      const rotulos = { esperando: "na fila", rodando: "baixando", pronto: "pronto" };
+      [...passos.children].forEach((item, i) => {
+        const p = estado.passos[i];
+        if (!p) return;
+        item.className = item.className.replace(/estado-\S+/, `estado-${p.estado}`);
+        item.querySelector("em").textContent = rotulos[p.estado];
+      });
+    }
+    desenharSaida(estado.linhas);
+    setTimeout(acompanhar, 1000);
+  };
+
+  if (saida) saida.scrollTop = saida.scrollHeight;
+  setTimeout(acompanhar, 1000);
+}
+
 /* A saída do build começa rolada até o fim, que é onde está o que interessa. */
 const terminal = document.querySelector(".terminal-saida");
 if (terminal) {
