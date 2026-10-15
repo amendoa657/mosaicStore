@@ -96,7 +96,7 @@
     {% if etapas %}
       <ol class="tarefa-passos" data-passos>
         {% for passo in etapas %}
-          <li class="estado-{{ passo.estado }} tom-{{ [1, 0, 2][loop.index0 % 3] }}">
+          <li class="estado-{{ passo.estado }} mo-tom-{{ [1, 0, 2][loop.index0 % 3] }}">
             <i aria-hidden="true"></i>
             <span>{{ passo.nome }}</span>
             <em>{{ {"esperando": "na fila", "rodando": "baixando", "pronto": "pronto"}[passo.estado] }}</em>

@@ -164,10 +164,10 @@ input_path = "~/.config/matugen/templates/mosaic.css"
 output_path = "~/.config/mosaic-store/colors.css"
 ```
 
-O template é um bloco `:root` com as variáveis de cor do app. A lista completa, com os valores padrão, está em [`static/css/theme.css`](static/css/theme.css). Sem o arquivo, o Mosaic usa esses valores padrão.
+O template é um bloco `:root` com as variáveis de cor do app. A lista completa, com os valores padrão, está em [`mosaic-ui/css/tokens.css`](mosaic-ui/css/tokens.css), a camada de tokens da Mosaic UI, que todo app do ecossistema usa. Sem o arquivo, o Mosaic usa esses valores padrão.
 
 ## Créditos
 
-Space Grotesk e JetBrains Mono são distribuídas sob a SIL Open Font License 1.1 (licenças em [`static/fonts`](static/fonts)).
+Space Grotesk e JetBrains Mono são distribuídas sob a SIL Open Font License 1.1 (licenças em [`mosaic-ui/fontes`](mosaic-ui/fontes)).
 
 O README anterior está preservado em [`README.before-showcase.md`](README.before-showcase.md).

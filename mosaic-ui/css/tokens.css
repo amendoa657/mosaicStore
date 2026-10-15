@@ -41,16 +41,28 @@
   --mo-dialogo: var(--corFundoDialogo, #2b2931);
   --mo-elevada: var(--corFundoPopUp, #36333c);
 
+  /* Sucesso: o Matugen não tem um verde próprio; sem --corSucesso, é a terciária. */
+  --mo-sucesso: var(--corSucesso, var(--mo-terciaria));
+  --mo-sucesso-fundo: var(--corFundoSucesso, var(--mo-terciaria-fundo));
+  --mo-sucesso-texto: var(--corTextoSucesso, var(--mo-terciaria-texto));
+
   /* Texto: três níveis, todos com contraste de 4.5:1 sobre as superfícies. */
   --mo-texto: var(--corTextoJanela, #e6e0ec);
   --mo-texto-2: color-mix(in srgb, var(--mo-texto) 78%, transparent);
-  --mo-texto-3: color-mix(in srgb, var(--mo-texto) 64%, transparent);
+  --mo-texto-3: color-mix(in srgb, var(--mo-texto) 66%, transparent);
+  /* O texto sobre cada superfície, quando o tema quiser um diferente. */
+  --mo-texto-cabecalho: var(--corTextoBarraCabecalho, var(--mo-texto));
+  --mo-texto-lateral: var(--corTextoBarraLateral, var(--mo-texto));
+  --mo-texto-conteudo: var(--corTextoVisualizacao, var(--mo-texto));
+  --mo-texto-cartao: var(--corTextoCartao, var(--mo-texto));
+  --mo-texto-dialogo: var(--corTextoDialogo, var(--mo-texto));
+  --mo-texto-elevada: var(--corTextoPopUp, var(--mo-texto));
 
   /* ---------- Derivadas (nenhuma cor nova: tudo misturado das de cima) ---------- */
   --mo-linha: color-mix(in srgb, var(--mo-texto) 10%, transparent);
   --mo-borda: color-mix(in srgb, var(--mo-texto) 9%, transparent);
   --mo-decorativa: color-mix(in srgb, var(--mo-texto) 26%, transparent);
-  --mo-cartao-hover: color-mix(in srgb, var(--mo-secundaria) 7%, var(--mo-cartao));
+  --mo-cartao-hover: color-mix(in srgb, var(--mo-secundaria) 8%, var(--mo-cartao));
   --mo-elevada-hover: color-mix(in srgb, var(--mo-texto) 14%, var(--mo-elevada));
   --mo-destaque-suave: color-mix(in srgb, var(--mo-destaque) 16%, transparent);
   --mo-secundaria-suave: color-mix(in srgb, var(--mo-secundaria) 20%, transparent);
@@ -58,6 +70,14 @@
   --mo-perigo-suave: color-mix(in srgb, var(--mo-perigo-fundo) 42%, transparent);
   --mo-mista: color-mix(in srgb, var(--mo-secundaria) 54%, var(--mo-terciaria));
   --mo-foco: var(--mo-destaque);
+
+  /* Sombra de objeto, não de luz: curta, escura e sem cor. */
+  --mo-sombra-cartao:
+    0 1px 0 color-mix(in srgb, var(--mo-texto) 5%, transparent) inset,
+    0 2px 0 color-mix(in srgb, var(--mo-janela) 70%, transparent);
+  --mo-sombra-cartao-hover:
+    0 1px 0 color-mix(in srgb, var(--mo-texto) 8%, transparent) inset,
+    0 4px 0 color-mix(in srgb, var(--mo-janela) 70%, transparent);
 
   /* Os quatro tons da marca. Cada pacote, ícone ou fonte escolhe um
      (mo-tom-0...3) e mantém a mesma cor em qualquer tela. */
@@ -71,6 +91,7 @@
   --mo-fonte: "Space Grotesk", system-ui, sans-serif;
   --mo-fonte-mono: "JetBrains Mono", ui-monospace, monospace;
   --mo-tamanho-p: 12px;
+  --mo-tamanho-texto: 13px; /* o corpo do texto */
   --mo-tamanho-m: 13.5px;
   --mo-tamanho-g: 15px;
   --mo-tamanho-titulo: 26px;
@@ -100,7 +121,8 @@
   --mo-ease-saida: cubic-bezier(0.23, 1, 0.32, 1);
   --mo-ease-meio: cubic-bezier(0.77, 0, 0.175, 1);
   --mo-ease-gaveta: cubic-bezier(0.32, 0.72, 0, 1);
-  --mo-dur-toque: 90ms;
+  --mo-dur-tecla: 90ms; /* a tecla descendo e subindo */
+  --mo-dur-toque: 140ms;
   --mo-dur-curta: 180ms;
   --mo-dur-media: 240ms;
   --mo-dur-longa: 420ms;

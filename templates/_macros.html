@@ -38,7 +38,7 @@
 {% macro icone(pacote, tamanho="icone-42") %}
   {% set nome = (pacote.titulo or pacote.nome or "?") | lower %}
   {% set semente = "abcdefghijklmnopqrstuvwxyz0123456789".find(nome[0]) + nome | length * 7 %}
-  <div class="icone-app {{ tamanho }} tom-{{ semente % 4 }}" style="--angulo: {{ (semente * 47) % 360 }}deg" aria-hidden="true">
+  <div class="icone-app {{ tamanho }} mo-tom-{{ semente % 4 }}" style="--angulo: {{ (semente * 47) % 360 }}deg" aria-hidden="true">
     {{ nome[0] | upper }}
   </div>
 {% endmacro %}

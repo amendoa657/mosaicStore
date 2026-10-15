@@ -58,8 +58,8 @@
       </div>
       <div class="cartao config-cartao">
         <div class="amostras-tema">
-          {% for var, rotulo in [("--corDestaque", "Destaque"), ("--corAcentoSecundario", "Secundária"),
-                                  ("--corAcentoTerciario", "Terciária"), ("--corTextoJanela", "Texto")] %}
+          {% for var, rotulo in [("--mo-destaque", "Destaque"), ("--mo-secundaria", "Secundária"),
+                                  ("--mo-terciaria", "Terciária"), ("--mo-texto", "Texto")] %}
             <div class="cor-tema" style="--cor: var({{ var }})">
               <i aria-hidden="true"></i>
               <strong>{{ rotulo }}</strong>
@@ -79,7 +79,7 @@
             apague tudo para voltar às cores do wallpaper.
           </p>
           <textarea class="campo-paleta" name="paleta" rows="7" spellcheck="false"
-                    placeholder=":root {&#10;  --corDestaque: #86d7ac;&#10;}">{{ paleta or '' }}</textarea>
+                    placeholder=":root {&#10;  --mo-destaque: #86d7ac;&#10;}">{{ paleta or '' }}</textarea>
         </details>
       </div>
     </section>

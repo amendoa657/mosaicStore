@@ -1,10 +1,17 @@
-/* Componentes da loja. Toda cor vem de var(--…) definida em theme.css:
-   trocar o tema é trocar só o bloco :root. */
+/* O que é só da loja. A identidade (tokens, fontes, base e componentes)
+   vem da Mosaic UI (mosaic-ui/, carregada antes deste arquivo): aqui toda
+   cor é um token --mo-*, que lê as cores do Matugen. */
 
 *,
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+:root {
+  /* Listras dos lugares de imagem que ainda não chegou. */
+  --corPlaceholderA: color-mix(in srgb, var(--mo-texto) 12%, var(--mo-cartao));
+  --corPlaceholderB: color-mix(in srgb, var(--mo-texto) 5%, var(--mo-cartao));
 }
 
 html {
@@ -19,59 +26,59 @@ body {
 }
 body {
   margin: 0;
-  font-family: var(--fonteUi);
+  font-family: var(--mo-fonte);
   font-size: 13px;
   line-height: 1.45;
-  background: var(--superficieJanela);
-  color: var(--corTextoJanela);
+  background: var(--mo-janela);
+  color: var(--mo-texto);
   -webkit-font-smoothing: antialiased;
 }
 a {
-  color: var(--corDestaque);
+  color: var(--mo-destaque);
   text-decoration: none;
 }
 a:hover {
-  color: color-mix(in srgb, var(--corDestaque) 78%, var(--corTextoJanela));
+  color: color-mix(in srgb, var(--mo-destaque) 78%, var(--mo-texto));
 }
 :focus-visible {
-  outline: 2px solid var(--corFocoContorno);
+  outline: 2px solid var(--mo-foco);
   outline-offset: 2px;
 }
 .mono {
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
 }
 mark {
-  background: var(--corFundoDestaqueSuave);
-  color: var(--corDestaque);
+  background: var(--mo-destaque-suave);
+  color: var(--mo-destaque);
   border-radius: 3px;
   padding: 0 1px;
 }
 ::selection {
-  background: var(--corFundoDestaqueSuave);
-  color: var(--corTextoJanela);
+  background: var(--mo-destaque-suave);
+  color: var(--mo-texto);
 }
 .sem-script {
   padding: 24px;
-  color: var(--corTextoSecundario);
+  color: var(--mo-texto-2);
 }
 
 /* Rolagem no tom da janela, sem barra clara do sistema. */
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--corDecorativa) transparent;
+  scrollbar-color: var(--mo-decorativa) transparent;
 }
 *::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
 *::-webkit-scrollbar-thumb {
-  background: var(--corDecorativa);
+  background: var(--mo-decorativa);
   border-radius: 6px;
   border: 3px solid transparent;
   background-clip: content-box;
 }
 *::-webkit-scrollbar-thumb:hover {
-  background: var(--corTextoTerciario);
+  background: var(--mo-texto-3);
   background-clip: content-box;
 }
 *::-webkit-scrollbar-track {
@@ -85,7 +92,7 @@ mark {
   height: calc(100vh / var(--escala-interface));
   height: calc(100dvh / var(--escala-interface));
   min-height: calc(420px / var(--escala-interface));
-  background: var(--superficieJanela);
+  background: var(--mo-janela);
   overflow: hidden;
   position: relative;
   isolation: isolate;
@@ -108,9 +115,9 @@ mark {
   gap: 16px;
   min-height: 47px;
   padding: 0 12px 0 16px;
-  background: var(--superficieCabecalho);
-  border-bottom: 1px solid var(--corSeparador);
-  color: var(--corTextoBarraCabecalho);
+  background: var(--mo-cabecalho);
+  border-bottom: 1px solid var(--mo-linha);
+  color: var(--mo-texto-cabecalho);
   position: relative;
   z-index: 30;
 }
@@ -133,12 +140,12 @@ mark {
 .glifo-grande {
   --bloco: 44%;
   background:
-    linear-gradient(var(--corDestaque) 0 0) 0 0 / var(--bloco) var(--bloco),
-    linear-gradient(var(--corAcentoSecundario) 0 0) 100% 0 / var(--bloco) var(--bloco),
-    linear-gradient(var(--corAcentoTerciario) 0 0) 0 100% / var(--bloco) var(--bloco),
-    linear-gradient(var(--corTextoJanela) 0 0) 100% 100% / var(--bloco) var(--bloco);
+    linear-gradient(var(--mo-destaque) 0 0) 0 0 / var(--bloco) var(--bloco),
+    linear-gradient(var(--mo-secundaria) 0 0) 100% 0 / var(--bloco) var(--bloco),
+    linear-gradient(var(--mo-terciaria) 0 0) 0 100% / var(--bloco) var(--bloco),
+    linear-gradient(var(--mo-texto) 0 0) 100% 100% / var(--bloco) var(--bloco);
   background-repeat: no-repeat;
-  transition: transform 0.36s var(--ease-out);
+  transition: transform 0.36s var(--mo-ease-saida);
 }
 .marca-glifo {
   width: 15px;
@@ -149,7 +156,7 @@ mark {
   position: absolute;
   left: 4%;
   top: 4%;
-  color: var(--corFundoJanela);
+  color: var(--mo-janela);
 }
 .marca:hover .marca-glifo {
   transform: rotate(90deg);
@@ -177,14 +184,14 @@ mark {
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: var(--corDecorativa);
+  background: var(--mo-decorativa);
   transition: background 0.18s;
 }
 .controles-janela span:last-child {
-  background: color-mix(in srgb, var(--corTextoJanela) 38%, transparent);
+  background: color-mix(in srgb, var(--mo-texto) 38%, transparent);
 }
 .controles-janela:hover span {
-  background: var(--corTextoTerciario);
+  background: var(--mo-texto-3);
 }
 
 .abas {
@@ -194,20 +201,20 @@ mark {
 }
 .aba {
   padding: 6px 13px;
-  border-radius: var(--raio-p);
-  color: var(--corTextoSecundario);
+  border-radius: var(--mo-raio-p);
+  color: var(--mo-texto-2);
   font-weight: 500;
   transition:
     background 0.18s,
     color 0.18s;
 }
 .aba:hover {
-  background: var(--corFundoBarraLateralSecundaria);
-  color: var(--corTextoJanela);
+  background: var(--mo-lateral-2);
+  color: var(--mo-texto);
 }
 .aba.ativa {
-  background: var(--superficieElevada);
-  color: var(--corTextoPopUp);
+  background: var(--mo-elevada);
+  color: var(--mo-texto-elevada);
   font-weight: 600;
 }
 
@@ -220,19 +227,19 @@ mark {
   height: 30px;
   padding: 0 7px;
   border: 0;
-  border-radius: var(--raio-p);
+  border-radius: var(--mo-raio-p);
   background: transparent;
   cursor: pointer;
 }
 .alternar-lateral i {
   display: block;
   height: 1.5px;
-  background: var(--corTextoSecundario);
+  background: var(--mo-texto-2);
   border-radius: 1px;
   transition: transform 0.2s;
 }
 .alternar-lateral:hover {
-  background: var(--superficieElevada);
+  background: var(--mo-elevada);
 }
 
 /* ---------- Busca ---------- */
@@ -246,18 +253,18 @@ mark {
   flex: 1;
   max-width: 440px;
   min-width: 0;
-  background: var(--superficieFixa);
-  border: 1.5px solid var(--corBordaVidro);
+  background: var(--mo-fundo);
+  border: 1.5px solid var(--mo-borda);
   border-radius: 8px;
-  color: var(--corTextoTerciario);
+  color: var(--mo-texto-3);
   transition:
-    border-color var(--dur-curta) ease,
-    box-shadow var(--dur-curta) ease;
+    border-color var(--mo-dur-curta) ease,
+    box-shadow var(--mo-dur-curta) ease;
 }
 .busca-envolucro:focus-within {
-  border-color: var(--corDestaque);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--corDestaque) 18%, transparent);
-  color: var(--corTextoJanela);
+  border-color: var(--mo-destaque);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--mo-destaque) 18%, transparent);
+  color: var(--mo-texto);
 }
 .campo-busca {
   flex: 1;
@@ -266,12 +273,12 @@ mark {
   border: 0;
   padding: 0;
   background: none;
-  color: var(--corTextoJanela);
-  font-family: var(--fonteMono);
+  color: var(--mo-texto);
+  font-family: var(--mo-fonte-mono);
   font-size: 13px;
 }
 .campo-busca::placeholder {
-  color: var(--corTextoTerciario);
+  color: var(--mo-texto-3);
 }
 .campo-busca:focus {
   outline: none;
@@ -287,17 +294,17 @@ mark {
   flex: none;
 }
 .busca-envolucro:focus-within .lupa {
-  border-color: var(--corDestaque);
+  border-color: var(--mo-destaque);
 }
 .atalho {
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-size: 10.5px;
   padding: 1px 6px;
   border-radius: 4px;
-  background: var(--superficieElevada);
-  color: var(--corTextoTerciario);
+  background: var(--mo-elevada);
+  color: var(--mo-texto-3);
   flex: none;
-  transition: opacity var(--dur-curta) ease;
+  transition: opacity var(--mo-dur-curta) ease;
 }
 .busca-envolucro:focus-within .atalho {
   opacity: 0;
@@ -309,10 +316,10 @@ mark {
   flex-direction: column;
   gap: 2px;
   padding: 12px 10px;
-  background: var(--superficieLateral);
+  background: var(--mo-lateral);
   position: relative;
-  color: var(--corTextoBarraLateral);
-  border-right: 1px solid var(--corBordaVidro);
+  color: var(--mo-texto-lateral);
+  border-right: 1px solid var(--mo-borda);
   overflow-y: auto;
   min-height: 0;
 }
@@ -322,17 +329,17 @@ mark {
   gap: 11px;
   padding: 9px 12px;
   border-radius: 8px;
-  color: var(--corTextoSecundario);
+  color: var(--mo-texto-2);
   font-weight: 500;
   position: relative;
   isolation: isolate;
   transition:
-    background var(--dur-curta) ease,
-    color var(--dur-curta) ease;
+    background var(--mo-dur-curta) ease,
+    color var(--mo-dur-curta) ease;
 }
 .item-lateral:hover {
-  background: var(--corFundoSecundarioSuave);
-  color: var(--corTextoBarraLateral);
+  background: var(--mo-secundaria-suave);
+  color: var(--mo-texto-lateral);
 }
 /* O fundo do item ativo tem nome próprio na view transition: ao trocar de
    página ele desliza do item antigo para o novo. Os rótulos e pontos de
@@ -341,7 +348,7 @@ mark {
 .item-lateral.ativo,
 .item-lateral.ativo:hover {
   background: transparent;
-  color: var(--corTextoDestaque);
+  color: var(--mo-sobre-destaque);
   font-weight: 600;
 }
 .pilula {
@@ -349,25 +356,25 @@ mark {
   inset: 0;
   z-index: -1;
   border-radius: inherit;
-  background: var(--corFundoDestaque);
+  background: var(--mo-destaque-fundo);
   view-transition-name: pilula-lateral;
 }
 .item-lateral .ponto {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--corDecorativa);
+  background: var(--mo-decorativa);
   flex: none;
   transition:
     background 0.16s,
     transform 0.16s;
 }
 .item-lateral:hover .ponto {
-  background: var(--corTextoTerciario);
+  background: var(--mo-texto-3);
   transform: scale(1.25);
 }
 .item-lateral.ativo .ponto {
-  background: var(--corTextoDestaque);
+  background: var(--mo-sobre-destaque);
 }
 .item-lateral .texto {
   flex: 1;
@@ -377,27 +384,27 @@ mark {
   text-overflow: ellipsis;
 }
 .item-lateral .contagem {
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-size: 11px;
-  color: var(--corTextoTerciario);
+  color: var(--mo-texto-3);
   flex: none;
 }
 .item-lateral.ativo .contagem {
-  color: color-mix(in srgb, var(--corTextoDestaque) 80%, transparent);
+  color: color-mix(in srgb, var(--mo-sobre-destaque) 80%, transparent);
 }
 .selo-contagem {
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-weight: 600;
   font-size: 11px;
   padding: 1px 7px;
   border-radius: 9px;
   flex: none;
-  background: var(--corFundoDestaque);
-  color: var(--corTextoDestaque);
+  background: var(--mo-destaque-fundo);
+  color: var(--mo-sobre-destaque);
 }
 .item-lateral.ativo .selo-contagem {
-  background: var(--corTextoDestaque);
-  color: var(--corFundoDestaque);
+  background: var(--mo-sobre-destaque);
+  color: var(--mo-destaque-fundo);
 }
 
 .rotulo-secao {
@@ -405,16 +412,16 @@ mark {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-weight: 600;
   font-size: 10px;
   letter-spacing: 0.14em;
-  color: var(--corTextoTerciario);
+  color: var(--mo-texto-3);
   padding: 4px 12px 8px;
 }
 .separador {
   height: 1px;
-  background: var(--corSeparador);
+  background: var(--mo-linha);
   margin: 12px 4px;
 }
 
@@ -431,7 +438,7 @@ mark {
   gap: 1px;
 }
 .fonte-repo {
-  --tom-fonte: var(--tom, var(--corAcentoTerciario));
+  --tom-fonte: var(--mo-tom, var(--mo-terciaria));
   display: flex;
   align-items: center;
   gap: 10px;
@@ -442,20 +449,20 @@ mark {
   cursor: pointer;
   text-align: left;
   background: transparent;
-  color: var(--corTextoTerciario);
-  font-family: var(--fonteMono);
+  color: var(--mo-texto-3);
+  font-family: var(--mo-fonte-mono);
   font-weight: 500;
   font-size: 12px;
   transition:
-    background var(--dur-curta) ease,
-    color var(--dur-curta) ease;
+    background var(--mo-dur-curta) ease,
+    color var(--mo-dur-curta) ease;
 }
 .fonte-repo:hover {
-  background: var(--superficieLateralSecundaria);
-  color: var(--corTextoBarraLateral);
+  background: var(--mo-lateral-2);
+  color: var(--mo-texto-lateral);
 }
 .fonte-repo.ligada {
-  color: var(--corTextoBarraLateral);
+  color: var(--mo-texto-lateral);
 }
 .fonte-bloco {
   width: 10px;
@@ -464,9 +471,9 @@ mark {
   border-radius: 2px;
   box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--tom-fonte) 55%, transparent);
   transition:
-    background var(--dur-curta) ease,
-    box-shadow var(--dur-curta) ease,
-    transform var(--dur-toque) var(--ease-out);
+    background var(--mo-dur-curta) ease,
+    box-shadow var(--mo-dur-curta) ease,
+    transform var(--mo-dur-toque) var(--mo-ease-saida);
 }
 .fonte-repo.ligada .fonte-bloco {
   background: var(--tom-fonte);
@@ -486,7 +493,7 @@ mark {
   flex: none;
   font-size: 10px;
   letter-spacing: 0.08em;
-  color: var(--corTextoTerciario);
+  color: var(--mo-texto-3);
 }
 .fonte-repo.ligada .fonte-estado {
   color: var(--tom-fonte);
@@ -512,12 +519,12 @@ mark {
   height: 16px;
   flex: none;
   background:
-    linear-gradient(var(--corDestaque) 0 0) 0 0 / var(--bloco) var(--bloco),
-    linear-gradient(var(--corAcentoSecundario) 0 0) 100% 0 / var(--bloco) var(--bloco),
-    linear-gradient(var(--corAcentoTerciario) 0 0) 0 100% / var(--bloco) var(--bloco),
-    linear-gradient(var(--corTextoJanela) 0 0) 100% 100% / var(--bloco) var(--bloco);
+    linear-gradient(var(--mo-destaque) 0 0) 0 0 / var(--bloco) var(--bloco),
+    linear-gradient(var(--mo-secundaria) 0 0) 100% 0 / var(--bloco) var(--bloco),
+    linear-gradient(var(--mo-terciaria) 0 0) 0 100% / var(--bloco) var(--bloco),
+    linear-gradient(var(--mo-texto) 0 0) 100% 100% / var(--bloco) var(--bloco);
   background-repeat: no-repeat;
-  transition: transform 0.36s var(--ease-out);
+  transition: transform 0.36s var(--mo-ease-saida);
 }
 .estado-sync:hover .glifo-sync {
   transform: rotate(90deg);
@@ -533,10 +540,10 @@ mark {
   font-weight: 600;
 }
 .estado-sync .detalhe-sync {
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-size: 10.5px;
   font-weight: 500;
-  color: var(--corTextoTerciario);
+  color: var(--mo-texto-3);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -545,7 +552,7 @@ mark {
   pointer-events: none;
   transform: translateY(2px);
   box-shadow:
-    inset 0 1px 0 color-mix(in srgb, var(--corTextoJanela) 4%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--mo-texto) 4%, transparent),
     0 0 0 transparent;
 }
 .estado-sync.sincronizando .glifo-sync {
@@ -555,17 +562,17 @@ mark {
   content: "…";
 }
 @keyframes blocos-girando {
-  0% { transform: rotate(0deg); animation-timing-function: var(--ease-in-out); }
-  25% { transform: rotate(90deg); animation-timing-function: var(--ease-in-out); }
-  50% { transform: rotate(180deg); animation-timing-function: var(--ease-in-out); }
-  75% { transform: rotate(270deg); animation-timing-function: var(--ease-in-out); }
+  0% { transform: rotate(0deg); animation-timing-function: var(--mo-ease-meio); }
+  25% { transform: rotate(90deg); animation-timing-function: var(--mo-ease-meio); }
+  50% { transform: rotate(180deg); animation-timing-function: var(--mo-ease-meio); }
+  75% { transform: rotate(270deg); animation-timing-function: var(--mo-ease-meio); }
   100% { transform: rotate(360deg); }
 }
 .pulso {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--corDestaque);
+  background: var(--mo-destaque);
   flex: none;
   animation: respirar 2.6s ease-in-out infinite;
 }
@@ -576,7 +583,7 @@ mark {
 /* ---------- Área de conteúdo ---------- */
 .visualizacao {
   background: transparent;
-  color: var(--corTextoVisualizacao);
+  color: var(--mo-texto-conteudo);
   /* A área é transparente (os pontos aparecem atrás). Sem isto o Chromium
      pode desistir de rolar na GPU e repintar o conteúdo a cada quadro. */
   will-change: scroll-position;
@@ -620,35 +627,35 @@ mark {
   height: 30px;
   padding: 0 14px;
   border: 0;
-  border-radius: var(--raio-p);
-  font-family: var(--fonteUi);
+  border-radius: var(--mo-raio-p);
+  font-family: var(--mo-fonte);
   font-weight: 600;
   font-size: 12px;
   /* Botões são teclas: cor chapada e uma borda de baixo mais escura que
      some quando a tecla desce. --tecla é a cor da face. */
-  --tecla: var(--superficieElevada);
+  --tecla: var(--mo-elevada);
   background: var(--tecla);
-  color: var(--corTextoPopUp);
+  color: var(--mo-texto-elevada);
   box-shadow:
-    inset 0 1px 0 color-mix(in oklab, var(--corTextoJanela) 7%, transparent),
+    inset 0 1px 0 color-mix(in oklab, var(--mo-texto) 7%, transparent),
     0 2px 0 color-mix(in oklab, var(--tecla) 45%, black);
   cursor: pointer;
   white-space: nowrap;
   flex: none;
   transition:
-    background var(--dur-curta) ease,
-    color var(--dur-curta) ease,
+    background var(--mo-dur-curta) ease,
+    color var(--mo-dur-curta) ease,
     box-shadow 90ms ease-out,
     transform 90ms ease-out,
-    opacity var(--dur-curta) ease;
+    opacity var(--mo-dur-curta) ease;
 }
 .btn:hover {
-  background: color-mix(in oklab, var(--tecla) 88%, var(--corTextoJanela));
+  background: color-mix(in oklab, var(--tecla) 88%, var(--mo-texto));
 }
 .btn:active {
   transform: translateY(2px);
   box-shadow:
-    inset 0 1px 0 color-mix(in oklab, var(--corTextoJanela) 4%, transparent),
+    inset 0 1px 0 color-mix(in oklab, var(--mo-texto) 4%, transparent),
     0 0 0 color-mix(in oklab, var(--tecla) 45%, black);
 }
 .btn:disabled {
@@ -665,46 +672,46 @@ mark {
   height: 37px;
   padding: 0 22px;
   font-size: 13.5px;
-  border-radius: var(--raio-m);
+  border-radius: var(--mo-raio-m);
 }
 .btn-primario {
-  --tecla: var(--corFundoDestaque);
-  color: var(--corTextoDestaque);
+  --tecla: var(--mo-destaque-fundo);
+  color: var(--mo-sobre-destaque);
 }
 .btn-primario:hover {
   background: color-mix(in oklab, var(--tecla) 90%, white);
 }
 .btn-sucesso {
-  --tecla: var(--corFundoSucesso);
-  color: var(--corTextoSucesso);
+  --tecla: var(--mo-sucesso-fundo);
+  color: var(--mo-sucesso-texto);
 }
 .btn-destrutivo {
-  --tecla: var(--corFundoDestrutivoSuave);
-  color: var(--corDestrutiva);
+  --tecla: var(--mo-perigo-suave);
+  color: var(--mo-perigo);
 }
 .btn-destrutivo:hover {
   background: color-mix(
     in srgb,
-    var(--corDestrutiva) 22%,
-    var(--corFundoDestrutivoSuave)
+    var(--mo-perigo) 22%,
+    var(--mo-perigo-suave)
   );
 }
 .btn-contorno {
   --tecla: transparent;
   box-shadow: none;
-  border: 1px solid color-mix(in srgb, var(--corDestrutiva) 40%, transparent);
-  color: var(--corTextoDestrutivo);
+  border: 1px solid color-mix(in srgb, var(--mo-perigo) 40%, transparent);
+  color: var(--mo-perigo-texto);
 }
 .btn-contorno:hover {
-  background: var(--corFundoDestrutivoSuave);
+  background: var(--mo-perigo-suave);
 }
 .btn-icone {
   width: 37px;
   height: 37px;
   padding: 0;
-  border-radius: var(--raio-m);
+  border-radius: var(--mo-raio-m);
   font-size: 15px;
-  color: var(--corTextoSecundario);
+  color: var(--mo-texto-2);
 }
 .btn.ocupado {
   pointer-events: none;
@@ -724,18 +731,18 @@ mark {
   box-shadow: none;
   background: linear-gradient(
     90deg,
-    var(--corFundoDestaqueSuave) var(--progresso, 0%),
-    var(--superficieElevada) var(--progresso, 0%)
+    var(--mo-destaque-suave) var(--progresso, 0%),
+    var(--mo-elevada) var(--progresso, 0%)
   );
-  color: var(--corTextoJanela);
-  font-family: var(--fonteMono);
+  color: var(--mo-texto);
+  font-family: var(--mo-fonte-mono);
   font-size: 11.5px;
 }
 .btn-ocupado:hover {
   background: linear-gradient(
     90deg,
-    var(--corFundoDestaqueSuave) var(--progresso, 0%),
-    var(--superficieElevadaHover) var(--progresso, 0%)
+    var(--mo-destaque-suave) var(--progresso, 0%),
+    var(--mo-elevada-hover) var(--progresso, 0%)
   );
 }
 .btn-instalado .rotulo-hover {
@@ -743,8 +750,8 @@ mark {
 }
 .btn-instalado:hover,
 .btn-instalado:focus-visible {
-  background: var(--corFundoDestrutivoSuave);
-  color: var(--corDestrutiva);
+  background: var(--mo-perigo-suave);
+  color: var(--mo-perigo);
 }
 .btn-instalado:hover .rotulo-padrao,
 .btn-instalado:focus-visible .rotulo-padrao {
@@ -766,33 +773,33 @@ mark {
   display: inline-flex;
   align-items: center;
   flex: none;
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-weight: 500;
   font-size: 10.5px;
   padding: 2px 7px;
   border-radius: 5px;
 }
 .selo-oficial {
-  background: var(--corFundoSucesso);
-  color: var(--corSucesso);
+  background: var(--mo-sucesso-fundo);
+  color: var(--mo-sucesso);
 }
 .selo-aur {
-  background: var(--corFundoDestrutivoSuave);
-  color: var(--corDestrutiva);
+  background: var(--mo-perigo-suave);
+  color: var(--mo-perigo);
 }
 .selo-destaque {
-  background: var(--corFundoDestaqueSuave);
-  color: var(--corDestaque);
+  background: var(--mo-destaque-suave);
+  color: var(--mo-destaque);
 }
 
 /* ---------- Cartões ---------- */
 .cartao {
-  background: var(--superficieCartao);
-  color: var(--corTextoCartao);
-  border-radius: var(--raio-g);
+  background: var(--mo-cartao);
+  color: var(--mo-texto-cartao);
+  border-radius: var(--mo-raio-g);
   padding: 15px;
-  border: 1px solid var(--corBordaVidro);
-  box-shadow: var(--sombraCartao);
+  border: 1px solid var(--mo-borda);
+  box-shadow: var(--mo-sombra-cartao);
 }
 .grade-cartoes {
   display: grid;
@@ -806,18 +813,18 @@ mark {
 }
 
 /* O cartão herda o tom do próprio ícone para a borda do hover. */
-.cartao-app:has(.tom-0),
-.item-fila:has(.tom-0),
-.item-agora:has(.tom-0) { --tom: var(--corDestaque); }
-.cartao-app:has(.tom-1),
-.item-fila:has(.tom-1),
-.item-agora:has(.tom-1) { --tom: var(--corAcentoSecundario); }
-.cartao-app:has(.tom-2),
-.item-fila:has(.tom-2),
-.item-agora:has(.tom-2) { --tom: var(--corAcentoTerciario); }
-.cartao-app:has(.tom-3),
-.item-fila:has(.tom-3),
-.item-agora:has(.tom-3) { --tom: var(--corLuzMista); }
+.cartao-app:has(.mo-tom-0),
+.item-fila:has(.mo-tom-0),
+.item-agora:has(.mo-tom-0) { --mo-tom: var(--mo-destaque); }
+.cartao-app:has(.mo-tom-1),
+.item-fila:has(.mo-tom-1),
+.item-agora:has(.mo-tom-1) { --mo-tom: var(--mo-secundaria); }
+.cartao-app:has(.mo-tom-2),
+.item-fila:has(.mo-tom-2),
+.item-agora:has(.mo-tom-2) { --mo-tom: var(--mo-terciaria); }
+.cartao-app:has(.mo-tom-3),
+.item-fila:has(.mo-tom-3),
+.item-agora:has(.mo-tom-3) { --mo-tom: var(--mo-mista); }
 .cartao-app h3 {
   margin: 0;
   font-size: 13.5px;
@@ -837,18 +844,18 @@ mark {
   color: inherit;
 }
 .cartao-topo:hover h3 {
-  color: var(--corDestaque);
+  color: var(--mo-destaque);
 }
 .cartao-identidade {
   min-width: 0;
 }
 .versao {
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-size: 11px;
-  color: var(--corTextoTerciario);
+  color: var(--mo-texto-3);
 }
 .resumo {
-  color: var(--corTextoSecundario);
+  color: var(--mo-texto-2);
   font-size: 12px;
   margin: 0;
   text-wrap: pretty;
@@ -869,18 +876,18 @@ a.cartao,
 .cartao-categoria,
 .cartao-indice {
   transition:
-    transform var(--dur-media) var(--ease-out),
-    background var(--dur-curta) ease,
-    border-color var(--dur-curta) ease,
-    box-shadow var(--dur-media) ease;
+    transform var(--mo-dur-media) var(--mo-ease-saida),
+    background var(--mo-dur-curta) ease,
+    border-color var(--mo-dur-curta) ease,
+    box-shadow var(--mo-dur-media) ease;
 }
 a.cartao:hover,
 .cartao-app:hover,
 .cartao-categoria:hover,
 .cartao-indice:hover {
-  background: var(--superficieCartaoHover);
-  border-color: color-mix(in oklab, var(--tom, var(--corAcentoSecundario)) 38%, transparent);
-  box-shadow: var(--sombraCartaoHover);
+  background: var(--mo-cartao-hover);
+  border-color: color-mix(in oklab, var(--mo-tom, var(--mo-secundaria)) 38%, transparent);
+  box-shadow: var(--mo-sombra-cartao-hover);
 }
 @media (hover: hover) and (pointer: fine) {
   a.cartao:hover,
@@ -897,20 +904,20 @@ a.cartao:hover,
   color: inherit;
 }
 .cartao-indice h3 {
-  color: var(--corDestaque);
+  color: var(--mo-destaque);
 }
 
 /* Ícones: a inicial em mono sobre um bloco de cor chapada no tom do pacote
    (tom-0…3 vem do macro `icone`). */
 .icone-app {
-  --tom-icone: var(--tom, var(--corAcentoTerciario));
+  --tom-icone: var(--mo-tom, var(--mo-terciaria));
   border-radius: 11px;
   flex: none;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--tom-icone);
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-weight: 700;
   color: color-mix(in oklab, var(--tom-icone) 22%, black);
   font-size: 15px;
@@ -930,7 +937,7 @@ a.cartao:hover,
 .icone-78 {
   width: 78px;
   height: 78px;
-  border-radius: var(--raio-xg);
+  border-radius: var(--mo-raio-xg);
   font-size: 28px;
 }
 .icone-100 {
@@ -940,7 +947,7 @@ a.cartao:hover,
   font-size: 36px;
 }
 .icone-app.rotulado {
-  color: color-mix(in srgb, var(--corTextoJanela) 34%, transparent);
+  color: color-mix(in srgb, var(--mo-texto) 34%, transparent);
 }
 .placeholder {
   display: flex;
@@ -953,10 +960,10 @@ a.cartao:hover,
     var(--corPlaceholderA) 0 7px,
     var(--corPlaceholderB) 7px 14px
   );
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-size: 9.5px;
   font-weight: 500;
-  color: var(--corTextoTerciario);
+  color: var(--mo-texto-3);
 }
 .captura-imagem {
   width: 100%;
@@ -982,17 +989,17 @@ a.cartao:hover,
 /* O cartão grande da home: no container secundário do Matugen, com uma
    retícula de pontos (a mesma do fundo) entrando pela direita. */
 .destaque {
-  --tom: var(--corAcentoSecundario);
+  --mo-tom: var(--mo-secundaria);
   display: flex;
   gap: 20px;
   padding: 22px;
   border-radius: 14px;
   background:
-    conic-gradient(at 3px 3px, transparent 75%, color-mix(in srgb, var(--corAcentoSecundario) 45%, transparent) 0)
+    conic-gradient(at 3px 3px, transparent 75%, color-mix(in srgb, var(--mo-secundaria) 45%, transparent) 0)
       0 0 / 9px 9px,
-    var(--corFundoAcentoSecundario);
-  border: 1px solid color-mix(in oklab, var(--corAcentoSecundario) 26%, transparent);
-  box-shadow: var(--sombraCartao);
+    var(--mo-secundaria-fundo);
+  border: 1px solid color-mix(in oklab, var(--mo-secundaria) 26%, transparent);
+  box-shadow: var(--mo-sombra-cartao);
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -1006,13 +1013,13 @@ a.cartao:hover,
   z-index: -1;
   background: linear-gradient(
     90deg,
-    var(--corFundoAcentoSecundario) 45%,
+    var(--mo-secundaria-fundo) 45%,
     transparent 100%
   );
   pointer-events: none;
 }
 .destaque.deslizando-direita {
-  animation: deslizar var(--dur-media) var(--ease-out);
+  animation: deslizar var(--mo-dur-media) var(--mo-ease-saida);
 }
 .destaque .icone-app {
   box-shadow: 0 4px 0 color-mix(in oklab, var(--tom-icone) 40%, black);
@@ -1025,11 +1032,11 @@ a.cartao:hover,
   min-width: 0;
 }
 .sobretitulo {
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-weight: 600;
   font-size: 10px;
   letter-spacing: 0.16em;
-  color: var(--corAcentoSecundario);
+  color: var(--mo-secundaria);
 }
 .destaque h1 {
   margin: 0;
@@ -1040,7 +1047,7 @@ a.cartao:hover,
 .destaque p {
   margin: 0;
   max-width: 540px;
-  color: var(--corTextoSecundario);
+  color: var(--mo-texto-2);
   text-wrap: pretty;
 }
 .destaque-acoes {
@@ -1051,9 +1058,9 @@ a.cartao:hover,
   flex-wrap: wrap;
 }
 .meta {
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-size: 12px;
-  color: var(--corTextoTerciario);
+  color: var(--mo-texto-3);
 }
 .vinculo-detalhe {
   font-size: 12px;
@@ -1071,16 +1078,16 @@ a.cartao:hover,
   border-radius: 2px;
   padding: 0;
   cursor: pointer;
-  background: var(--superficieElevada);
+  background: var(--mo-elevada);
   transition:
     background 0.2s,
     width 0.2s;
 }
 .ponto-destaque:hover {
-  background: var(--corTextoTerciario);
+  background: var(--mo-texto-3);
 }
 .ponto-destaque.ativo {
-  background: var(--corDestaque);
+  background: var(--mo-destaque);
   width: 34px;
 }
 
@@ -1090,9 +1097,9 @@ a.cartao:hover,
   gap: 16px;
   flex-wrap: wrap;
   padding: 14px 18px;
-  border-radius: var(--raio-g);
-  background: color-mix(in oklab, var(--corFundoDestaqueSuave), var(--superficieCartao));
-  border: 1px solid color-mix(in oklab, var(--corDestaque) 28%, transparent);
+  border-radius: var(--mo-raio-g);
+  background: color-mix(in oklab, var(--mo-destaque-suave), var(--mo-cartao));
+  border: 1px solid color-mix(in oklab, var(--mo-destaque) 28%, transparent);
 }
 .faixa-texto {
   display: flex;
@@ -1103,12 +1110,12 @@ a.cartao:hover,
 }
 .faixa-texto strong {
   font-size: 13.5px;
-  color: var(--corDestaque);
+  color: var(--mo-destaque);
 }
 .faixa-texto span {
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-size: 11.5px;
-  color: var(--corTextoSecundario);
+  color: var(--mo-texto-2);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -1136,7 +1143,7 @@ a.cartao:hover,
   border-radius: 4px;
   flex: none;
   transform: scaleY(0.74);
-  transition: transform var(--dur-media) var(--ease-out);
+  transition: transform var(--mo-dur-media) var(--mo-ease-saida);
 }
 .cartao-categoria:hover .barra-categoria {
   transform: none;
@@ -1168,8 +1175,8 @@ a.cartao:hover,
   position: sticky;
   top: 0;
   z-index: 4;
-  background: var(--superficieFixa);
-  border-bottom: 1px solid var(--corSeparador);
+  background: var(--mo-fundo);
+  border-bottom: 1px solid var(--mo-linha);
 }
 .marca-busca {
   display: flex;
@@ -1205,7 +1212,7 @@ a.cartao:hover,
 }
 .marca-busca p {
   margin: 0;
-  color: var(--corTextoSecundario);
+  color: var(--mo-texto-2);
   font-size: 12.5px;
 }
 
@@ -1217,25 +1224,25 @@ a.cartao:hover,
   max-width: 560px;
   height: 50px;
   padding: 0 20px;
-  background: var(--superficieCartao);
-  border: 1.5px solid var(--corBordaVidro);
+  background: var(--mo-cartao);
+  border: 1.5px solid var(--mo-borda);
   border-radius: 26px;
-  color: var(--corTextoTerciario);
-  box-shadow: 0 3px 0 color-mix(in oklab, var(--corFundoJanela) 70%, transparent);
+  color: var(--mo-texto-3);
+  box-shadow: 0 3px 0 color-mix(in oklab, var(--mo-janela) 70%, transparent);
   transition:
-    border-color var(--dur-curta) ease,
-    box-shadow var(--dur-media) ease,
-    background var(--dur-curta) ease;
+    border-color var(--mo-dur-curta) ease,
+    box-shadow var(--mo-dur-media) ease,
+    background var(--mo-dur-curta) ease;
 }
 .campo-central-envolucro:hover {
-  background: var(--superficieCartaoHover);
+  background: var(--mo-cartao-hover);
 }
 .campo-central-envolucro:focus-within {
-  border-color: var(--corDestaque);
-  color: var(--corTextoJanela);
+  border-color: var(--mo-destaque);
+  color: var(--mo-texto);
   box-shadow:
-    0 0 0 3px color-mix(in oklab, var(--corDestaque) 20%, transparent),
-    0 3px 0 color-mix(in oklab, var(--corFundoJanela) 70%, transparent);
+    0 0 0 3px color-mix(in oklab, var(--mo-destaque) 20%, transparent),
+    0 3px 0 color-mix(in oklab, var(--mo-janela) 70%, transparent);
 }
 .busca-central.compacta .campo-central-envolucro {
   height: 42px;
@@ -1249,15 +1256,15 @@ a.cartao:hover,
   border: 0;
   padding: 0;
   background: none;
-  color: var(--corTextoJanela);
-  font-family: var(--fonteMono);
+  color: var(--mo-texto);
+  font-family: var(--mo-fonte-mono);
   font-size: 14px;
 }
 .busca-central.compacta .campo-central {
   font-size: 13px;
 }
 .campo-central::placeholder {
-  color: var(--corTextoTerciario);
+  color: var(--mo-texto-3);
 }
 .campo-central:focus {
   outline: none;
@@ -1281,8 +1288,8 @@ a.cartao:hover,
   flex: none;
   border: 0;
   border-radius: 50%;
-  background: var(--superficieElevada);
-  color: var(--corTextoSecundario);
+  background: var(--mo-elevada);
+  color: var(--mo-texto-2);
   font-size: 11px;
   cursor: pointer;
   transition:
@@ -1290,8 +1297,8 @@ a.cartao:hover,
     color 0.16s;
 }
 .btn-limpar:hover {
-  background: var(--corFundoDestrutivoSuave);
-  color: var(--corDestrutiva);
+  background: var(--mo-perigo-suave);
+  color: var(--mo-perigo);
 }
 .btn-limpar[hidden] {
   display: none;
@@ -1338,52 +1345,52 @@ a.cartao:hover,
   gap: 8px;
   flex-wrap: wrap;
   padding: 11px 18px;
-  background: var(--superficieLateralSecundaria);
-  border-block: 1px solid var(--corBordaVidro);
+  background: var(--mo-lateral-2);
+  border-block: 1px solid var(--mo-borda);
   position: sticky;
   top: 0;
   z-index: 3;
   flex: none;
 }
 .contagem-resultados {
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-size: 12px;
-  color: var(--corTextoTerciario);
+  color: var(--mo-texto-3);
   margin-right: 4px;
 }
 .chip {
   padding: 4px 12px;
   border: 0;
   border-radius: 20px;
-  font-family: var(--fonteUi);
-  background: var(--superficieElevada);
-  color: var(--corTextoSecundario);
+  font-family: var(--mo-fonte);
+  background: var(--mo-elevada);
+  color: var(--mo-texto-2);
   font-size: 12px;
   cursor: pointer;
   transition:
-    background var(--dur-curta) ease,
-    color var(--dur-curta) ease,
-    box-shadow var(--dur-curta) ease,
-    transform var(--dur-toque) var(--ease-out);
+    background var(--mo-dur-curta) ease,
+    color var(--mo-dur-curta) ease,
+    box-shadow var(--mo-dur-curta) ease,
+    transform var(--mo-dur-toque) var(--mo-ease-saida);
 }
 .chip:hover {
-  background: var(--superficieElevadaHover);
-  color: var(--corTextoJanela);
+  background: var(--mo-elevada-hover);
+  color: var(--mo-texto);
 }
 .chip:active {
   transform: scale(0.96);
 }
 .chip.ativo {
-  background: var(--corFundoDestaque);
-  color: var(--corTextoDestaque);
+  background: var(--mo-destaque-fundo);
+  color: var(--mo-sobre-destaque);
   font-weight: 600;
 }
 .chip-remover {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  background: var(--corFundoDestaqueSuave);
-  color: var(--corDestaque);
+  background: var(--mo-destaque-suave);
+  color: var(--mo-destaque);
 }
 .chip-remover i {
   font-style: normal;
@@ -1395,28 +1402,28 @@ a.cartao:hover,
   align-items: center;
   gap: 8px;
   font-size: 12px;
-  color: var(--corTextoSecundario);
+  color: var(--mo-texto-2);
 }
 .seletor-ordem {
   border: 0;
-  border-radius: var(--raio-p);
+  border-radius: var(--mo-raio-p);
   padding: 4px 8px;
   cursor: pointer;
-  background: var(--superficieElevada);
-  color: var(--corTextoJanela);
-  font-family: var(--fonteUi);
+  background: var(--mo-elevada);
+  color: var(--mo-texto);
+  font-family: var(--mo-fonte);
   font-size: 12px;
   font-weight: 600;
 }
 .seletor-ordem:hover {
-  background: var(--superficieElevadaHover);
+  background: var(--mo-elevada-hover);
 }
 
 /* ---------- Tabela de pacotes ---------- */
 .tabela {
   display: flex;
   flex-direction: column;
-  background: var(--superficieLeitura);
+  background: var(--mo-fundo);
 }
 .linha-pacote {
   display: grid;
@@ -1437,12 +1444,12 @@ a.cartao:hover,
 }
 .cabecalho-tabela {
   min-height: 30px;
-  background: var(--superficieFixa);
-  font-family: var(--fonteMono);
+  background: var(--mo-fundo);
+  font-family: var(--mo-fonte-mono);
   font-weight: 600;
   font-size: 10px;
   letter-spacing: 0.12em;
-  color: var(--corTextoTerciario);
+  color: var(--mo-texto-3);
 }
 /* Os rótulos das colunas seguem o cabeçalho, não o estilo da célula (a
    coluna de versão tem fonte e cor próprias para os valores). */
@@ -1451,11 +1458,11 @@ a.cartao:hover,
   color: inherit;
 }
 .linha-pacote:not(.cabecalho-tabela) {
-  border-bottom: 1px solid var(--corSeparador);
-  transition: background var(--dur-curta) ease;
+  border-bottom: 1px solid var(--mo-linha);
+  transition: background var(--mo-dur-curta) ease;
 }
 .linha-pacote:not(.cabecalho-tabela):hover {
-  background: var(--corFundoTerciarioSuave);
+  background: var(--mo-terciaria-suave);
 }
 .nome-pacote {
   display: flex;
@@ -1468,24 +1475,24 @@ a.cartao:hover,
   color: inherit;
 }
 .nome-pacote:hover strong {
-  color: var(--corDestaque);
+  color: var(--mo-destaque);
 }
 .nome-pacote strong {
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-weight: 600;
   font-size: 13.5px;
 }
 .nome-pacote span {
-  color: var(--corTextoSecundario);
+  color: var(--mo-texto-2);
   font-size: 12px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .col-versao {
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-size: 12px;
-  color: var(--corTextoSecundario);
+  color: var(--mo-texto-2);
   display: flex;
   align-items: center;
   gap: 6px;
@@ -1505,9 +1512,9 @@ a.cartao:hover,
   flex: 1;
 }
 .col-pop span {
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-size: 11px;
-  color: var(--corTextoTerciario);
+  color: var(--mo-texto-3);
 }
 .col-acao {
   display: flex;
@@ -1524,10 +1531,10 @@ a.cartao:hover,
   gap: 3px;
 }
 .versao-antiga {
-  color: var(--corTextoTerciario);
+  color: var(--mo-texto-3);
 }
 .versao-nova {
-  color: var(--corDestaque);
+  color: var(--mo-destaque);
 }
 
 /* ---------- Instalados ---------- */
@@ -1553,7 +1560,7 @@ a.cartao:hover,
   gap: 4px;
 }
 .resumo-total strong {
-  font-family: var(--fonteUi);
+  font-family: var(--mo-fonte);
   font-size: 44px;
   font-weight: 700;
   line-height: 1;
@@ -1562,13 +1569,13 @@ a.cartao:hover,
 }
 .resumo-total span {
   font-size: 13px;
-  color: var(--corTextoSecundario);
+  color: var(--mo-texto-2);
 }
 .resumo-total em {
   font-style: normal;
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-size: 12px;
-  color: var(--corTextoTerciario);
+  color: var(--mo-texto-3);
 }
 .mosaico-fontes {
   grid-area: mosaico;
@@ -1581,11 +1588,11 @@ a.cartao:hover,
   flex: 1 1 0;
   min-width: 8px;
   border-radius: 4px;
-  background: var(--tom);
+  background: var(--mo-tom);
   /* Cada bloco também é uma tecla: a borda de baixo mais escura. */
-  box-shadow: 0 2px 0 color-mix(in oklab, var(--tom) 45%, black);
+  box-shadow: 0 2px 0 color-mix(in oklab, var(--mo-tom) 45%, black);
   transform-origin: left center;
-  animation: crescer-bloco 0.5s var(--ease-out) backwards;
+  animation: crescer-bloco 0.5s var(--mo-ease-saida) backwards;
 }
 .mosaico-fontes i:nth-child(2) { animation-delay: 60ms; }
 .mosaico-fontes i:nth-child(3) { animation-delay: 120ms; }
@@ -1602,7 +1609,7 @@ a.cartao:hover,
   padding: 0;
   list-style: none;
   font-size: 12px;
-  color: var(--corTextoSecundario);
+  color: var(--mo-texto-2);
   align-self: start;
 }
 .legenda-fontes li {
@@ -1614,19 +1621,19 @@ a.cartao:hover,
   width: 9px;
   height: 9px;
   border-radius: 2px;
-  background: var(--tom);
+  background: var(--mo-tom);
 }
 .legenda-fontes li > span {
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-size: 11.5px;
-  color: var(--corTextoTerciario);
+  color: var(--mo-texto-3);
 }
 .legenda-atualizar {
   margin-left: auto;
 }
 .legenda-atualizar a {
   font-weight: 600;
-  color: var(--corDestaque);
+  color: var(--mo-destaque);
 }
 
 /* ---------- Atualizações ---------- */
@@ -1657,7 +1664,7 @@ a.cartao:hover,
   pointer-events: none;
   transform: translateY(2px);
   box-shadow:
-    inset 0 1px 0 color-mix(in oklab, var(--corTextoJanela) 4%, transparent),
+    inset 0 1px 0 color-mix(in oklab, var(--mo-texto) 4%, transparent),
     0 0 0 transparent;
 }
 .btn-verificar.verificando .glifo-sync {
@@ -1671,9 +1678,9 @@ a.cartao:hover,
   gap: 12px;
   margin: 0 26px 18px;
   padding: 12px 16px;
-  border-radius: var(--raio-m);
-  background: var(--corFundoDestrutivoSuave);
-  color: var(--corTextoDestrutivo, var(--corDestrutiva));
+  border-radius: var(--mo-raio-m);
+  background: var(--mo-perigo-suave);
+  color: var(--mo-perigo-texto, var(--mo-perigo));
   flex: none;
 }
 .aviso-aur-faixa > i {
@@ -1681,8 +1688,8 @@ a.cartao:hover,
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  border: 1.5px solid var(--corDestrutiva);
-  color: var(--corDestrutiva);
+  border: 1.5px solid var(--mo-perigo);
+  color: var(--mo-perigo);
   font-style: normal;
   font-weight: 700;
   font-size: 12px;
@@ -1697,7 +1704,7 @@ a.cartao:hover,
   text-wrap: pretty;
 }
 .aviso-aur-faixa strong {
-  color: var(--corDestrutiva);
+  color: var(--mo-perigo);
   font-weight: 600;
 }
 
@@ -1708,25 +1715,25 @@ a.cartao:hover,
   flex-direction: column;
   gap: 3px;
   min-width: 0;
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   white-space: nowrap;
 }
 .col-mudanca .versao-nova {
   font-size: 12.5px;
-  color: var(--corTextoJanela);
+  color: var(--mo-texto);
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .col-mudanca mark {
-  background: var(--corFundoDestaqueSuave);
-  color: var(--corDestaque);
+  background: var(--mo-destaque-suave);
+  color: var(--mo-destaque);
   border-radius: 3px;
   padding: 0 2px;
   margin-left: 1px;
 }
 .col-mudanca .versao-antiga {
   font-size: 11px;
-  color: var(--corTextoTerciario);
+  color: var(--mo-texto-3);
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -1747,7 +1754,7 @@ a.cartao:hover,
   height: 76px;
   margin-bottom: 10px;
   border-radius: 6px;
-  animation: assentar-marca 0.6s var(--ease-out) backwards;
+  animation: assentar-marca 0.6s var(--mo-ease-saida) backwards;
 }
 .em-dia:hover .glifo-em-dia {
   transform: rotate(90deg);
@@ -1763,7 +1770,7 @@ a.cartao:hover,
 }
 .em-dia p {
   margin: 0 0 8px;
-  color: var(--corTextoSecundario);
+  color: var(--mo-texto-2);
   max-width: 340px;
   text-wrap: pretty;
 }
@@ -1793,7 +1800,7 @@ a.cartao:hover,
   animation: blocos-girando 1.6s infinite;
 }
 .tarefa-concluida .glifo-tarefa {
-  animation: assentar-marca 0.6s var(--ease-out) backwards;
+  animation: assentar-marca 0.6s var(--mo-ease-saida) backwards;
 }
 .tarefa-erro .glifo-tarefa {
   filter: grayscale(1) brightness(0.6);
@@ -1806,10 +1813,10 @@ a.cartao:hover,
   flex: 1;
 }
 .tarefa-comando {
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-size: 11px;
   letter-spacing: 0.08em;
-  color: var(--corTextoTerciario);
+  color: var(--mo-texto-3);
 }
 .tarefa-titulos h1 {
   margin: 0;
@@ -1818,17 +1825,17 @@ a.cartao:hover,
   letter-spacing: -0.02em;
 }
 .tarefa-erro .tarefa-titulos h1 {
-  color: var(--corDestrutiva);
+  color: var(--mo-perigo);
 }
 .tarefa-passo {
   margin: 0;
-  color: var(--corTextoSecundario);
+  color: var(--mo-texto-2);
   font-size: 13px;
   line-height: 1.5;
   text-wrap: pretty;
 }
 .tarefa-rodando .tarefa-passo {
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-size: 12px;
   white-space: nowrap;
   overflow: hidden;
@@ -1836,15 +1843,15 @@ a.cartao:hover,
 }
 .tarefa-tempo {
   flex: none;
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-size: 22px;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
-  color: var(--corTextoTerciario);
+  color: var(--mo-texto-3);
   align-self: flex-start;
 }
 .tarefa-rodando .tarefa-tempo {
-  color: var(--corTextoJanela);
+  color: var(--mo-texto);
 }
 
 /* A barra: uma tecla comprida. Com progresso conhecido ela enche; sem,
@@ -1852,8 +1859,8 @@ a.cartao:hover,
 .tarefa-barra {
   height: 12px;
   border-radius: 6px;
-  background: var(--superficieElevada);
-  box-shadow: inset 0 -2px 0 color-mix(in oklab, var(--superficieElevada) 60%, black);
+  background: var(--mo-elevada);
+  box-shadow: inset 0 -2px 0 color-mix(in oklab, var(--mo-elevada) 60%, black);
   overflow: hidden;
   position: relative;
 }
@@ -1861,17 +1868,17 @@ a.cartao:hover,
   display: block;
   height: 100%;
   border-radius: inherit;
-  background: var(--corDestaque);
-  box-shadow: inset 0 -2px 0 color-mix(in oklab, var(--corDestaque) 55%, black);
-  transition: width 0.5s var(--ease-out);
+  background: var(--mo-destaque);
+  box-shadow: inset 0 -2px 0 color-mix(in oklab, var(--mo-destaque) 55%, black);
+  transition: width 0.5s var(--mo-ease-saida);
 }
 .tarefa-erro .tarefa-barra > i {
-  background: var(--corDestrutiva);
+  background: var(--mo-perigo);
   box-shadow: none;
 }
 .tarefa-barra.indeterminada > i {
   width: 22% !important;
-  animation: bloco-correndo 1.3s var(--ease-in-out) infinite alternate;
+  animation: bloco-correndo 1.3s var(--mo-ease-meio) infinite alternate;
 }
 @keyframes bloco-correndo {
   from { transform: translateX(0); }
@@ -1892,10 +1899,10 @@ a.cartao:hover,
   align-items: center;
   gap: 10px;
   padding: 11px 14px;
-  border-radius: var(--raio-m);
-  background: var(--superficieCartao);
-  border: 1px solid var(--corBordaVidro);
-  font-family: var(--fonteMono);
+  border-radius: var(--mo-raio-m);
+  background: var(--mo-cartao);
+  border: 1px solid var(--mo-borda);
+  font-family: var(--mo-fonte-mono);
   font-size: 12.5px;
 }
 .tarefa-passos li > i {
@@ -1903,29 +1910,29 @@ a.cartao:hover,
   height: 12px;
   border-radius: 3px;
   flex: none;
-  box-shadow: inset 0 0 0 1.5px var(--tom);
-  transition: background var(--dur-media) ease;
+  box-shadow: inset 0 0 0 1.5px var(--mo-tom);
+  transition: background var(--mo-dur-media) ease;
 }
 .tarefa-passos li em {
   margin-left: auto;
   font-style: normal;
   font-size: 11px;
-  color: var(--corTextoTerciario);
+  color: var(--mo-texto-3);
 }
 .tarefa-passos .estado-rodando > i {
   animation: piscar-bloco 0.9s ease-in-out infinite alternate;
 }
 .tarefa-passos .estado-rodando em {
-  color: var(--corTextoJanela);
+  color: var(--mo-texto);
 }
 .tarefa-passos .estado-pronto > i {
-  background: var(--tom);
+  background: var(--mo-tom);
 }
 .tarefa-passos .estado-pronto em {
-  color: var(--corDestaque);
+  color: var(--mo-destaque);
 }
 @keyframes piscar-bloco {
-  to { background: var(--tom); }
+  to { background: var(--mo-tom); }
 }
 
 .tarefa-terminal .terminal-saida {
@@ -1941,7 +1948,7 @@ a.cartao:hover,
 .tarefa-dica {
   margin: 0;
   font-size: 12px;
-  color: var(--corTextoTerciario);
+  color: var(--mo-texto-3);
 }
 
 @media (max-width: 760px) {
@@ -1977,7 +1984,7 @@ a.cartao:hover,
 }
 .config-topo p {
   margin: 0;
-  color: var(--corTextoSecundario);
+  color: var(--mo-texto-2);
 }
 .config-secao {
   display: grid;
@@ -1993,7 +2000,7 @@ a.cartao:hover,
 .config-secao-titulo p {
   margin: 0;
   font-size: 12.5px;
-  color: var(--corTextoTerciario);
+  color: var(--mo-texto-3);
   text-wrap: pretty;
 }
 .config-cartao {
@@ -2004,15 +2011,15 @@ a.cartao:hover,
 .config-nota {
   margin: 4px 0 14px;
   font-size: 12.5px;
-  color: var(--corTextoSecundario);
+  color: var(--mo-texto-2);
   line-height: 1.6;
   text-wrap: pretty;
 }
 .config-nota code,
 .config-cartao code {
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-size: 11.5px;
-  color: var(--corTextoJanela);
+  color: var(--mo-texto);
 }
 
 /* As quatro cores do tema, como a marca: quatro teclas chapadas. */
@@ -2041,19 +2048,19 @@ a.cartao:hover,
 }
 .cor-tema code {
   font-size: 11px !important;
-  color: var(--corTextoTerciario) !important;
+  color: var(--mo-texto-3) !important;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .ajuste-manual {
-  border-top: 1px solid var(--corSeparador);
+  border-top: 1px solid var(--mo-linha);
   padding: 12px 0;
 }
 .ajuste-manual summary {
   cursor: pointer;
   font-size: 13px;
   font-weight: 600;
-  color: var(--corTextoSecundario);
+  color: var(--mo-texto-2);
   list-style: none;
   display: flex;
   align-items: center;
@@ -2069,13 +2076,13 @@ a.cartao:hover,
   border-right: 1.5px solid currentColor;
   border-bottom: 1.5px solid currentColor;
   transform: rotate(-45deg);
-  transition: transform var(--dur-curta) var(--ease-out);
+  transition: transform var(--mo-dur-curta) var(--mo-ease-saida);
 }
 .ajuste-manual[open] summary::before {
   transform: rotate(45deg);
 }
 .ajuste-manual summary:hover {
-  color: var(--corTextoJanela);
+  color: var(--mo-texto);
 }
 .ajuste-manual .config-nota {
   margin-top: 10px;
@@ -2109,30 +2116,30 @@ a.cartao:hover,
   min-width: 38px;
   height: 30px;
   padding: 0 9px;
-  border-radius: var(--raio-p);
-  background: var(--superficieElevada);
-  box-shadow: 0 2px 0 color-mix(in oklab, var(--superficieElevada) 45%, black);
-  font-family: var(--fonteMono);
+  border-radius: var(--mo-raio-p);
+  background: var(--mo-elevada);
+  box-shadow: 0 2px 0 color-mix(in oklab, var(--mo-elevada) 45%, black);
+  font-family: var(--mo-fonte-mono);
   font-size: 12px;
   font-weight: 600;
-  color: var(--corTextoSecundario);
+  color: var(--mo-texto-2);
   transition:
-    background var(--dur-curta) ease,
-    color var(--dur-curta) ease,
+    background var(--mo-dur-curta) ease,
+    color var(--mo-dur-curta) ease,
     transform 90ms ease-out,
     box-shadow 90ms ease-out;
 }
 .tecla-opcao:hover span {
-  color: var(--corTextoJanela);
+  color: var(--mo-texto);
 }
 .tecla-opcao input:checked + span {
-  background: var(--corFundoDestaque);
-  color: var(--corTextoDestaque);
+  background: var(--mo-destaque-fundo);
+  color: var(--mo-sobre-destaque);
   transform: translateY(2px);
   box-shadow: 0 0 0 transparent;
 }
 .tecla-opcao input:focus-visible + span {
-  outline: 2px solid var(--corFocoContorno);
+  outline: 2px solid var(--mo-foco);
   outline-offset: 2px;
 }
 
@@ -2159,10 +2166,10 @@ a.cartao:hover,
 }
 .sobre-marca span {
   font-size: 12.5px;
-  color: var(--corTextoSecundario);
+  color: var(--mo-texto-2);
 }
 .sobre .lista-dados a.valor {
-  color: var(--corDestaque);
+  color: var(--mo-destaque);
 }
 
 /* A barra de salvar gruda no pé da área de conteúdo. */
@@ -2176,27 +2183,27 @@ a.cartao:hover,
   gap: 10px;
   margin: 0 -26px;
   padding: 14px 26px 18px;
-  background: var(--superficieBase);
-  border-top: 1px solid var(--corSeparador);
+  background: var(--mo-fundo);
+  border-top: 1px solid var(--mo-linha);
 }
 .estado-salvar {
   margin-right: auto;
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-size: 12px;
-  color: var(--corTextoTerciario);
+  color: var(--mo-texto-3);
   display: inline-flex;
   align-items: center;
   gap: 8px;
 }
 .estado-salvar.mudou {
-  color: var(--corDestaque);
+  color: var(--mo-destaque);
 }
 .estado-salvar.mudou::before {
   content: "";
   width: 7px;
   height: 7px;
   border-radius: 2px;
-  background: var(--corDestaque);
+  background: var(--mo-destaque);
 }
 
 @media (max-width: 760px) {
@@ -2224,7 +2231,7 @@ a.cartao:hover,
   gap: 7px;
 }
 .chip-contado span {
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-size: 10.5px;
   opacity: 0.7;
 }
@@ -2238,22 +2245,22 @@ a.cartao:hover,
   width: 210px;
   height: 29px;
   padding: 0 11px;
-  border-radius: var(--raio-p);
-  background: var(--superficieElevada);
-  color: var(--corTextoTerciario);
+  border-radius: var(--mo-raio-p);
+  background: var(--mo-elevada);
+  color: var(--mo-texto-3);
   border: 1px solid transparent;
   cursor: text;
   transition:
-    border-color var(--dur-curta) ease,
-    width var(--dur-media) var(--ease-out);
+    border-color var(--mo-dur-curta) ease,
+    width var(--mo-dur-media) var(--mo-ease-saida);
 }
 .filtro-lista:focus-within {
-  border-color: var(--corDestaque);
-  color: var(--corTextoJanela);
+  border-color: var(--mo-destaque);
+  color: var(--mo-texto);
   width: 260px;
 }
 .filtro-lista:focus-within .lupa {
-  border-color: var(--corDestaque);
+  border-color: var(--mo-destaque);
 }
 .filtro-lista input {
   flex: 1;
@@ -2261,15 +2268,15 @@ a.cartao:hover,
   border: 0;
   padding: 0;
   background: none;
-  color: var(--corTextoJanela);
-  font-family: var(--fonteMono);
+  color: var(--mo-texto);
+  font-family: var(--mo-fonte-mono);
   font-size: 12px;
 }
 .filtro-lista input:focus {
   outline: none;
 }
 .filtro-lista input::placeholder {
-  color: var(--corTextoTerciario);
+  color: var(--mo-texto-3);
 }
 .filtro-lista input::-webkit-search-cancel-button {
   -webkit-appearance: none;
@@ -2287,7 +2294,7 @@ a.cartao:hover,
   color: inherit;
 }
 .nome-instalado:hover strong {
-  color: var(--corDestaque);
+  color: var(--mo-destaque);
 }
 .icone-34 {
   width: 34px;
@@ -2296,14 +2303,14 @@ a.cartao:hover,
   font-size: 13px;
 }
 .col-tamanho {
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-size: 12px;
-  color: var(--corTextoTerciario);
+  color: var(--mo-texto-3);
   white-space: nowrap;
 }
 .selo-local {
-  background: var(--superficieElevada);
-  color: var(--corTextoSecundario);
+  background: var(--mo-elevada);
+  color: var(--mo-texto-2);
 }
 
 /* Remover fica discreto e só ganha corpo com a linha em foco: numa lista
@@ -2311,9 +2318,9 @@ a.cartao:hover,
 .btn-remover {
   opacity: 0;
   transition:
-    opacity var(--dur-curta) ease,
-    background var(--dur-curta) ease,
-    color var(--dur-curta) ease;
+    opacity var(--mo-dur-curta) ease,
+    background var(--mo-dur-curta) ease,
+    color var(--mo-dur-curta) ease;
 }
 .linha-instalado:hover .btn-remover,
 .btn-remover:focus-visible {
@@ -2321,9 +2328,9 @@ a.cartao:hover,
 }
 .btn-remover:hover,
 .btn-remover:focus-visible {
-  --tecla: var(--corFundoDestrutivoSuave);
+  --tecla: var(--mo-perigo-suave);
   background: var(--tecla);
-  color: var(--corDestrutiva);
+  color: var(--mo-perigo);
 }
 @media (hover: none) {
   .btn-remover {
@@ -2370,14 +2377,14 @@ a.cartao:hover,
 .barra-progresso {
   height: 4px;
   border-radius: 2px;
-  background: var(--superficieElevada);
+  background: var(--mo-elevada);
   overflow: hidden;
 }
 .barra-progresso > i {
   display: block;
   height: 100%;
   border-radius: inherit;
-  background: var(--corDestaque);
+  background: var(--mo-destaque);
 }
 .barra-progresso.alta {
   flex: none;
@@ -2389,10 +2396,10 @@ a.cartao:hover,
   background: repeating-linear-gradient(
       -45deg,
       transparent 0 5px,
-      color-mix(in oklab, var(--corTextoDestaque) 22%, transparent) 5px 10px
+      color-mix(in oklab, var(--mo-sobre-destaque) 22%, transparent) 5px 10px
     )
     0 0 / 14.14px 100%,
-    var(--corDestaque);
+    var(--mo-destaque);
   animation: correr 0.6s linear infinite;
 }
 
@@ -2403,13 +2410,13 @@ a.cartao:hover,
   gap: 10px;
   min-height: 32px;
   padding: 0 18px;
-  background: var(--superficieCabecalho);
-  border-top: 1px solid var(--corBordaVidro);
+  background: var(--mo-cabecalho);
+  border-top: 1px solid var(--mo-borda);
   position: relative;
   z-index: 1;
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-size: 11px;
-  color: var(--corTextoTerciario);
+  color: var(--mo-texto-3);
 }
 .barra-estado .direita {
   margin-left: auto;
@@ -2419,10 +2426,10 @@ a.cartao:hover,
   white-space: nowrap;
 }
 .vinculo-estado {
-  color: var(--corTextoTerciario);
+  color: var(--mo-texto-3);
 }
 .vinculo-estado:hover {
-  color: var(--corDestaque);
+  color: var(--mo-destaque);
 }
 
 /* ---------- Página de pacote ---------- */
@@ -2465,9 +2472,9 @@ a.cartao:hover,
   flex-wrap: wrap;
 }
 .subtitulo {
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-size: 12.5px;
-  color: var(--corTextoSecundario);
+  color: var(--mo-texto-2);
 }
 .acoes-detalhe {
   margin-left: auto;
@@ -2483,7 +2490,7 @@ a.cartao:hover,
 .bloco p {
   margin: 0;
   max-width: 640px;
-  color: var(--corTextoSecundario);
+  color: var(--mo-texto-2);
   line-height: 1.6;
   text-wrap: pretty;
 }
@@ -2502,9 +2509,9 @@ a.cartao:hover,
   gap: 14px;
   flex-wrap: wrap;
   padding: 13px 16px;
-  border-radius: var(--raio-g);
-  background: var(--superficieCartao);
-  border: 1px solid var(--corBordaVidro);
+  border-radius: var(--mo-raio-g);
+  background: var(--mo-cartao);
+  border: 1px solid var(--mo-borda);
 }
 .faixa-progresso .barra-progresso {
   flex: 1;
@@ -2517,23 +2524,23 @@ a.cartao:hover,
 }
 .faixa-progresso-texto strong {
   font-size: 12.5px;
-  color: var(--corDestaque);
+  color: var(--mo-destaque);
 }
 
 .aviso {
   display: flex;
   gap: 15px;
   padding: 16px 18px;
-  border-radius: var(--raio-g);
-  background: var(--corFundoDestrutivoSuave);
+  border-radius: var(--mo-raio-g);
+  background: var(--mo-perigo-suave);
 }
 .aviso-icone {
   width: 22px;
   height: 22px;
   flex: none;
   border-radius: 50%;
-  border: 1.5px solid var(--corDestrutiva);
-  color: var(--corDestrutiva);
+  border: 1.5px solid var(--mo-perigo);
+  color: var(--mo-perigo);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2544,12 +2551,12 @@ a.cartao:hover,
   margin: 0;
   font-size: 13.5px;
   font-weight: 600;
-  color: var(--corDestrutiva);
+  color: var(--mo-perigo);
 }
 .aviso p {
   margin: 9px 0 0;
   max-width: 580px;
-  color: var(--corTextoDestrutivo);
+  color: var(--mo-perigo-texto);
   line-height: 1.55;
   text-wrap: pretty;
 }
@@ -2560,21 +2567,21 @@ a.cartao:hover,
   flex-wrap: wrap;
 }
 .aviso .btn-destrutivo {
-  background: var(--corDestrutiva);
-  color: var(--corFundoDestrutivo);
+  background: var(--mo-perigo);
+  color: var(--mo-perigo-fundo);
 }
 .aviso .btn-destrutivo:hover {
   background: color-mix(
     in srgb,
-    var(--corTextoDestrutivo) 40%,
-    var(--corDestrutiva)
+    var(--mo-perigo-texto) 40%,
+    var(--mo-perigo)
   );
 }
 
 .painel-lateral {
-  background: var(--superficieLateral);
-  border-left: 1px solid var(--corBordaVidro);
-  color: var(--corTextoBarraLateral);
+  background: var(--mo-lateral);
+  border-left: 1px solid var(--mo-borda);
+  color: var(--mo-texto-lateral);
   padding: 22px;
   display: flex;
   flex-direction: column;
@@ -2586,21 +2593,21 @@ a.cartao:hover,
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-weight: 600;
   font-size: 10px;
   letter-spacing: 0.14em;
-  color: var(--corTextoTerciario);
+  color: var(--mo-texto-3);
 }
 .vinculo-painel {
   border: 0;
   background: none;
   padding: 0;
   cursor: pointer;
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-size: 10px;
   letter-spacing: 0.1em;
-  color: var(--corDestaque);
+  color: var(--mo-destaque);
 }
 .lista-dados {
   display: flex;
@@ -2614,11 +2621,11 @@ a.cartao:hover,
   font-size: 12.5px;
 }
 .lista-dados .chave {
-  color: var(--corTextoSecundario);
+  color: var(--mo-texto-2);
 }
 .lista-dados .valor {
   margin: 0;
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   text-align: right;
 }
 .nuvem-deps {
@@ -2627,49 +2634,49 @@ a.cartao:hover,
   gap: 6px;
 }
 .dep {
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-size: 11.5px;
   padding: 4px 9px;
   border: 0;
   border-radius: 6px;
-  background: var(--superficieElevada);
-  color: var(--corTextoSecundario);
+  background: var(--mo-elevada);
+  color: var(--mo-texto-2);
   transition:
-    background var(--dur-curta) ease,
-    color var(--dur-curta) ease;
+    background var(--mo-dur-curta) ease,
+    color var(--mo-dur-curta) ease;
 }
 a.dep:hover,
 button.dep:hover {
-  background: var(--corFundoTerciarioSuave);
-  color: var(--corTextoJanela);
+  background: var(--mo-terciaria-suave);
+  color: var(--mo-texto);
 }
 button.dep {
   cursor: pointer;
 }
 .dep.nova {
-  background: var(--corFundoSucesso);
-  color: var(--corTextoSucesso);
+  background: var(--mo-sucesso-fundo);
+  color: var(--mo-sucesso-texto);
 }
 
 .pkgbuild {
-  border-radius: var(--raio-m);
-  background: var(--superficieBase);
+  border-radius: var(--mo-raio-m);
+  background: var(--mo-fundo);
   padding: 11px 12px;
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-size: 10.5px;
   line-height: 1.7;
-  color: var(--corTextoSecundario);
+  color: var(--mo-texto-2);
   overflow-x: auto;
   margin: 0;
 }
 .pkgbuild .chave {
-  color: var(--corDestaque);
+  color: var(--mo-destaque);
 }
 .pkgbuild .alerta {
-  color: var(--corDestrutiva);
+  color: var(--mo-perigo);
 }
 .pkgbuild .comentario {
-  color: var(--corTextoTerciario);
+  color: var(--mo-texto-3);
 }
 .pkgbuild-cheio {
   font-size: 11.5px;
@@ -2678,15 +2685,15 @@ button.dep {
   white-space: pre;
 }
 .diff .adicionado {
-  color: var(--corSucesso);
-  background: color-mix(in srgb, var(--corFundoSucesso) 40%, transparent);
+  color: var(--mo-sucesso);
+  background: color-mix(in srgb, var(--mo-sucesso-fundo) 40%, transparent);
 }
 .diff .removido {
-  color: var(--corDestrutiva);
-  background: color-mix(in srgb, var(--corFundoDestrutivo) 22%, transparent);
+  color: var(--mo-perigo);
+  background: color-mix(in srgb, var(--mo-perigo-fundo) 22%, transparent);
 }
 .diff .trecho {
-  color: var(--corDestaque);
+  color: var(--mo-destaque);
 }
 .nota-alerta,
 .nota-ok {
@@ -2696,10 +2703,10 @@ button.dep {
   font-size: 11.5px;
 }
 .nota-alerta {
-  color: var(--corDestrutiva);
+  color: var(--mo-perigo);
 }
 .nota-ok {
-  color: var(--corSucesso);
+  color: var(--mo-sucesso);
 }
 .nota-alerta i,
 .nota-ok i {
@@ -2733,7 +2740,7 @@ button.dep {
   gap: 13px;
   padding: 16px;
   flex: none;
-  border-color: color-mix(in srgb, var(--tom, var(--corDestaque)) 40%, transparent);
+  border-color: color-mix(in srgb, var(--mo-tom, var(--mo-destaque)) 40%, transparent);
 }
 .item-agora .rotulo-painel span {
   display: inline-flex;
@@ -2769,18 +2776,18 @@ button.dep {
   gap: 3px;
 }
 .item-agora .info strong {
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-weight: 600;
   font-size: 15px;
 }
 .item-agora .info:hover strong,
 .item-fila .info:hover strong {
-  color: var(--corDestaque);
+  color: var(--mo-destaque);
 }
 .passo-atual {
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-size: 11.5px;
-  color: var(--corDestaque);
+  color: var(--mo-destaque);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -2804,17 +2811,17 @@ button.dep {
   align-items: center;
   gap: 11px;
   padding: 9px 11px;
-  border-radius: var(--raio-m);
-  background: var(--superficieCartao);
-  border: 1px solid var(--corBordaVidro);
+  border-radius: var(--mo-raio-m);
+  background: var(--mo-cartao);
+  border: 1px solid var(--mo-borda);
   flex: none;
-  transition: background var(--dur-curta) ease;
+  transition: background var(--mo-dur-curta) ease;
 }
 .item-fila:hover {
-  background: var(--superficieCartaoHover);
+  background: var(--mo-cartao-hover);
 }
 .item-fila .info strong {
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-weight: 600;
   font-size: 13px;
   white-space: nowrap;
@@ -2823,7 +2830,7 @@ button.dep {
 }
 .item-fila .info span {
   font-size: 11.5px;
-  color: var(--corTextoTerciario);
+  color: var(--mo-texto-3);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -2836,12 +2843,12 @@ button.dep {
   display: grid;
   place-items: center;
   border-radius: 6px;
-  background: var(--superficieElevada);
-  box-shadow: 0 2px 0 color-mix(in oklab, var(--superficieElevada) 45%, black);
-  font-family: var(--fonteMono);
+  background: var(--mo-elevada);
+  box-shadow: 0 2px 0 color-mix(in oklab, var(--mo-elevada) 45%, black);
+  font-family: var(--mo-fonte-mono);
   font-size: 11px;
   font-weight: 600;
-  color: var(--corTextoSecundario);
+  color: var(--mo-texto-2);
 }
 .selo-estado {
   width: 22px;
@@ -2852,15 +2859,15 @@ button.dep {
   border-radius: 6px;
   font-size: 11px;
   font-weight: 700;
-  background: var(--corFundoDestaqueSuave);
-  color: var(--corDestaque);
+  background: var(--mo-destaque-suave);
+  color: var(--mo-destaque);
 }
 .item-fila.falhou .selo-estado {
-  background: var(--corFundoDestrutivoSuave);
-  color: var(--corDestrutiva);
+  background: var(--mo-perigo-suave);
+  color: var(--mo-perigo);
 }
 .item-fila.falhou .info span {
-  color: var(--corDestrutiva);
+  color: var(--mo-perigo);
 }
 .item-fila.concluido .icone-app {
   opacity: 0.75;
@@ -2881,16 +2888,16 @@ button.dep {
   width: 26px;
   height: 26px;
   padding: 0;
-  border-radius: var(--raio-p);
+  border-radius: var(--mo-raio-p);
   font-size: 12px;
   transition:
-    opacity var(--dur-curta) ease,
-    background var(--dur-curta) ease,
-    transform var(--dur-toque) var(--ease-out);
+    opacity var(--mo-dur-curta) ease,
+    background var(--mo-dur-curta) ease,
+    transform var(--mo-dur-toque) var(--mo-ease-saida);
 }
 .btn-cancelar:hover {
-  background: var(--corFundoDestrutivoSuave);
-  color: var(--corDestrutiva);
+  background: var(--mo-perigo-suave);
+  color: var(--mo-perigo);
 }
 .fila-vazia {
   padding-top: 64px;
@@ -2898,9 +2905,9 @@ button.dep {
 .resumo-fila {
   margin-top: auto;
   padding: 14px;
-  border-radius: var(--raio-g);
+  border-radius: var(--mo-raio-g);
   flex: none;
-  background: var(--superficieLateralSecundaria);
+  background: var(--mo-lateral-2);
   display: flex;
   flex-direction: column;
   gap: 7px;
@@ -2916,10 +2923,10 @@ button.dep {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  border-radius: var(--raio-g);
-  background: var(--superficieBase);
-  border: 1px solid var(--corBordaVidro);
-  box-shadow: var(--sombraCartao);
+  border-radius: var(--mo-raio-g);
+  background: var(--mo-fundo);
+  border: 1px solid var(--mo-borda);
+  box-shadow: var(--mo-sombra-cartao);
   overflow: hidden;
 }
 .terminal-cabecalho {
@@ -2927,20 +2934,20 @@ button.dep {
   align-items: center;
   gap: 10px;
   padding: 11px 15px;
-  background: var(--superficieLateralSecundaria);
+  background: var(--mo-lateral-2);
   flex: none;
 }
 .terminal-cabecalho .rotulo {
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-weight: 600;
   font-size: 11px;
   letter-spacing: 0.1em;
-  color: var(--corTextoSecundario);
+  color: var(--mo-texto-2);
 }
 .terminal-cabecalho .alvo {
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-size: 11px;
-  color: var(--corTextoTerciario);
+  color: var(--mo-texto-3);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -2953,7 +2960,7 @@ button.dep {
 .terminal-cabecalho .btn {
   height: 24px;
   padding: 0 10px;
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-weight: 500;
   font-size: 11px;
 }
@@ -2962,40 +2969,40 @@ button.dep {
   min-height: 0;
   overflow-y: auto;
   padding: 14px 16px;
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-size: 11.5px;
   line-height: 1.85;
-  color: var(--corTextoSecundario);
+  color: var(--mo-texto-2);
   overflow-wrap: anywhere;
 }
 .terminal-saida .seta {
-  color: var(--corDestaque);
+  color: var(--mo-destaque);
 }
 .terminal-saida .seta.ok {
-  color: var(--corSucesso);
+  color: var(--mo-sucesso);
 }
 .terminal-saida .linha-ok {
-  color: var(--corSucesso);
+  color: var(--mo-sucesso);
 }
 .terminal-saida .indent {
   padding-left: 18px;
-  color: var(--corTextoTerciario);
+  color: var(--mo-texto-3);
 }
 .terminal-saida .ignorado {
-  color: var(--corDestrutiva);
+  color: var(--mo-perigo);
 }
 .terminal-ocioso {
-  color: var(--corTextoTerciario);
+  color: var(--mo-texto-3);
   font-style: italic;
 }
 .linha-nova {
-  animation: entrar-linha var(--dur-media) var(--ease-out);
+  animation: entrar-linha var(--mo-dur-media) var(--mo-ease-saida);
 }
 .caret {
   display: inline-block;
   width: 7px;
   height: 13px;
-  background: var(--corDestaque);
+  background: var(--mo-destaque);
   vertical-align: -2px;
   animation: piscar 1.1s steps(1) infinite;
 }
@@ -3010,15 +3017,15 @@ button.dep {
   gap: 16px;
   padding: 40px;
   text-align: center;
-  border-radius: var(--raio-g);
-  background: var(--superficieCartao);
+  border-radius: var(--mo-raio-g);
+  background: var(--mo-cartao);
 }
 .progresso-simples .roda {
   width: 96px;
   height: 96px;
   border-radius: 50%;
-  border: 7px solid var(--superficieElevada);
-  border-top-color: var(--corDestaque);
+  border: 7px solid var(--mo-elevada);
+  border-top-color: var(--mo-destaque);
   animation: girar 1.1s linear infinite;
 }
 .titulo-simples {
@@ -3027,7 +3034,7 @@ button.dep {
 }
 .progresso-simples p {
   margin: 0;
-  color: var(--corTextoSecundario);
+  color: var(--mo-texto-2);
   max-width: 340px;
   line-height: 1.6;
   text-wrap: pretty;
@@ -3047,8 +3054,8 @@ button.dep {
 .glifo-vazio {
   width: 46px;
   height: 46px;
-  border-radius: var(--raio-g);
-  border: 2px dashed var(--corDecorativa);
+  border-radius: var(--mo-raio-g);
+  border: 2px dashed var(--mo-decorativa);
 }
 .estado-vazio h3 {
   margin: 0;
@@ -3057,7 +3064,7 @@ button.dep {
 }
 .estado-vazio p {
   margin: 0;
-  color: var(--corTextoSecundario);
+  color: var(--mo-texto-2);
   max-width: 360px;
   text-wrap: pretty;
 }
@@ -3081,11 +3088,11 @@ button.dep {
   pointer-events: auto;
   cursor: pointer;
   padding: 11px 15px;
-  border-radius: var(--raio-m);
+  border-radius: var(--mo-raio-m);
   max-width: min(360px, calc(100vw - 36px));
-  background: var(--superficieElevada);
-  color: var(--corTextoPopUp);
-  border: 1px solid var(--corBordaVidro);
+  background: var(--mo-elevada);
+  color: var(--mo-texto-elevada);
+  border: 1px solid var(--mo-borda);
   box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.55);
   font-size: 12.5px;
   /* Entra rápido (240ms), fica, e sai mais rápido ainda. */
@@ -3116,40 +3123,40 @@ button.dep {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--corDestaque);
+  background: var(--mo-destaque);
   flex: none;
 }
 .aviso-ok .marcador {
-  background: var(--corSucesso);
+  background: var(--mo-sucesso);
 }
 .aviso-alerta .marcador {
-  background: var(--corDestrutiva);
+  background: var(--mo-perigo);
 }
 
 /* ---------- Diálogos ---------- */
 .dialogo {
   border: 0;
   padding: 0;
-  border-radius: var(--raio-g);
+  border-radius: var(--mo-raio-g);
   width: min(620px, calc(100vw - 40px));
   max-height: min(84vh, 760px);
-  background: var(--corFundoDialogo);
-  color: var(--corTextoDialogo);
+  background: var(--mo-dialogo);
+  color: var(--mo-texto-dialogo);
   box-shadow:
     0 28px 80px rgba(0, 0, 0, 0.6),
-    0 0 0 1px var(--corBordaVidro);
+    0 0 0 1px var(--mo-borda);
   flex-direction: column;
   overflow: hidden;
 }
 .dialogo[open] {
   display: flex;
-  animation: abrir-dialogo var(--dur-media) var(--ease-out);
+  animation: abrir-dialogo var(--mo-dur-media) var(--mo-ease-saida);
 }
 .dialogo::backdrop {
-  background: color-mix(in oklab, var(--corFundoJanela) 70%, transparent);
+  background: color-mix(in oklab, var(--mo-janela) 70%, transparent);
 }
 .dialogo[open]::backdrop {
-  animation: entrar-fundo var(--dur-media) ease-out;
+  animation: entrar-fundo var(--mo-dur-media) ease-out;
 }
 .dialogo-largo {
   width: min(920px, calc(100vw - 40px));
@@ -3162,7 +3169,7 @@ button.dep {
   align-items: center;
   gap: 12px;
   padding: 16px 18px;
-  border-bottom: 1px solid var(--corSeparador);
+  border-bottom: 1px solid var(--mo-linha);
   flex: none;
 }
 .dialogo-cabecalho h2 {
@@ -3178,14 +3185,14 @@ button.dep {
   background: transparent;
 }
 .dialogo-cabecalho .btn-fechar:hover {
-  background: var(--superficieElevada);
+  background: var(--mo-elevada);
 }
 .dialogo-corpo {
   padding: 18px;
   overflow: auto;
   flex: 1;
   min-height: 0;
-  color: var(--corTextoSecundario);
+  color: var(--mo-texto-2);
   line-height: 1.6;
 }
 .dialogo-rodape {
@@ -3193,7 +3200,7 @@ button.dep {
   justify-content: flex-end;
   gap: 9px;
   padding: 14px 18px;
-  border-top: 1px solid var(--corSeparador);
+  border-top: 1px solid var(--mo-linha);
   flex: none;
 }
 
@@ -3203,17 +3210,17 @@ button.dep {
   z-index: 70;
   min-width: 218px;
   padding: 5px;
-  background: var(--superficieElevada);
-  color: var(--corTextoPopUp);
-  border: 1px solid var(--corBordaVidro);
-  border-radius: var(--raio-m);
+  background: var(--mo-elevada);
+  color: var(--mo-texto-elevada);
+  border: 1px solid var(--mo-borda);
+  border-radius: var(--mo-raio-m);
   box-shadow: 0 18px 44px rgba(0, 0, 0, 0.55);
   opacity: 0;
   transform: translateY(-4px) scale(0.97);
   transform-origin: top left;
   transition:
-    opacity var(--dur-curta) var(--ease-out),
-    transform var(--dur-curta) var(--ease-out);
+    opacity var(--mo-dur-curta) var(--mo-ease-saida),
+    transform var(--mo-dur-curta) var(--mo-ease-saida);
 }
 .menu-suspenso.visivel {
   opacity: 1;
@@ -3226,24 +3233,24 @@ button.dep {
   border: 0;
   cursor: pointer;
   padding: 8px 11px;
-  border-radius: var(--raio-p);
+  border-radius: var(--mo-raio-p);
   background: none;
   color: inherit;
-  font-family: var(--fonteUi);
+  font-family: var(--mo-fonte);
   font-size: 12.5px;
 }
 .menu-item:hover {
-  background: var(--corFundoBarraLateralSecundaria);
+  background: var(--mo-lateral-2);
 }
 .menu-item.destrutivo {
-  color: var(--corDestrutiva);
+  color: var(--mo-perigo);
 }
 .menu-item.destrutivo:hover {
-  background: var(--corFundoDestrutivoSuave);
+  background: var(--mo-perigo-suave);
 }
 .menu-separador {
   height: 1px;
-  background: var(--corSeparador);
+  background: var(--mo-linha);
   margin: 5px 3px;
 }
 
@@ -3262,7 +3269,7 @@ button.dep {
   align-items: center;
   gap: 18px;
   padding: 13px 0;
-  border-bottom: 1px solid var(--corSeparador);
+  border-bottom: 1px solid var(--mo-linha);
   cursor: pointer;
 }
 .linha-config:last-child {
@@ -3281,7 +3288,7 @@ button.dep {
 }
 .linha-config-texto span {
   font-size: 12px;
-  color: var(--corTextoSecundario);
+  color: var(--mo-texto-2);
   text-wrap: pretty;
 }
 
@@ -3305,9 +3312,9 @@ button.dep {
   position: absolute;
   inset: 0;
   border-radius: 8px;
-  background: var(--superficieElevada);
+  background: var(--mo-elevada);
   box-shadow: inset 0 2px 0 color-mix(in oklab, black 30%, transparent);
-  transition: background var(--dur-media) ease;
+  transition: background var(--mo-dur-media) ease;
 }
 .interruptor i::after {
   content: "";
@@ -3317,30 +3324,30 @@ button.dep {
   width: 20px;
   height: 18px;
   border-radius: 5px;
-  background: var(--corTextoTerciario);
-  box-shadow: 0 2px 0 color-mix(in oklab, var(--corTextoTerciario) 45%, black);
+  background: var(--mo-texto-3);
+  box-shadow: 0 2px 0 color-mix(in oklab, var(--mo-texto-3) 45%, black);
   transition:
-    transform var(--dur-media) var(--ease-out),
-    background var(--dur-media) ease,
-    box-shadow var(--dur-media) ease;
+    transform var(--mo-dur-media) var(--mo-ease-saida),
+    background var(--mo-dur-media) ease,
+    box-shadow var(--mo-dur-media) ease;
 }
 .interruptor-entrada:active + i::after {
   transform: translateY(1px);
-  box-shadow: 0 1px 0 color-mix(in oklab, var(--corTextoTerciario) 45%, black);
+  box-shadow: 0 1px 0 color-mix(in oklab, var(--mo-texto-3) 45%, black);
 }
 .interruptor-entrada:checked + i {
-  background: var(--corFundoDestaque);
+  background: var(--mo-destaque-fundo);
 }
 .interruptor-entrada:checked + i::after {
   transform: translateX(20px);
-  background: var(--corTextoDestaque);
-  box-shadow: 0 2px 0 color-mix(in oklab, var(--corTextoDestaque) 60%, black);
+  background: var(--mo-sobre-destaque);
+  box-shadow: 0 2px 0 color-mix(in oklab, var(--mo-sobre-destaque) 60%, black);
 }
 .interruptor-entrada:checked:active + i::after {
   transform: translate(20px, 1px);
 }
 .interruptor-entrada:focus-visible + i {
-  outline: 2px solid var(--corFocoContorno);
+  outline: 2px solid var(--mo-foco);
   outline-offset: 2px;
 }
 
@@ -3349,17 +3356,17 @@ button.dep {
   margin: 10px 0;
   padding: 12px 14px;
   resize: vertical;
-  border: 1px solid var(--corSeparador);
-  border-radius: var(--raio-m);
-  background: var(--superficieBase);
-  color: var(--corTextoJanela);
-  font-family: var(--fonteMono);
+  border: 1px solid var(--mo-linha);
+  border-radius: var(--mo-raio-m);
+  background: var(--mo-fundo);
+  color: var(--mo-texto);
+  font-family: var(--mo-fonte-mono);
   font-size: 11.5px;
   line-height: 1.7;
 }
 .campo-paleta:focus {
   outline: none;
-  border-color: var(--corDestaque);
+  border-color: var(--mo-destaque);
 }
 .acoes-config {
   display: flex;
@@ -3379,19 +3386,19 @@ button.dep {
   gap: 7px;
   padding: 5px 9px 5px 5px;
   border-radius: 20px;
-  background: var(--superficieBase);
+  background: var(--mo-fundo);
 }
 .amostra i {
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  border: 1px solid var(--corSeparador);
+  border: 1px solid var(--mo-linha);
   flex: none;
 }
 .amostra span {
-  font-family: var(--fonteMono);
+  font-family: var(--mo-fonte-mono);
   font-size: 10.5px;
-  color: var(--corTextoSecundario);
+  color: var(--mo-texto-2);
 }
 
 /* ---------- Índice ---------- */
@@ -3521,7 +3528,7 @@ button.dep {
 .destaque,
 .faixa-atualizacoes,
 .secao > .cartao {
-  animation: entrar 0.42s var(--ease-out) backwards;
+  animation: entrar 0.42s var(--mo-ease-saida) backwards;
   animation-delay: calc(var(--ordem, 0) * 45ms);
 }
 .grade-cartoes > :nth-child(2),
@@ -3690,7 +3697,7 @@ button.dep {
     overflow: visible;
   }
   .painel-lateral {
-    border-top: 1px solid var(--corSeparador);
+    border-top: 1px solid var(--mo-linha);
     overflow: visible;
   }
   .coluna-fila {
@@ -3761,8 +3768,8 @@ button.dep {
     left: 60px;
     padding: 4px 8px;
     border-radius: 6px;
-    background: var(--superficieElevada);
-    color: var(--corTextoPopUp);
+    background: var(--mo-elevada);
+    color: var(--mo-texto-elevada);
     font-size: 11px;
     opacity: 0;
     pointer-events: none;
@@ -3804,8 +3811,8 @@ button.dep {
     z-index: 25;
     padding: 12px 10px;
     transform: translateX(-100%);
-    transition: transform 0.3s var(--ease-drawer);
-    background: var(--superficieJanela);
+    transition: transform 0.3s var(--mo-ease-gaveta);
+    background: var(--mo-janela);
     box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
   }
   .lateral-aberta .barra-lateral {

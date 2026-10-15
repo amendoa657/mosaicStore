@@ -19,14 +19,13 @@
 <meta name="color-scheme" content="dark">
 <title>{% block titulo %}Mosaic{% endblock %}</title>
 <link rel="icon" href="{{ url_for('static', filename='icone.svg') }}">
-<link rel="preload" href="{{ url_for('static', filename='fonts/space-grotesk.woff2') }}" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="{{ url_for('static', filename='fonts/jetbrains-mono.woff2') }}" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/fontes.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
+<link rel="preload" href="{{ url_for('static', filename='mosaic-ui/fontes/space-grotesk.woff2') }}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{{ url_for('static', filename='mosaic-ui/fontes/jetbrains-mono.woff2') }}" as="font" type="font/woff2" crossorigin>
+{# A identidade vem da Mosaic UI (fontes, tokens, componentes). As cores dos
+   tokens leem as variáveis do Matugen, do /tema.css logo abaixo. #}
+<link rel="stylesheet" href="{{ url_for('static', filename='mosaic-ui/mosaic.css') }}">
 <link rel="stylesheet" href="/tema.css">
 {#<link rel="stylesheet" href="{{ url_for('static', filename='css/themeAlt.css') }}"> #}
-{# Derivadas vivas: vêm depois do Matugen para recalcular a partir das cores dele. #}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/paleta.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/luzes.css') }}">
 
@@ -153,7 +152,7 @@
             {% for fonte in fontes %}
               <form class="form-acao" method="post" action="/fontes">
                 <input type="hidden" name="fonte" value="{{ fonte.id }}">
-                <button class="fonte-repo tom-{{ tons.get(fonte.id, 2) }} {{ 'ligada' if fonte.ligada }}"
+                <button class="fonte-repo mo-tom-{{ tons.get(fonte.id, 2) }} {{ 'ligada' if fonte.ligada }}"
                         aria-pressed="{{ 'true' if fonte.ligada else 'false' }}"
                         title="{{ fonte.rotulo }} — {{ 'ligada' if fonte.ligada else 'desligada' }}">
                   <i class="fonte-bloco" aria-hidden="true"></i>

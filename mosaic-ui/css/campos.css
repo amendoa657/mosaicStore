@@ -37,6 +37,7 @@
   border-radius: 8px;
   background: var(--mo-campo-fundo);
   color: var(--mo-texto);
+  font-family: var(--mo-fonte);
   font-size: var(--mo-tamanho-m);
   transition:
     border-color var(--mo-dur-curta) ease,
@@ -303,8 +304,8 @@ select.mo-campo option {
   place-items: center;
   transition:
     background var(--mo-dur-curta) ease,
-    transform var(--mo-dur-toque) ease-out,
-    box-shadow var(--mo-dur-toque) ease-out;
+    transform var(--mo-dur-tecla) ease-out,
+    box-shadow var(--mo-dur-tecla) ease-out;
 }
 /* O visto: dois traços, desenhados com borda. */
 .mo-caixa > i::after {
@@ -318,7 +319,7 @@ select.mo-campo option {
   opacity: 0;
   transition:
     transform var(--mo-dur-curta) var(--mo-ease-saida),
-    opacity var(--mo-dur-toque) ease;
+    opacity var(--mo-dur-tecla) ease;
 }
 .mo-caixa:hover > i {
   background: var(--mo-elevada-hover);
@@ -389,8 +390,8 @@ select.mo-campo option {
   transition:
     background var(--mo-dur-curta) ease,
     color var(--mo-dur-curta) ease,
-    transform var(--mo-dur-toque) ease-out,
-    box-shadow var(--mo-dur-toque) ease-out;
+    transform var(--mo-dur-tecla) ease-out,
+    box-shadow var(--mo-dur-tecla) ease-out;
 }
 .mo-opcoes > label:hover > span {
   color: var(--mo-texto);
@@ -458,7 +459,7 @@ select.mo-campo option {
   border-radius: 5px;
   background: var(--mo-texto);
   box-shadow: 0 2px 0 color-mix(in oklab, var(--mo-texto) 45%, black);
-  transition: transform var(--mo-dur-toque) ease-out;
+  transition: transform var(--mo-dur-tecla) ease-out;
 }
 .mo-deslizante::-moz-range-thumb {
   width: 18px;

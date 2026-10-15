@@ -54,13 +54,13 @@
       <div class="mosaico-fontes" role="img"
            aria-label="{% for id, rotulo, grupo, tom in grupos if grupo %}{{ rotulo }}: {{ grupo | length }}{{ ', ' if not loop.last }}{% endfor %}">
         {% for id, rotulo, grupo, tom in grupos if grupo %}
-          <i class="tom-{{ tom }}" style="flex-grow: {{ grupo | length }}"></i>
+          <i class="mo-tom-{{ tom }}" style="flex-grow: {{ grupo | length }}"></i>
         {% endfor %}
       </div>
 
       <ul class="legenda-fontes">
         {% for id, rotulo, grupo, tom in grupos if grupo %}
-          <li class="tom-{{ tom }}"><i aria-hidden="true"></i>{{ rotulo }}<span>{{ grupo | length }}</span></li>
+          <li class="mo-tom-{{ tom }}"><i aria-hidden="true"></i>{{ rotulo }}<span>{{ grupo | length }}</span></li>
         {% endfor %}
         {% if atualizaveis %}
           <li class="legenda-atualizar"><a href="/atualizacoes">{{ atualizaveis | length }} com atualização →</a></li>

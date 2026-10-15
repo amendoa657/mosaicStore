@@ -58,8 +58,8 @@
   transition:
     background var(--mo-dur-curta) ease,
     color var(--mo-dur-curta) ease,
-    box-shadow var(--mo-dur-toque) ease-out,
-    transform var(--mo-dur-toque) ease-out,
+    box-shadow var(--mo-dur-tecla) ease-out,
+    transform var(--mo-dur-tecla) ease-out,
     opacity var(--mo-dur-curta) ease;
 }
 .mo-tecla:hover {
