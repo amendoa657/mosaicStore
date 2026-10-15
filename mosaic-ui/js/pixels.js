@@ -133,8 +133,11 @@ export class MoPixels extends HTMLElement {
       [tela],
     );
 
-    this._observador = new ResizeObserver(([entrada]) => {
-      const { width, height } = entrada.contentRect;
+    /* Mede pela caixa na tela (getBoundingClientRect), não pelo
+       contentRect: com zoom no <html> (--mo-escala) é ela que diz quantos
+       pontos cabem, e o passo fica em pixels de tela. */
+    this._observador = new ResizeObserver(() => {
+      const { width, height } = this.getBoundingClientRect();
       this._caixa = null;
       if (width === this._tamanho[0] && height === this._tamanho[1]) return;
       this._tamanho = [width, height];
@@ -246,10 +249,15 @@ export async function revelar(alvo, { x, y, trocar, passo = PADRAO.passo, cor } 
     return;
   }
 
+  /* As medidas acima são da tela. Com zoom no <html> (--mo-escala), o
+     canvas fixo é escalado junto: o CSS dele vai dividido pelo zoom. */
   const canvas = document.createElement("canvas");
   canvas.className = "mo-cortina";
-  canvas.style.cssText = `left:${esquerda}px;top:${topo}px;width:${largura}px;height:${altura}px`;
+  canvas.style.cssText = "left:0;top:0;width:100px;height:100px";
   document.body.appendChild(canvas);
+  const zoom = canvas.getBoundingClientRect().width / 100 || 1;
+  canvas.style.cssText =
+    `left:${esquerda / zoom}px;top:${topo / zoom}px;width:${largura / zoom}px;height:${altura / zoom}px`;
 
   const fundoAlvo = getComputedStyle(alvo).backgroundColor;
   const corCortina = cor

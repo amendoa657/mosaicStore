@@ -3192,56 +3192,23 @@ button.dep {
    - é a mesma página aberta de novo (clicar no item do menu já aberto, ou
      a fila trocando o próprio conteúdo);
    - a página chegou pela transição de pixels, que já faz a entrada. */
-.repeticao .grade-cartoes > *,
-.repeticao .item-fila,
-.repeticao .linha-pacote,
-.repeticao .destaque,
-.repeticao .faixa-atualizacoes,
-.repeticao .secao > .cartao,
-.via-pixels .grade-cartoes > *,
-.via-pixels .item-fila,
-.via-pixels .linha-pacote,
-.via-pixels .destaque,
-.via-pixels .faixa-atualizacoes,
-.via-pixels .secao > .cartao {
+.mo-repeticao .grade-cartoes > *,
+.mo-repeticao .item-fila,
+.mo-repeticao .linha-pacote,
+.mo-repeticao .destaque,
+.mo-repeticao .faixa-atualizacoes,
+.mo-repeticao .secao > .cartao,
+.mo-via-pixels .grade-cartoes > *,
+.mo-via-pixels .item-fila,
+.mo-via-pixels .linha-pacote,
+.mo-via-pixels .destaque,
+.mo-via-pixels .faixa-atualizacoes,
+.mo-via-pixels .secao > .cartao {
   animation: none;
 }
 
-/* ---------- Transição entre páginas ----------
-   Cada clique no menu é uma página nova vinda do Flask. Com a View
-   Transitions API o navegador faz a ponte: o conteúdo troca com um
-   cruzamento curto e a pílula do menu desliza até o item novo.
-   Navegador sem suporte simplesmente troca de página como antes. */
-@media (prefers-reduced-motion: no-preference) {
-  @view-transition {
-    navigation: auto;
-  }
-}
-::view-transition-group(*) {
-  animation-duration: 260ms;
-  animation-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
-}
-::view-transition-old(root) {
-  animation: 140ms ease-out both vt-sair;
-}
-::view-transition-new(root) {
-  animation: 260ms cubic-bezier(0.23, 1, 0.32, 1) both vt-entrar;
-}
-@keyframes vt-sair {
-  to {
-    opacity: 0;
-  }
-}
-@keyframes vt-entrar {
-  from {
-    opacity: 0;
-  }
-}
-.sem-animacoes::view-transition-group(*),
-.sem-animacoes::view-transition-old(*),
-.sem-animacoes::view-transition-new(*) {
-  animation: none !important;
-}
+/* A troca de página (View Transitions, a pílula que desliza) e o
+   interruptor de animações (.mo-sem-movimento) são da Mosaic UI. */
 
 /* Desligar animações: preferência do sistema ou interruptor em Configurações.
    Movimento reduzido não é zero movimento: tudo que se desloca vira um
@@ -3286,12 +3253,6 @@ button.dep {
     opacity: 0;
     visibility: hidden;
   }
-}
-.sem-animacoes *,
-.sem-animacoes *::before,
-.sem-animacoes *::after {
-  animation: none !important;
-  transition: none !important;
 }
 
 /* ---------- Responsivo: a janela pode ter qualquer tamanho ---------- */

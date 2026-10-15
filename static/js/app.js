@@ -47,27 +47,6 @@ document.querySelectorAll("[data-sincronizar]").forEach((formulario) => {
   });
 });
 
-/* 7. Origem da transição de pixels: ao sair da página, guarda onde foi o
-      último clique (se foi agora há pouco). A próxima página desfaz a
-      cortina a partir desse ponto — veja o <head> da base.html e o luzes.js. */
-let ultimoToque = null;
-document.addEventListener(
-  "pointerdown",
-  (evento) => {
-    ultimoToque = { x: evento.clientX, y: evento.clientY, t: Date.now() };
-  },
-  { capture: true, passive: true },
-);
-window.addEventListener("pagehide", () => {
-  const recente = ultimoToque && Date.now() - ultimoToque.t < 5000;
-  try {
-    sessionStorage.setItem(
-      "pixels:origem",
-      JSON.stringify(recente ? { x: ultimoToque.x, y: ultimoToque.y, t: Date.now() } : { t: Date.now() }),
-    );
-  } catch (erro) {}
-});
-
 /* Barras animadas que são recriadas a cada atualização da fila: o atraso
    negativo põe a animação no ponto em que ela estaria pelo relógio, então
    o bloco continua correndo em vez de voltar ao começo a cada 2 s. */
@@ -96,7 +75,7 @@ if (document.querySelector("[data-fila-ao-vivo]")) {
     }
 
     /* Trocar o HTML recria os cartões: sem isso eles "entrariam" de novo. */
-    document.documentElement.classList.add("repeticao");
+    document.documentElement.classList.add("mo-repeticao");
 
     for (const seletor of PARTES) {
       const atual = document.querySelector(seletor);

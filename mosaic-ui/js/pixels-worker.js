@@ -19,6 +19,7 @@
        mudaram desde o quadro anterior são apagadas e redesenhadas. */
 
 const QUADRO_CALMO_MS = 1000 / 30; // sem o mouse por perto, 30 qps sobra
+const NEUTRO = 0.12 / 0.34; // os pontos neutros, em relação aos coloridos
 
 const ONDAS = [
   { fx: 0.0062, fy: 0.0048, vx: 0.05, vy: 0.032, torcao: 1.7, fase: 0.0 },
@@ -71,7 +72,7 @@ function definirCores(f, d) {
     rgba(d.cores[0], d.opacidade),
     rgba(d.cores[1], d.opacidade),
     rgba(d.cores[2], d.opacidade),
-    rgba(d.corNeutra, d.opacidade * 0.36),
+    rgba(d.corNeutra, d.opacidade * NEUTRO),
   ];
   if (f.anterior) f.anterior.fill(-1); // redesenha tudo na cor nova
 }

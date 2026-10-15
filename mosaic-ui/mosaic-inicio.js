@@ -44,7 +44,7 @@
     /* Rede de segurança: se o mosaic.js não chegar, mostra a página. */
     setTimeout(function () {
       raiz.classList.remove("mo-revelando");
-    }, 1500);
+    }, 4000);
   }
 
   window.addEventListener("pagereveal", function (evento) {

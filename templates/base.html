@@ -12,7 +12,7 @@
     termo        str   preenche o campo de busca do cabeçalho
 #}
 <!DOCTYPE html>
-<html lang="pt-BR" class="{{ 'sem-animacoes' if prefs and not prefs.animacoes }}">
+<html lang="pt-BR" class="{{ 'mo-sem-movimento' if prefs and not prefs.animacoes }}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -27,59 +27,19 @@
 <link rel="stylesheet" href="/tema.css">
 {#<link rel="stylesheet" href="{{ url_for('static', filename='css/themeAlt.css') }}"> #}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/luzes.css') }}">
 
 {# Paleta do usuário, salva em Configurações e aplicada por cima do tema.
    É CSS colado por quem usa o programa, então vai cru mesmo (| safe). #}
 {% if paleta %}<style>{{ paleta | safe }}</style>{% endif %}
 
 {#
-  Roda antes da primeira pintura:
+  Roda antes da primeira pintura (Mosaic UI):
     - abrir de novo a mesma página (a fila se recarrega sozinha a cada 2 s)
       não repete as entradas animadas nem a transição entre páginas;
-    - vindo de outra página, liga a classe `revelando`: a cortina de pixels
-      já nasce cobrindo o conteúdo e o luzes.js a desfaz em onda a partir de
-      onde foi o clique (guardado pelo app.js ao sair da página anterior).
+    - vindo de outra página, a área de conteúdo já nasce coberta e se
+      revela em onda de pixels a partir de onde foi o último clique.
 #}
-<script>
-  (function () {
-    var raiz = document.documentElement;
-
-    /* O worker que desenha os pixels (fundo e transição) começa a carregar
-       já aqui, em paralelo com o resto da página; o luzes.js entrega os
-       <canvas> para ele no fim do <body>. */
-    try {
-      if ("OffscreenCanvas" in window) {
-        window.__pixels = new Worker("{{ url_for('static', filename='js/pixels.js') }}");
-      }
-    } catch (erro) {}
-
-    var aqui = location.pathname + location.search;
-    var repeticao = false;
-    try {
-      repeticao = sessionStorage.getItem("mosaic:ultima") === aqui;
-      sessionStorage.setItem("mosaic:ultima", aqui);
-    } catch (erro) {}
-    if (repeticao) raiz.classList.add("repeticao");
-
-    var origem = null;
-    try {
-      origem = JSON.parse(sessionStorage.getItem("pixels:origem"));
-      sessionStorage.removeItem("pixels:origem");
-    } catch (erro) {}
-    var calmo =
-      raiz.classList.contains("sem-animacoes") ||
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (origem && !repeticao && !calmo && Date.now() - origem.t < 3000) {
-      raiz.classList.add("revelando", "via-pixels");
-      window.__origemPixels = origem;
-    }
-
-    window.addEventListener("pagereveal", function (evento) {
-      if (repeticao && evento.viewTransition) evento.viewTransition.skipTransition();
-    });
-  })();
-</script>
+<script src="{{ url_for('static', filename='mosaic-ui/mosaic-inicio.js') }}"></script>
 
 {% block cabeca %}{% endblock %}
 </head>
@@ -109,8 +69,9 @@
 
   <div class="mo-corpo {% block classe_corpo %}{% endblock %}">
 
-    {# Fundo de pontos (luzes.js). Fica atrás de tudo e nunca recebe clique. #}
-    <div class="fundo" aria-hidden="true"><canvas class="fundo-pontos"></canvas></div>
+    {# Fundo de pontos (Mosaic UI, desenhado num Web Worker). Fica atrás de
+       tudo e nunca recebe clique. #}
+    <mo-pixels class="mo-fundo"></mo-pixels>
 
     {% block lateral %}
       <nav class="mo-lateral" aria-label="Navegação principal">
@@ -184,9 +145,6 @@
     <main class="mo-conteudo {% block classe_conteudo %}{% endblock %}">
       {% block conteudo %}{% endblock %}
     </main>
-
-    {# Cortina de pixels da transição entre páginas (luzes.js). #}
-    <canvas class="transicao-pixels" aria-hidden="true"></canvas>
   </div>
 
   {% block estado %}
@@ -225,6 +183,5 @@
 
 <script type="module" src="{{ url_for('static', filename='mosaic-ui/mosaic.js') }}"></script>
 <script src="{{ url_for('static', filename='js/app.js') }}"></script>
-<script src="{{ url_for('static', filename='js/luzes.js') }}"></script>
 </body>
 </html>

@@ -1,52 +1,38 @@
 /* Transição entre páginas: a onda de pixels.
 
-   Ao sair de uma página (link ou formulário do mesmo app), guarda onde foi
-   o clique. A página nova nasce coberta (o mosaic-inicio.js liga a classe
+   Ao sair de uma página, guarda onde foi o último clique (se foi agora há
+   pouco). A página nova nasce coberta (o mosaic-inicio.js liga a classe
    mo-revelando antes da primeira pintura) e a área de conteúdo se revela em
-   onda a partir desse ponto.
+   onda a partir desse ponto; sem clique recente (teclado, redirecionamento
+   depois de um formulário), a onda sai do meio.
 
-   A área é o elemento com data-mo-cortina, ou .mo-conteudo. Links com
-   data-mo-sem-transicao (ou target, download, Ctrl/⌘) não entram. */
+   A área é o elemento com data-mo-cortina, ou .mo-conteudo. */
 
 import { revelar } from "./pixels.js";
 
 const CHAVE = "mo:origem";
-
-function guardar(x, y) {
-  try {
-    sessionStorage.setItem(CHAVE, JSON.stringify({ x, y, t: Date.now() }));
-  } catch (erro) {
-    /* sem sessionStorage: a página nova só não faz a onda */
-  }
-}
-
-function mesmoApp(url) {
-  try {
-    const destino = new URL(url, location.href);
-    if (destino.origin !== location.origin) return false;
-    /* Âncora na mesma página não é troca de página. */
-    return !(destino.pathname === location.pathname && destino.search === location.search && destino.hash);
-  } catch (erro) {
-    return false;
-  }
-}
+const RECENTE_MS = 5000;
 
 export function ligarTransicao() {
-  document.addEventListener("click", (e) => {
-    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-    const link = e.target.closest?.("a[href]");
-    if (!link || link.target || link.hasAttribute("download") || link.closest("[data-mo-sem-transicao]")) return;
-    if (!mesmoApp(link.href)) return;
-    guardar(e.clientX, e.clientY);
-  }, true);
-
-  document.addEventListener("submit", (e) => {
-    const form = e.target;
-    if (form.target || form.closest("[data-mo-sem-transicao]") || !mesmoApp(form.action || location.href)) return;
-    /* A onda sai da tecla que enviou (ou do meio do formulário). */
-    const origem = (e.submitter || form).getBoundingClientRect();
-    guardar(origem.left + origem.width / 2, origem.top + origem.height / 2);
-  }, true);
+  let ultimoToque = null;
+  document.addEventListener(
+    "pointerdown",
+    (e) => {
+      ultimoToque = { x: e.clientX, y: e.clientY, t: Date.now() };
+    },
+    { capture: true, passive: true },
+  );
+  addEventListener("pagehide", () => {
+    const recente = ultimoToque && Date.now() - ultimoToque.t < RECENTE_MS;
+    try {
+      sessionStorage.setItem(
+        CHAVE,
+        JSON.stringify(recente ? { x: ultimoToque.x, y: ultimoToque.y, t: Date.now() } : { t: Date.now() }),
+      );
+    } catch (erro) {
+      /* sem sessionStorage: a página nova só não faz a onda */
+    }
+  });
 
   const raiz = document.documentElement;
   if (!raiz.classList.contains("mo-revelando")) return;
