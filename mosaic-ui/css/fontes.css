@@ -1,0 +1,19 @@
+/* As duas fontes da identidade, servidas junto com a biblioteca (versões
+   variáveis: um arquivo cobre todos os pesos). Licença SIL OFL 1.1, em
+   fontes/LICENSE-*.txt. Sem internet, nada muda: nada vem de fora. */
+
+@font-face {
+  font-family: "Space Grotesk";
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("../fontes/space-grotesk.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: url("../fontes/jetbrains-mono.woff2") format("woff2");
+}

@@ -1,0 +1,45 @@
+/* ==========================================================================
+   Utilitários: ajustes pontuais. Ficam na camada mais forte da biblioteca,
+   então vencem os componentes (mas não o CSS solto do seu app).
+   ========================================================================== */
+
+.mo-mono { font-family: var(--mo-fonte-mono); }
+.mo-numeros { font-variant-numeric: tabular-nums; }
+.mo-texto-2 { color: var(--mo-texto-2); }
+.mo-texto-3 { color: var(--mo-texto-3); }
+.mo-cor-destaque { color: var(--mo-destaque); }
+.mo-cor-tom { color: var(--mo-tom); }
+.mo-cor-perigo { color: var(--mo-perigo); }
+.mo-p { font-size: var(--mo-tamanho-p); }
+.mo-g { font-size: var(--mo-tamanho-g); }
+.mo-negrito { font-weight: 600; }
+
+.mo-truncar {
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mo-encolher { min-width: 0; flex: 1; }
+.mo-nao-encolher { flex: none; }
+.mo-largo { width: 100%; }
+
+/* Some da tela mas continua para leitores de tela. */
+.mo-sr {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 760px) {
+  .mo-so-largo { display: none !important; }
+}
+@media (min-width: 761px) {
+  .mo-so-estreito { display: none !important; }
+}

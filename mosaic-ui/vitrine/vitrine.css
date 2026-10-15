@@ -1,0 +1,373 @@
+/* Só a vitrine (index.html). Fora de camada: vence a biblioteca, que é
+   exatamente o que um app faria. */
+
+.vitrine-texto {
+  max-width: 680px;
+  font-size: 13px;
+  line-height: 1.65;
+  margin-bottom: 16px;
+}
+.vitrine-texto code,
+.vitrine-lead code {
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: var(--mo-elevada);
+  color: var(--mo-texto);
+  font-size: 11.5px;
+}
+.vitrine-subtitulo {
+  margin: 22px 0 10px;
+  font-family: var(--mo-fonte-mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mo-texto-3);
+}
+.vitrine-secao {
+  scroll-margin-top: 8px;
+  max-width: 1080px;
+}
+.vitrine-secao + .vitrine-secao {
+  padding-top: 18px;
+}
+.vitrine-secao > .mo-secao-titulo {
+  padding-top: 18px;
+  border-top: 1px solid var(--mo-linha);
+}
+.vitrine-secao > .mo-secao-titulo h2 {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* ---------- Herói ---------- */
+.vitrine-heroi {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(220px, 1fr);
+  gap: 36px;
+  align-items: center;
+  max-width: 1080px;
+  padding: 52px 26px 34px;
+}
+.vitrine-heroi-texto {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.vitrine-heroi h1 {
+  font-size: clamp(28px, 4vw, 42px);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+}
+.vitrine-lead {
+  max-width: 540px;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--mo-texto-2);
+}
+.vitrine-numeros {
+  display: flex;
+  gap: 34px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.vitrine-heroi-arte {
+  position: relative;
+  aspect-ratio: 1;
+  max-width: 360px;
+  width: 100%;
+  justify-self: end;
+}
+.vitrine-heroi-campo {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--mo-raio-xg);
+  border: 1px solid var(--mo-borda);
+  --mo-pixels-fundo: var(--mo-cartao);
+}
+.vitrine-heroi-marca {
+  --mo-marca-tamanho: 34%;
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 34%;
+  height: 34%;
+  border-radius: 10px;
+  pointer-events: auto;
+  animation: mo-assentar 0.7s var(--mo-ease-saida) 0.15s backwards;
+}
+.vitrine-heroi-arte:hover .vitrine-heroi-marca {
+  transform: rotate(90deg);
+}
+
+/* ---------- Exemplos ---------- */
+.vitrine-exemplo {
+  margin: 0 0 16px;
+  border: 1px solid var(--mo-borda);
+  border-radius: var(--mo-raio-g);
+  background: var(--mo-janela);
+  overflow: hidden;
+}
+.vitrine-exemplo-titulo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--mo-linha);
+  background: var(--mo-lateral-2);
+  font-family: var(--mo-fonte-mono);
+  font-size: 11px;
+  color: var(--mo-texto-3);
+}
+.vitrine-palco {
+  padding: 22px;
+}
+.vitrine-exemplo > details {
+  border-top: 1px solid var(--mo-linha);
+}
+.vitrine-exemplo > details > summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  font-family: var(--mo-fonte-mono);
+  font-size: 11px;
+  color: var(--mo-texto-3);
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+.vitrine-exemplo > details > summary::-webkit-details-marker {
+  display: none;
+}
+.vitrine-exemplo > details > summary::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform var(--mo-dur-curta) var(--mo-ease-saida);
+}
+.vitrine-exemplo > details[open] > summary::before {
+  transform: rotate(45deg);
+}
+.vitrine-exemplo > details > summary:hover {
+  color: var(--mo-texto);
+}
+.vitrine-exemplo > details > summary .mo-tecla {
+  margin-left: auto;
+}
+.vitrine-exemplo > details > .vitrine-codigo {
+  border: 0;
+  border-radius: 0;
+  border-top: 1px solid var(--mo-linha);
+}
+
+.vitrine-codigo {
+  margin: 0;
+  padding: 16px 18px;
+  overflow: auto;
+  max-height: 460px;
+  border: 1px solid var(--mo-borda);
+  border-radius: var(--mo-raio-g);
+  background: var(--mo-fundo);
+  font-family: var(--mo-fonte-mono);
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--mo-texto-2);
+  tab-size: 2;
+}
+.vitrine-codigo code {
+  font-size: inherit;
+}
+.vitrine-codigo .t { color: var(--mo-terciaria); }
+.vitrine-codigo .a { color: var(--mo-secundaria); }
+.vitrine-codigo .v { color: var(--mo-destaque); }
+.vitrine-codigo .c { color: var(--mo-texto-3); }
+
+.vitrine-colunas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+  gap: 22px;
+  align-items: start;
+}
+
+/* ---------- Cores ---------- */
+.vitrine-cores {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(124px, 1fr));
+  gap: 10px;
+}
+.vitrine-cor {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 0 10px;
+  border: 1px solid var(--mo-borda);
+  border-radius: var(--mo-raio-m);
+  background: var(--mo-cartao);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform var(--mo-dur-media) var(--mo-ease-saida), border-color var(--mo-dur-curta) ease;
+}
+.vitrine-cor:hover {
+  border-color: var(--mo-decorativa);
+  transform: translateY(-2px);
+}
+.vitrine-cor > i {
+  height: 46px;
+  background: var(--amostra);
+  border-bottom: 1px solid var(--mo-linha);
+}
+.vitrine-cor > b {
+  padding: 0 10px;
+  font-family: var(--mo-fonte-mono);
+  font-size: 11px;
+  font-weight: 600;
+}
+.vitrine-cor > span {
+  padding: 0 10px;
+  margin-top: -6px;
+  font-family: var(--mo-fonte-mono);
+  font-size: 10.5px;
+  color: var(--mo-texto-3);
+}
+
+/* ---------- Herói em telas estreitas ---------- */
+@media (max-width: 860px) {
+  .vitrine-heroi {
+    grid-template-columns: minmax(0, 1fr);
+    padding-top: 30px;
+  }
+  .vitrine-heroi-arte {
+    justify-self: stretch;
+    max-width: none;
+    aspect-ratio: auto;
+    height: 180px;
+  }
+  .vitrine-heroi-marca {
+    width: 84px;
+    height: 84px;
+  }
+}
+
+/* ---------- Resumo (número + proporção) ---------- */
+.vitrine-resumo {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 32px;
+  align-items: center;
+}
+@media (max-width: 560px) {
+  .vitrine-resumo {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+}
+
+/* ---------- Revelar ---------- */
+.vitrine-revelar {
+  min-height: 240px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--mo-raio-g);
+  border: 1px solid var(--mo-borda);
+  background: var(--mo-cartao);
+  cursor: pointer;
+}
+
+/* ---------- Símbolos ---------- */
+.vitrine-simbolos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+  gap: 8px;
+}
+.vitrine-simbolo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 6px 10px;
+  border: 1px solid var(--mo-borda);
+  border-radius: var(--mo-raio-m);
+  background: var(--mo-cartao);
+  color: var(--mo-texto);
+  font: inherit;
+  cursor: pointer;
+  transition: background var(--mo-dur-curta) ease, color var(--mo-dur-curta) ease;
+}
+.vitrine-simbolo:hover {
+  background: var(--mo-cartao-hover);
+  color: var(--mo-destaque);
+}
+.vitrine-simbolo > span {
+  font-family: var(--mo-fonte-mono);
+  font-size: 10.5px;
+  color: var(--mo-texto-3);
+}
+
+/* ---------- Layout ---------- */
+.vitrine-caixas > i {
+  display: grid;
+  place-items: center;
+  min-height: 38px;
+  padding: 0 14px;
+  border-radius: var(--mo-raio-p);
+  background: var(--mo-terciaria-suave);
+  color: var(--mo-terciaria);
+  font-family: var(--mo-fonte-mono);
+  font-size: 11.5px;
+  font-style: normal;
+}
+
+/* ---------- Calculadora ---------- */
+.vitrine-calc {
+  width: min(340px, 100%);
+  margin: 0 auto;
+  padding: 16px;
+  border: 1px solid var(--mo-borda);
+  border-radius: var(--mo-raio-xg);
+  background: var(--mo-cartao);
+}
+.vitrine-calc-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.vitrine-calc-visor {
+  display: block;
+  margin-bottom: 14px;
+  padding: 14px 14px 10px;
+  border-radius: var(--mo-raio-m);
+  background: var(--mo-fundo);
+  box-shadow: inset 0 2px 0 color-mix(in oklab, black 30%, transparent);
+  font-family: var(--mo-fonte-mono);
+  font-size: 34px;
+  font-weight: 600;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.vitrine-calc .mo-teclado .mo-tecla {
+  --mo-tecla-altura: 48px;
+  font-size: 17px;
+}
+
+.vitrine-sem-resultado {
+  padding: 8px 12px;
+  font-size: 12px;
+  color: var(--mo-texto-3);
+}
+.vitrine-indice {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}

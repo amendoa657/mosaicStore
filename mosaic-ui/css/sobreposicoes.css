@@ -1,0 +1,325 @@
+/* ==========================================================================
+   Sobreposições: o que aparece por cima da tela.
+
+   Diálogo   <dialog class="mo-dialogo" id="d">
+               <header>…<button class="mo-tecla mo-tecla--sutil mo-tecla--icone" data-mo-fechar>×</button></header>
+               <div class="mo-dialogo-corpo">…</div>
+               <footer>…</footer>
+             </dialog>
+             <button data-mo-abrir="#d">Abrir</button>
+   Painel    <dialog class="mo-painel">…</dialog>  (desliza da direita)
+   Menu      <div class="mo-menu" id="m" popover>
+               <button class="mo-menu-item">…</button>
+             </div>
+             <button data-mo-menu="#m">⋯</button>
+   Dica      <button data-mo-dica="Copiar">…</button>
+   Avisos    mosaic.avisar("Pacote instalado", { tipo: "ok" })
+   ========================================================================== */
+
+/* ---------- Diálogo ---------- */
+.mo-dialogo {
+  --mo-dialogo-largura: 620px;
+  width: min(var(--mo-dialogo-largura), calc(100vw - 40px));
+  max-height: min(84vh, 760px);
+  padding: 0;
+  border: 0;
+  border-radius: var(--mo-raio-g);
+  background: var(--mo-dialogo);
+  color: var(--mo-texto);
+  box-shadow:
+    0 28px 80px rgba(0, 0, 0, 0.6),
+    0 0 0 1px var(--mo-borda);
+  flex-direction: column;
+  overflow: hidden;
+}
+.mo-dialogo[open] {
+  display: flex;
+  animation: mo-abrir var(--mo-dur-media) var(--mo-ease-saida);
+}
+.mo-dialogo.mo-fechando {
+  animation: mo-fechar var(--mo-dur-curta) ease-in forwards;
+}
+.mo-dialogo::backdrop {
+  background: color-mix(in oklab, var(--mo-janela) 70%, transparent);
+}
+.mo-dialogo[open]::backdrop {
+  animation: mo-so-aparecer var(--mo-dur-media) ease-out;
+}
+.mo-dialogo.mo-fechando::backdrop {
+  animation: mo-sumir var(--mo-dur-curta) ease-in forwards;
+}
+.mo-dialogo--estreito { --mo-dialogo-largura: 420px; }
+.mo-dialogo--largo { --mo-dialogo-largura: 920px; }
+
+.mo-dialogo > header,
+.mo-painel > header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 12px 12px 12px 18px;
+  border-bottom: 1px solid var(--mo-linha);
+  flex: none;
+}
+.mo-dialogo > header h2,
+.mo-painel > header h2 {
+  font-size: var(--mo-tamanho-g);
+  font-weight: 600;
+  flex: 1;
+  min-width: 0;
+}
+.mo-dialogo-corpo {
+  padding: 18px;
+  overflow: auto;
+  flex: 1;
+  min-height: 0;
+  color: var(--mo-texto-2);
+  line-height: 1.6;
+}
+.mo-dialogo > footer,
+.mo-painel > footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 9px;
+  padding: 14px 18px;
+  border-top: 1px solid var(--mo-linha);
+  flex: none;
+}
+/* Confirmação curta: sem cabeçalho, o texto já é o título. */
+.mo-dialogo--alerta .mo-dialogo-corpo {
+  padding: 22px 22px 8px;
+}
+.mo-dialogo--alerta .mo-dialogo-corpo h2 {
+  color: var(--mo-texto);
+  font-size: 17px;
+  margin-bottom: 6px;
+}
+.mo-dialogo--alerta > footer {
+  border-top: 0;
+  padding: 16px 22px 20px;
+}
+
+/* ---------- Painel lateral (gaveta da direita) ---------- */
+.mo-painel {
+  --mo-painel-largura: 380px;
+  position: fixed;
+  inset: 0 0 0 auto;
+  width: min(var(--mo-painel-largura), 100vw);
+  height: 100dvh;
+  max-height: none;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-left: 1px solid var(--mo-borda);
+  background: var(--mo-dialogo);
+  color: var(--mo-texto);
+  flex-direction: column;
+  overflow: hidden;
+}
+.mo-painel[open] {
+  display: flex;
+  animation: mo-entrar-direita var(--mo-dur-longa) var(--mo-ease-gaveta);
+}
+.mo-painel.mo-fechando {
+  animation: mo-sair-direita var(--mo-dur-media) var(--mo-ease-gaveta) forwards;
+}
+.mo-painel::backdrop {
+  background: color-mix(in oklab, var(--mo-janela) 55%, transparent);
+}
+.mo-painel[open]::backdrop {
+  animation: mo-so-aparecer var(--mo-dur-media) ease-out;
+}
+.mo-painel.mo-fechando::backdrop {
+  animation: mo-sumir var(--mo-dur-media) ease-in forwards;
+}
+.mo-painel > .mo-dialogo-corpo {
+  flex: 1;
+}
+
+/* ---------- Menu suspenso ---------- */
+.mo-menu {
+  position: fixed;
+  inset: auto;
+  min-width: 218px;
+  max-width: min(320px, calc(100vw - 16px));
+  margin: 0;
+  padding: 5px;
+  border: 1px solid var(--mo-borda);
+  border-radius: var(--mo-raio-m);
+  background: var(--mo-elevada);
+  color: var(--mo-texto);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.55);
+  z-index: var(--mo-z-avisos);
+  overflow: visible;
+}
+.mo-menu:popover-open,
+.mo-menu.mo-aberto {
+  display: flex;
+  flex-direction: column;
+  animation: mo-surgir var(--mo-dur-curta) var(--mo-ease-saida);
+  transform-origin: var(--mo-menu-origem, top left);
+}
+.mo-menu:not([popover]):not(.mo-aberto) {
+  display: none;
+}
+.mo-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 11px;
+  border: 0;
+  border-radius: var(--mo-raio-p);
+  background: none;
+  color: inherit;
+  font-family: var(--mo-fonte);
+  font-size: 12.5px;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+.mo-menu-item:hover,
+.mo-menu-item:focus-visible {
+  background: var(--mo-lateral-2);
+  outline: none;
+  text-decoration: none;
+  color: inherit;
+}
+.mo-menu-item > kbd {
+  margin-left: auto;
+  font-family: var(--mo-fonte-mono);
+  font-size: 10.5px;
+  color: var(--mo-texto-3);
+}
+.mo-menu-item > .mo-simbolo {
+  color: var(--mo-texto-3);
+}
+.mo-menu-item--perigo {
+  color: var(--mo-perigo);
+}
+.mo-menu-item--perigo:hover,
+.mo-menu-item--perigo:focus-visible {
+  background: var(--mo-perigo-suave);
+  color: var(--mo-perigo);
+}
+.mo-menu-item--perigo > .mo-simbolo {
+  color: inherit;
+}
+.mo-menu-separador {
+  height: 1px;
+  margin: 5px 3px;
+  background: var(--mo-linha);
+  flex: none;
+}
+.mo-menu-rotulo {
+  padding: 6px 11px 4px;
+  font-family: var(--mo-fonte-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mo-texto-3);
+}
+
+/* ---------- Dica (tooltip) ----------
+   Só CSS: o texto vem do atributo. Aparece com um pequeno atraso no hover
+   e na hora com o foco do teclado. data-mo-dica-lado="baixo" para baixo. */
+[data-mo-dica] {
+  position: relative;
+}
+[data-mo-dica]::before {
+  content: attr(data-mo-dica);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  z-index: var(--mo-z-avisos);
+  padding: 5px 8px;
+  border-radius: 6px;
+  background: var(--mo-texto);
+  color: var(--mo-janela);
+  font-family: var(--mo-fonte);
+  font-size: 11.5px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, 3px);
+  transition:
+    opacity var(--mo-dur-curta) ease,
+    transform var(--mo-dur-curta) var(--mo-ease-saida);
+  transition-delay: 0s;
+}
+[data-mo-dica-lado="baixo"]::before {
+  bottom: auto;
+  top: calc(100% + 8px);
+  transform: translate(-50%, -3px);
+}
+[data-mo-dica]:hover::before {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  transition-delay: 420ms;
+}
+[data-mo-dica]:focus-visible::before {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+/* Teclas afundam no clique; a dica não deve afundar junto nem ficar. */
+[data-mo-dica]:active::before {
+  opacity: 0;
+  transition-delay: 0s;
+}
+
+/* ---------- Avisos flutuantes ---------- */
+.mo-avisos {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: var(--mo-z-avisos);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  pointer-events: none;
+}
+.mo-aviso-flutuante {
+  --mo-aviso-cor: var(--mo-destaque);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: min(360px, calc(100vw - 36px));
+  padding: 11px 15px;
+  border: 1px solid var(--mo-borda);
+  border-radius: var(--mo-raio-m);
+  background: var(--mo-elevada);
+  color: var(--mo-texto);
+  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.55);
+  font-size: 12.5px;
+  pointer-events: auto;
+  cursor: pointer;
+  animation: mo-aviso-entrar var(--mo-dur-media) var(--mo-ease-saida);
+}
+.mo-aviso-flutuante.mo-saindo {
+  animation: mo-aviso-sair var(--mo-dur-curta) ease-in forwards;
+}
+/* O marcador é um bloquinho de tecla no tom do aviso. */
+.mo-aviso-flutuante::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--mo-aviso-cor);
+  box-shadow: 0 1.5px 0 color-mix(in oklab, var(--mo-aviso-cor) 45%, black);
+  flex: none;
+}
+.mo-aviso-flutuante[data-tipo="erro"] { --mo-aviso-cor: var(--mo-perigo); }
+.mo-aviso-flutuante[data-tipo="info"] { --mo-aviso-cor: var(--mo-terciaria); }
+.mo-aviso-flutuante[data-tipo="trabalhando"]::before {
+  animation: mo-blocos-girando 1.6s infinite;
+}
+.mo-aviso-flutuante > .mo-tecla {
+  margin-left: 6px;
+}

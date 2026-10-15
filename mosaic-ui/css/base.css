@@ -1,0 +1,117 @@
+/* ==========================================================================
+   Base: reset enxuto, tipografia, foco e rolagem.
+   Só seletores de elemento (peso mínimo), então qualquer classe do app
+   sobrescreve sem esforço.
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--mo-fundo);
+  color: var(--mo-texto);
+  font-family: var(--mo-fonte);
+  font-size: var(--mo-tamanho-m);
+  line-height: 1.5;
+}
+
+h1, h2, h3, h4 {
+  margin: 0;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+h1 { font-size: var(--mo-tamanho-titulo); letter-spacing: -0.02em; }
+h2 { font-size: 18px; }
+h3 { font-size: var(--mo-tamanho-g); font-weight: 600; }
+h4 { font-size: var(--mo-tamanho-m); font-weight: 600; }
+
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+a {
+  color: var(--mo-destaque);
+  text-decoration: none;
+  text-underline-offset: 3px;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+code, kbd, samp, pre {
+  font-family: var(--mo-fonte-mono);
+  font-size: 0.92em;
+}
+
+img, svg, video, canvas {
+  display: block;
+  max-width: 100%;
+}
+
+button, input, select, textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--mo-linha);
+  margin: var(--mo-espaco-4) 0;
+}
+
+::selection {
+  background: var(--mo-destaque-suave);
+  color: var(--mo-texto);
+}
+
+/* Foco: só aparece pelo teclado, sempre na cor de destaque. */
+:focus-visible {
+  outline: 2px solid var(--mo-foco);
+  outline-offset: 2px;
+}
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Rolagem fina, na cor do tema. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--mo-decorativa) transparent;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--mo-decorativa);
+  border: 3px solid transparent;
+  border-radius: 10px;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+[hidden] {
+  display: none !important;
+}

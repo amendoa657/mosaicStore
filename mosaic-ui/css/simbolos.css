@@ -1,0 +1,28 @@
+/* ==========================================================================
+   Símbolos: ícones desenhados numa grade de 9 × 9 pixels, como o fundo.
+   <mo-simbolo nome="busca"></mo-simbolo>   (lista em js/simbolos.js)
+   Cor: a do texto (currentColor). Tamanho: --mo-simbolo-tamanho (18 px),
+   ou o atributo tamanho="27". Múltiplos de 9 deixam cada pixel inteiro.
+   ========================================================================== */
+
+.mo-simbolo {
+  --mo-simbolo-tamanho: 18px;
+  display: inline-block;
+  width: var(--mo-simbolo-tamanho);
+  height: var(--mo-simbolo-tamanho);
+  flex: none;
+  vertical-align: -0.2em;
+  color: inherit;
+}
+.mo-simbolo > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+  shape-rendering: crispEdges;
+}
+.mo-simbolo--p { --mo-simbolo-tamanho: 9px; }
+.mo-simbolo--g { --mo-simbolo-tamanho: 27px; }
+.mo-simbolo--xg { --mo-simbolo-tamanho: 36px; }
+.mo-tecla > .mo-simbolo { --mo-simbolo-tamanho: 18px; }
+.mo-tecla--p > .mo-simbolo { --mo-simbolo-tamanho: 9px; }

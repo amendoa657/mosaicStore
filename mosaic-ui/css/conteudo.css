@@ -1,0 +1,772 @@
+/* ==========================================================================
+   Conteúdo: as peças que mostram coisas.
+   Cartão, ícone de app, chip, selo, lista, tabela, dados, aviso, número,
+   proporção, etapas, abas, estado vazio, retícula.
+
+   Quase tudo aceita um tom (mo-tom-0…3 no próprio elemento ou num pai):
+   a cor do tom vai para --mo-tom e cada peça usa como acento.
+   ========================================================================== */
+
+/* ---------- Texto de apoio ---------- */
+/* Sobretítulo: mono, pequeno, espaçado, no tom. */
+.mo-sobretitulo {
+  font-family: var(--mo-fonte-mono);
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--mo-tom-sobretitulo, var(--mo-secundaria));
+}
+.mo-resumo {
+  color: var(--mo-texto-2);
+  font-size: var(--mo-tamanho-p);
+  text-wrap: pretty;
+}
+.mo-meta {
+  font-family: var(--mo-fonte-mono);
+  font-size: var(--mo-tamanho-p);
+  color: var(--mo-texto-3);
+}
+
+/* ---------- Cartão ---------- */
+.mo-cartao {
+  --mo-cartao-fundo: var(--mo-cartao);
+  --mo-cartao-pad: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  min-width: 0;
+  padding: var(--mo-cartao-pad);
+  border: 1px solid var(--mo-borda);
+  border-radius: var(--mo-raio-g);
+  background: var(--mo-cartao-fundo);
+  color: var(--mo-texto);
+}
+/* Clicável (link ou com a classe): sobe 2 px e a borda pega o tom. */
+a.mo-cartao,
+.mo-cartao--interativo {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform var(--mo-dur-media) var(--mo-ease-saida),
+    background var(--mo-dur-curta) ease,
+    border-color var(--mo-dur-curta) ease;
+}
+a.mo-cartao:hover,
+.mo-cartao--interativo:hover {
+  --mo-cartao-fundo: var(--mo-cartao-hover);
+  border-color: color-mix(in oklab, var(--mo-tom, var(--mo-secundaria)) 38%, transparent);
+  text-decoration: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  a.mo-cartao:hover,
+  .mo-cartao--interativo:hover {
+    transform: translateY(-2px);
+  }
+}
+/* O cartão herda o tom do ícone que tiver dentro. */
+.mo-cartao:has(.mo-icone-app.mo-tom-0) { --mo-tom: var(--mo-tom-0); }
+.mo-cartao:has(.mo-icone-app.mo-tom-1) { --mo-tom: var(--mo-tom-1); }
+.mo-cartao:has(.mo-icone-app.mo-tom-2) { --mo-tom: var(--mo-tom-2); }
+.mo-cartao:has(.mo-icone-app.mo-tom-3) { --mo-tom: var(--mo-tom-3); }
+
+.mo-cartao-topo {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+}
+.mo-cartao-topo > :not(.mo-icone-app) {
+  min-width: 0;
+}
+.mo-cartao-topo h3 {
+  font-size: var(--mo-tamanho-m);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mo-cartao-rodape {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+}
+.mo-cartao-rodape > .mo-tecla:last-child {
+  margin-left: auto;
+}
+
+/* Destaque: o cartão grande, no container secundário do tema, com a
+   retícula de pontos entrando pela direita. */
+.mo-cartao--destaque {
+  --mo-cartao-fundo: var(--mo-secundaria-fundo);
+  --mo-cartao-pad: 22px;
+  --mo-tom: var(--mo-secundaria);
+  border-color: color-mix(in oklab, var(--mo-secundaria) 26%, transparent);
+  border-radius: 14px;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.mo-cartao--destaque > .mo-reticula {
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: 44%;
+  z-index: -1;
+}
+/* Plano: sem borda nem fundo, só o espaçamento. */
+.mo-cartao--plano {
+  --mo-cartao-fundo: transparent;
+  border-color: transparent;
+}
+/* Em linha: ícone, texto e ação lado a lado. */
+.mo-cartao--linha {
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+}
+
+/* ---------- Retícula ----------
+   A grade de pontos do fundo, parada, como enfeite. Os pontos crescem da
+   esquerda para a direita em três faixas (retícula de impressão), sem
+   degradê: cada faixa tem um tamanho só. --mo-reticula-fundo é a cor de
+   baixo (por padrão, a do cartão em que ela está). */
+.mo-reticula {
+  --mo-reticula-cor: var(--mo-tom, var(--mo-secundaria));
+  --mo-reticula-fundo: var(--mo-cartao-fundo, var(--mo-cartao));
+  --mo-reticula-passo: 10px;
+  --mo-reticula-tinta: color-mix(in srgb, var(--mo-reticula-cor) 46%, var(--mo-reticula-fundo));
+  display: block;
+  position: relative;
+  pointer-events: none;
+  background:
+    conic-gradient(at 2px 2px, transparent 75%, var(--mo-reticula-tinta) 0)
+      4px 4px / var(--mo-reticula-passo) var(--mo-reticula-passo);
+}
+.mo-reticula::before,
+.mo-reticula::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    conic-gradient(at 4px 4px, transparent 75%, var(--mo-reticula-tinta) 0)
+      3px 3px / var(--mo-reticula-passo) var(--mo-reticula-passo),
+    var(--mo-reticula-fundo);
+  clip-path: inset(0 0 0 33.33%);
+}
+.mo-reticula::after {
+  background:
+    conic-gradient(at 6px 6px, transparent 75%, var(--mo-reticula-tinta) 0)
+      2px 2px / var(--mo-reticula-passo) var(--mo-reticula-passo),
+    var(--mo-reticula-fundo);
+  clip-path: inset(0 0 0 66.66%);
+}
+
+/* ---------- Ícone de app ----------
+   A inicial em mono sobre um bloco chapado no tom. O <mo-icone-app nome="…">
+   escolhe a letra e o tom sozinho a partir do nome.
+   <span class="mo-icone-app mo-tom-2">F</span>
+   Tamanho: --mo-icone-tamanho (42 px); a letra e o raio acompanham. */
+.mo-icone-app {
+  --mo-icone-tamanho: 42px;
+  --mo-icone-cor: var(--mo-tom);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--mo-icone-tamanho);
+  height: var(--mo-icone-tamanho);
+  flex: none;
+  border-radius: calc(var(--mo-icone-tamanho) * 0.26);
+  background: var(--mo-icone-cor);
+  color: color-mix(in oklab, var(--mo-icone-cor) 22%, black);
+  font-family: var(--mo-fonte-mono);
+  font-weight: 700;
+  font-size: calc(var(--mo-icone-tamanho) * 0.36);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-transform: lowercase;
+  user-select: none;
+  overflow: hidden;
+}
+.mo-icone-app > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Com a borda de tecla, para quando ele é o protagonista. */
+.mo-icone-app--tecla {
+  box-shadow: 0 calc(var(--mo-icone-tamanho) * 0.06) 0 color-mix(in oklab, var(--mo-icone-cor) 40%, black);
+}
+.mo-icone-app--p { --mo-icone-tamanho: 28px; }
+.mo-icone-app--m { --mo-icone-tamanho: 38px; }
+.mo-icone-app--g { --mo-icone-tamanho: 78px; }
+.mo-icone-app--xg { --mo-icone-tamanho: 100px; }
+
+/* ---------- Chip ----------
+   Filtro que liga e desliga. <button class="mo-chip" aria-pressed="false">
+   Com contagem: <span class="mo-contagem">12</span> dentro. */
+.mo-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 26px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 20px;
+  background: var(--mo-elevada);
+  color: var(--mo-texto-2);
+  font-family: var(--mo-fonte);
+  font-size: var(--mo-tamanho-p);
+  white-space: nowrap;
+  flex: none;
+  cursor: pointer;
+  transition:
+    background var(--mo-dur-curta) ease,
+    color var(--mo-dur-curta) ease,
+    transform var(--mo-dur-toque) var(--mo-ease-saida);
+}
+.mo-chip:hover {
+  background: var(--mo-elevada-hover);
+  color: var(--mo-texto);
+  text-decoration: none;
+}
+.mo-chip:active {
+  transform: scale(0.96);
+}
+.mo-chip:is([aria-pressed="true"], [aria-selected="true"], .ativo) {
+  background: var(--mo-destaque-fundo);
+  color: var(--mo-sobre-destaque);
+  font-weight: 600;
+}
+.mo-chip > .mo-contagem {
+  font-family: var(--mo-fonte-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  opacity: 0.72;
+}
+/* Removível: o x no fim. */
+.mo-chip--remover {
+  background: var(--mo-destaque-suave);
+  color: var(--mo-destaque);
+}
+.mo-chip--remover::after {
+  content: "×";
+  font-size: 14px;
+  line-height: 1;
+  margin-right: -3px;
+}
+.mo-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--mo-espaco-2);
+}
+
+/* ---------- Selo ---------- */
+.mo-selo {
+  --mo-selo-cor: var(--mo-texto-2);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 19px;
+  padding: 0 7px;
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--mo-selo-cor) 16%, transparent);
+  color: var(--mo-selo-cor);
+  font-family: var(--mo-fonte-mono);
+  font-weight: 500;
+  font-size: 10.5px;
+  white-space: nowrap;
+  flex: none;
+  vertical-align: middle;
+}
+.mo-selo--destaque { --mo-selo-cor: var(--mo-destaque); }
+.mo-selo--secundaria { --mo-selo-cor: var(--mo-secundaria); }
+.mo-selo--terciaria { --mo-selo-cor: var(--mo-terciaria); }
+.mo-selo--tom { --mo-selo-cor: var(--mo-tom); }
+.mo-selo--perigo {
+  --mo-selo-cor: var(--mo-perigo);
+  background: var(--mo-perigo-suave);
+}
+/* Cheio: cor chapada, para contagens que pedem atenção. */
+.mo-selo--cheio {
+  background: var(--mo-selo-cor);
+  color: color-mix(in oklab, var(--mo-selo-cor) 20%, black);
+  font-weight: 600;
+}
+.mo-selo--cheio.mo-selo--destaque {
+  background: var(--mo-destaque-fundo);
+  color: var(--mo-sobre-destaque);
+}
+/* Bloquinho na frente do texto, no tom do selo. */
+.mo-selo--ponto::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 1.5px;
+  background: currentColor;
+}
+
+/* Ponto que respira: "ao vivo", "conectado", "trabalhando". */
+.mo-pulso {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--mo-pulso-cor, var(--mo-destaque));
+  flex: none;
+  animation: mo-respirar 2.6s ease-in-out infinite;
+}
+
+/* ---------- Lista ----------
+   Linhas com ícone, texto e ação. <ul class="mo-lista"><li class="mo-item">…
+   A ação discreta (.mo-item-acao) só ganha corpo com a linha em foco. */
+.mo-lista {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--mo-borda);
+  border-radius: var(--mo-raio-g);
+  background: var(--mo-cartao);
+  overflow: hidden;
+}
+.mo-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 52px;
+  padding: 9px 14px;
+  border-top: 1px solid var(--mo-linha);
+  color: inherit;
+  text-decoration: none;
+  transition: background var(--mo-dur-curta) ease;
+}
+.mo-item:first-child {
+  border-top: 0;
+}
+:is(a, button, label).mo-item,
+.mo-item--interativo {
+  cursor: pointer;
+}
+:is(a, button, label).mo-item:hover,
+.mo-item--interativo:hover,
+.mo-item:focus-within {
+  background: var(--mo-cartao-hover);
+  text-decoration: none;
+}
+button.mo-item {
+  width: 100%;
+  border: 0;
+  border-top: 1px solid var(--mo-linha);
+  background: transparent;
+  text-align: left;
+  font: inherit;
+}
+.mo-item:is([aria-selected="true"], [aria-current]:not([aria-current="false"])) {
+  background: var(--mo-destaque-suave);
+}
+.mo-item-texto {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+  min-width: 0;
+}
+.mo-item-texto > :first-child {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mo-item-texto > :not(:first-child) {
+  font-size: var(--mo-tamanho-p);
+  color: var(--mo-texto-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mo-item-lado {
+  font-family: var(--mo-fonte-mono);
+  font-size: 11.5px;
+  color: var(--mo-texto-3);
+  flex: none;
+  text-align: right;
+}
+.mo-item-acao {
+  opacity: 0;
+  transition: opacity var(--mo-dur-curta) ease;
+}
+.mo-item:hover .mo-item-acao,
+.mo-item:focus-within .mo-item-acao {
+  opacity: 1;
+}
+@media (hover: none) {
+  .mo-item-acao {
+    opacity: 1;
+  }
+}
+/* Sem a moldura: para listas dentro de cartões e diálogos. */
+.mo-lista--solta {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+/* ---------- Tabela ---------- */
+.mo-tabela {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: var(--mo-tamanho-m);
+  border: 1px solid var(--mo-borda);
+  border-radius: var(--mo-raio-g);
+  background: var(--mo-cartao);
+  overflow: hidden;
+}
+.mo-tabela th {
+  padding: 9px 14px;
+  background: var(--mo-lateral-2);
+  font-family: var(--mo-fonte-mono);
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: left;
+  color: var(--mo-texto-3);
+  white-space: nowrap;
+}
+.mo-tabela td {
+  padding: 10px 14px;
+  border-top: 1px solid var(--mo-linha);
+  vertical-align: middle;
+}
+.mo-tabela tbody tr {
+  transition: background var(--mo-dur-curta) ease;
+}
+.mo-tabela tbody tr:hover {
+  background: var(--mo-cartao-hover);
+}
+.mo-tabela :is(th, td).mo-numerico {
+  text-align: right;
+  font-family: var(--mo-fonte-mono);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.mo-tabela td.mo-numerico {
+  color: var(--mo-texto-2);
+}
+
+/* ---------- Dados (chave e valor) ---------- */
+.mo-dados {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 9px 22px;
+  margin: 0;
+  font-size: var(--mo-tamanho-p);
+}
+.mo-dados dt {
+  color: var(--mo-texto-3);
+}
+.mo-dados dd {
+  margin: 0;
+  font-family: var(--mo-fonte-mono);
+  color: var(--mo-texto);
+  overflow-wrap: anywhere;
+}
+
+/* ---------- Aviso (faixa no meio da página) ----------
+   <div class="mo-aviso mo-tom-1"><i></i><div><strong>…</strong><p>…</p></div></div>
+   O bloquinho da frente é uma tecla no tom. --perigo para erros. */
+.mo-aviso {
+  --mo-aviso-cor: var(--mo-tom, var(--mo-terciaria));
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 13px 16px;
+  border: 1px solid color-mix(in oklab, var(--mo-aviso-cor) 28%, transparent);
+  border-radius: var(--mo-raio-g);
+  background: color-mix(in oklab, var(--mo-aviso-cor) 9%, var(--mo-cartao));
+  font-size: var(--mo-tamanho-p);
+  color: var(--mo-texto-2);
+}
+.mo-aviso > i:first-child {
+  width: 10px;
+  height: 10px;
+  margin-top: 4px;
+  border-radius: 2.5px;
+  background: var(--mo-aviso-cor);
+  box-shadow: 0 2px 0 color-mix(in oklab, var(--mo-aviso-cor) 45%, black);
+  flex: none;
+}
+.mo-aviso > div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+  min-width: 0;
+}
+.mo-aviso strong {
+  color: var(--mo-aviso-cor);
+  font-size: var(--mo-tamanho-m);
+}
+.mo-aviso > .mo-tecla {
+  align-self: center;
+}
+.mo-aviso--perigo {
+  --mo-aviso-cor: var(--mo-perigo);
+}
+.mo-aviso--destaque {
+  --mo-aviso-cor: var(--mo-destaque);
+}
+
+/* ---------- Número grande ---------- */
+.mo-numero {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.mo-numero > strong {
+  font-size: var(--mo-tamanho-numero);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+.mo-numero > span {
+  font-size: 13px;
+  color: var(--mo-texto-2);
+}
+.mo-numero > em {
+  font-style: normal;
+  font-family: var(--mo-fonte-mono);
+  font-size: var(--mo-tamanho-p);
+  color: var(--mo-texto-3);
+}
+.mo-numero--p > strong {
+  font-size: 26px;
+}
+
+/* ---------- Proporção ----------
+   O "mosaico" de um todo: blocos chapados, cada um com a sua parte.
+   <div class="mo-proporcao">
+     <i class="mo-tom-0" style="--parte: 612"></i>
+     <i class="mo-tom-1" style="--parte: 180"></i>
+   </div> */
+.mo-proporcao {
+  display: flex;
+  gap: 4px;
+  height: var(--mo-proporcao-altura, 14px);
+}
+.mo-proporcao > i {
+  flex: var(--parte, 1) 1 0;
+  min-width: 8px;
+  border-radius: 4px;
+  background: var(--mo-tom);
+  /* Cada bloco também é uma tecla. */
+  box-shadow: 0 2px 0 color-mix(in oklab, var(--mo-tom) 45%, black);
+  transform-origin: left center;
+  animation: mo-crescer-bloco 0.5s var(--mo-ease-saida) backwards;
+}
+.mo-proporcao > i:nth-child(2) { animation-delay: 60ms; }
+.mo-proporcao > i:nth-child(3) { animation-delay: 120ms; }
+.mo-proporcao > i:nth-child(n + 4) { animation-delay: 180ms; }
+
+.mo-legenda {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--mo-tamanho-p);
+  color: var(--mo-texto-2);
+}
+.mo-legenda > li {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.mo-legenda > li::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  background: var(--mo-tom);
+}
+.mo-legenda > li > span {
+  font-family: var(--mo-fonte-mono);
+  font-size: 11.5px;
+  color: var(--mo-texto-3);
+}
+
+/* ---------- Etapas ----------
+   <ol class="mo-etapas">
+     <li class="mo-tom-0" data-estado="pronto">core <em>feito</em></li>
+     <li class="mo-tom-1" data-estado="rodando">extra <em>baixando</em></li>
+     <li class="mo-tom-2">aur <em>na fila</em></li>
+   </ol>
+   O bloquinho pisca enquanto roda e acende quando termina. */
+.mo-etapas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mo-etapas > li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 11px 14px;
+  border: 1px solid var(--mo-borda);
+  border-radius: var(--mo-raio-m);
+  background: var(--mo-cartao);
+  font-family: var(--mo-fonte-mono);
+  font-size: 12.5px;
+}
+.mo-etapas > li::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  flex: none;
+  box-shadow: inset 0 0 0 1.5px var(--mo-tom);
+  transition: background var(--mo-dur-media) ease;
+}
+.mo-etapas em {
+  margin-left: auto;
+  font-style: normal;
+  font-size: 11px;
+  color: var(--mo-texto-3);
+  white-space: nowrap;
+}
+.mo-etapas > [data-estado="rodando"]::before {
+  animation: mo-piscar-bloco 0.9s ease-in-out infinite alternate;
+}
+.mo-etapas > [data-estado="rodando"] em {
+  color: var(--mo-texto);
+}
+.mo-etapas > [data-estado="pronto"]::before {
+  background: var(--mo-tom);
+}
+.mo-etapas > [data-estado="pronto"] em {
+  color: var(--mo-destaque);
+}
+.mo-etapas > [data-estado="erro"]::before {
+  background: var(--mo-perigo);
+  box-shadow: none;
+}
+.mo-etapas > [data-estado="erro"] em {
+  color: var(--mo-perigo);
+}
+
+/* ---------- Abas ----------
+   <div class="mo-abas" role="tablist">
+     <button role="tab" aria-selected="true" aria-controls="p1">Geral</button>
+   </div>
+   O mosaic.js cuida de clique, setas e de mostrar o painel certo. */
+.mo-abas {
+  display: flex;
+  gap: 3px;
+  flex: none;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.mo-abas::-webkit-scrollbar {
+  display: none;
+}
+.mo-abas > [role="tab"],
+.mo-abas > a {
+  padding: 6px 13px;
+  border: 0;
+  border-radius: var(--mo-raio-p);
+  background: transparent;
+  color: var(--mo-texto-2);
+  font-family: var(--mo-fonte);
+  font-size: var(--mo-tamanho-m);
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background var(--mo-dur-curta) ease,
+    color var(--mo-dur-curta) ease;
+}
+.mo-abas > :is([role="tab"], a):hover {
+  background: var(--mo-lateral-2);
+  color: var(--mo-texto);
+  text-decoration: none;
+}
+.mo-abas > :is([aria-selected="true"], [aria-current]:not([aria-current="false"]), .ativa) {
+  background: var(--mo-elevada);
+  color: var(--mo-texto);
+  font-weight: 600;
+}
+/* Sublinhadas: para abas dentro de um cartão. */
+.mo-abas--linha {
+  gap: 18px;
+  border-bottom: 1px solid var(--mo-linha);
+}
+.mo-abas--linha > :is([role="tab"], a) {
+  padding: 8px 0;
+  border-radius: 0;
+  margin-bottom: -1px;
+  border-bottom: 2px solid transparent;
+}
+.mo-abas--linha > :is([role="tab"], a):hover {
+  background: transparent;
+}
+.mo-abas--linha > :is([aria-selected="true"], [aria-current]:not([aria-current="false"]), .ativa) {
+  background: transparent;
+  border-bottom-color: var(--mo-destaque);
+}
+[role="tabpanel"]:focus-visible {
+  outline-offset: 4px;
+}
+
+/* ---------- Estado vazio ----------
+   <div class="mo-vazio">
+     <i class="mo-marca mo-marca--xg"></i> (ou <i class="mo-vazio-glifo"></i>)
+     <h3>Nada aqui</h3> <p>…</p> <button class="mo-tecla">…</button>
+   </div> */
+.mo-vazio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: auto;
+  padding: 56px 26px;
+  text-align: center;
+}
+.mo-vazio > .mo-marca {
+  margin-bottom: 10px;
+  animation: mo-assentar 0.6s var(--mo-ease-saida) backwards;
+}
+.mo-vazio:hover > .mo-marca {
+  transform: rotate(90deg);
+}
+.mo-vazio-glifo {
+  width: 46px;
+  height: 46px;
+  border: 2px dashed var(--mo-decorativa);
+  border-radius: var(--mo-raio-g);
+}
+.mo-vazio > h2,
+.mo-vazio > h3 {
+  font-size: var(--mo-tamanho-g);
+  font-weight: 600;
+}
+.mo-vazio > h2 {
+  font-size: 22px;
+  font-weight: 700;
+}
+.mo-vazio > p {
+  max-width: 360px;
+  color: var(--mo-texto-2);
+}

@@ -1,0 +1,49 @@
+/* ==========================================================================
+   Pixels: o fundo de pontos e a cortina de transição.
+
+   <mo-pixels></mo-pixels>                 um campo, do tamanho que você der
+   <mo-pixels class="mo-fundo"></mo-pixels> preenche o pai, atrás de tudo
+
+   Quem desenha é um Web Worker (js/pixels-worker.js), fora da thread da
+   página: o campo nunca trava a interface e a interface nunca trava o campo.
+   Atributos: passo, lente, velocidade, opacidade, cores (veja js/pixels.js).
+   ========================================================================== */
+
+mo-pixels {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  min-height: 60px;
+  background: var(--mo-pixels-fundo, var(--mo-fundo));
+  contain: strict;
+}
+mo-pixels > canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+mo-pixels.mo-fundo {
+  position: absolute;
+  inset: 0;
+  min-height: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ---------- Cortina ----------
+   Na troca de página (link para outra tela do mesmo app), a área de
+   conteúdo nasce coberta pela cor do fundo e se revela em onda de pixels a
+   partir de onde foi o clique. A cobertura começa no CSS (antes de qualquer
+   JS), então não pisca. */
+.mo-revelando :is(.mo-conteudo, [data-mo-cortina]) {
+  box-shadow: inset 0 0 0 100vmax var(--mo-fundo);
+}
+.mo-revelando :is(.mo-conteudo, [data-mo-cortina]) > * {
+  visibility: hidden;
+}
+.mo-cortina {
+  position: fixed;
+  z-index: var(--mo-z-cortina);
+  pointer-events: none;
+}

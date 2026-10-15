@@ -1,0 +1,246 @@
+/* ==========================================================================
+   Tecla: o botão do Mosaic.
+   Cor chapada na face e uma borda de baixo mais escura. Ao apertar, a tecla
+   desce e a borda some, como uma tecla de verdade.
+
+   <button class="mo-tecla">Cancelar</button>
+   <button class="mo-tecla mo-tecla--destaque">Instalar</button>
+   <a class="mo-tecla mo-tecla--sutil" href="…">Ver tudo</a>
+
+   Variantes:  --destaque  --secundaria  --terciaria  --tom  --perigo
+               --sutil (sem borda, só aparece no hover)  --icone (quadrada)
+   Tamanhos:   --p  --g  (e --largura-total)
+   Estados:    :disabled, aria-pressed="true" (afundada), aria-busy="true"
+               (a marca gira no lugar do rótulo), .mo-apertada (afundada
+               pelo teclado: data-mo-atalho)
+
+   Tudo é variável, então dá para criar uma tecla nova sem tocar aqui:
+     .minha-tecla { --mo-tecla-face: #ffb77c; --mo-tecla-texto: #4a2800; }
+   ========================================================================== */
+
+.mo-tecla {
+  --mo-tecla-face: var(--mo-elevada);
+  --mo-tecla-texto: var(--mo-texto);
+  --mo-tecla-borda: color-mix(in oklab, var(--mo-tecla-face) var(--mo-tecla-sombra), black);
+  --mo-tecla-hover: color-mix(in oklab, var(--mo-tecla-face) 88%, var(--mo-texto));
+  --mo-tecla-altura: 30px;
+  --mo-tecla-pad: 14px;
+  --mo-tecla-raio: var(--mo-raio-p);
+  --mo-tecla-fonte: 12px;
+  --mo-tecla-prof: var(--mo-profundidade);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: var(--mo-tecla-altura);
+  min-width: 0;
+  padding: 0 var(--mo-tecla-pad);
+  border: 0;
+  border-radius: var(--mo-tecla-raio);
+  background: var(--mo-tecla-face);
+  color: var(--mo-tecla-texto);
+  font-family: var(--mo-fonte);
+  font-weight: 600;
+  font-size: var(--mo-tecla-fonte);
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, var(--mo-texto) 7%, transparent),
+    0 var(--mo-tecla-prof) 0 var(--mo-tecla-borda);
+  cursor: pointer;
+  flex: none;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  transition:
+    background var(--mo-dur-curta) ease,
+    color var(--mo-dur-curta) ease,
+    box-shadow var(--mo-dur-toque) ease-out,
+    transform var(--mo-dur-toque) ease-out,
+    opacity var(--mo-dur-curta) ease;
+}
+.mo-tecla:hover {
+  background: var(--mo-tecla-hover);
+  color: var(--mo-tecla-texto);
+  text-decoration: none;
+}
+.mo-tecla:active,
+.mo-tecla.mo-apertada,
+.mo-tecla[aria-pressed="true"] {
+  transform: translateY(var(--mo-tecla-prof));
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, var(--mo-texto) 4%, transparent),
+    0 0 0 var(--mo-tecla-borda);
+}
+.mo-tecla.mo-apertada {
+  transition-duration: 40ms;
+}
+
+/* Afundada e acesa: o estado "ligado" de uma tecla que alterna. */
+.mo-tecla[aria-pressed="true"] {
+  --mo-tecla-face: var(--mo-destaque-fundo);
+  --mo-tecla-texto: var(--mo-sobre-destaque);
+}
+
+.mo-tecla:disabled,
+.mo-tecla[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Ocupada: o rótulo some (sem mudar a largura) e a marca gira no meio. */
+.mo-tecla[aria-busy="true"] {
+  color: transparent;
+  pointer-events: none;
+}
+.mo-tecla[aria-busy="true"] > * {
+  visibility: hidden;
+}
+.mo-tecla[aria-busy="true"]::after {
+  --mo-bloco: 44%;
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 13px;
+  height: 13px;
+  margin: auto;
+  border-radius: 2px;
+  background:
+    linear-gradient(var(--mo-tecla-texto) 0 0) 0 0 / var(--mo-bloco) var(--mo-bloco),
+    linear-gradient(var(--mo-tecla-texto) 0 0) 100% 0 / var(--mo-bloco) var(--mo-bloco),
+    linear-gradient(var(--mo-tecla-texto) 0 0) 0 100% / var(--mo-bloco) var(--mo-bloco),
+    linear-gradient(color-mix(in srgb, var(--mo-tecla-texto) 45%, transparent) 0 0) 100% 100% / var(--mo-bloco) var(--mo-bloco);
+  background-repeat: no-repeat;
+  animation: mo-blocos-girando 1.6s infinite;
+}
+
+/* ---------- Cores ---------- */
+.mo-tecla--destaque {
+  --mo-tecla-face: var(--mo-destaque-fundo);
+  --mo-tecla-texto: var(--mo-sobre-destaque);
+  --mo-tecla-hover: color-mix(in oklab, var(--mo-tecla-face) 90%, white);
+}
+.mo-tecla--secundaria {
+  --mo-tecla-face: var(--mo-secundaria-fundo);
+  --mo-tecla-texto: var(--mo-secundaria-texto);
+}
+.mo-tecla--terciaria {
+  --mo-tecla-face: var(--mo-terciaria-fundo);
+  --mo-tecla-texto: var(--mo-terciaria-texto);
+}
+/* No tom do elemento (mo-tom-0…3 nele ou num pai). */
+.mo-tecla--tom {
+  --mo-tecla-face: var(--mo-tom);
+  --mo-tecla-texto: color-mix(in oklab, var(--mo-tom) 22%, black);
+  --mo-tecla-hover: color-mix(in oklab, var(--mo-tom) 90%, white);
+}
+.mo-tecla--perigo {
+  --mo-tecla-face: color-mix(in srgb, var(--mo-perigo-fundo) 42%, var(--mo-elevada));
+  --mo-tecla-texto: var(--mo-perigo);
+  --mo-tecla-hover: color-mix(in srgb, var(--mo-perigo) 22%, var(--mo-tecla-face));
+}
+/* Sem corpo: só ganha fundo no hover. Para ações de menor peso. */
+.mo-tecla--sutil {
+  --mo-tecla-face: transparent;
+  --mo-tecla-texto: var(--mo-texto-2);
+  --mo-tecla-hover: var(--mo-elevada);
+  --mo-tecla-prof: 0px;
+  box-shadow: none;
+}
+.mo-tecla--sutil:hover {
+  --mo-tecla-texto: var(--mo-texto);
+}
+
+/* ---------- Tamanhos e formas ---------- */
+.mo-tecla--p {
+  --mo-tecla-altura: 24px;
+  --mo-tecla-pad: 10px;
+  --mo-tecla-fonte: 11px;
+}
+.mo-tecla--g {
+  --mo-tecla-altura: 37px;
+  --mo-tecla-pad: 22px;
+  --mo-tecla-fonte: var(--mo-tamanho-m);
+  --mo-tecla-raio: var(--mo-raio-m);
+}
+.mo-tecla--icone {
+  width: var(--mo-tecla-altura);
+  padding: 0;
+}
+.mo-tecla--largura-total {
+  width: 100%;
+}
+/* Rótulo em mono: números, versões, atalhos, teclas de calculadora. */
+.mo-tecla--mono {
+  font-family: var(--mo-fonte-mono);
+  font-weight: 600;
+}
+
+.mo-tecla > .mo-simbolo {
+  flex: none;
+}
+/* Contagem ou atalho dentro da tecla, encostado na direita. */
+.mo-tecla > :is(.mo-contagem, kbd) {
+  margin-left: 2px;
+  font-family: var(--mo-fonte-mono);
+  font-size: 0.9em;
+  font-weight: 500;
+  opacity: 0.7;
+}
+
+/* ---------- Grupo de teclas e segmentos ---------- */
+/* Teclas lado a lado, coladas. Para alternar uma entre várias opções,
+   use aria-pressed nelas (o JS faz isso com data-mo-segmentos). */
+.mo-segmentos {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 2px;
+  flex: none;
+}
+.mo-segmentos > .mo-tecla:not(:first-child) {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.mo-segmentos > .mo-tecla:not(:last-child) {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+/* Teclado: uma grade de teclas do mesmo tamanho (calculadora, discador…).
+   --mo-teclado-colunas define quantas por linha. */
+.mo-teclado {
+  --mo-teclado-colunas: 4;
+  display: grid;
+  grid-template-columns: repeat(var(--mo-teclado-colunas), minmax(0, 1fr));
+  gap: var(--mo-gap, 8px);
+}
+.mo-teclado > .mo-tecla {
+  width: 100%;
+}
+.mo-teclado > .mo-tecla--dupla {
+  grid-column: span 2;
+}
+
+/* ---------- Atalho de teclado ---------- */
+/* Uma tecla pequena, de enfeite: <kbd class="mo-atalho">Ctrl</kbd> */
+.mo-atalho {
+  display: inline-grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 4px;
+  background: var(--mo-elevada);
+  box-shadow: 0 1.5px 0 color-mix(in oklab, var(--mo-elevada) 50%, black);
+  color: var(--mo-texto-3);
+  font-family: var(--mo-fonte-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  line-height: 1;
+  vertical-align: 1px;
+  flex: none;
+}

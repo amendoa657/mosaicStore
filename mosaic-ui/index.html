@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Mosaic UI</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9'%3E%3Crect width='4' height='4' fill='%2386d7ac'/%3E%3Crect x='5' width='4' height='4' fill='%23e9b9d3'/%3E%3Crect y='5' width='4' height='4' fill='%23b5c5f9'/%3E%3Crect x='5' y='5' width='4' height='4' fill='%23e6e0ec'/%3E%3C/svg%3E">
+<link rel="preload" href="fontes/space-grotesk.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fontes/jetbrains-mono.woff2" as="font" type="font/woff2" crossorigin>
+<script src="mosaic-inicio.js"></script>
+<link rel="stylesheet" href="mosaic.css">
+<link rel="stylesheet" href="vitrine/vitrine.css">
+<script type="module" src="vitrine/vitrine.js"></script>
+</head>
+<body>
+
+<div class="mo-app">
+  <header class="mo-cabecalho">
+    <button class="mo-alternar-lateral" data-mo-gaveta aria-label="Abrir o índice" aria-expanded="false"><i></i><i></i><i></i></button>
+    <a class="mo-logotipo" href="#inicio"><i class="mo-marca"></i><span>Mosaic UI</span></a>
+
+    <label class="mo-busca">
+      <i class="mo-lupa" aria-hidden="true"></i>
+      <input type="search" placeholder="Buscar componente" aria-label="Buscar componente"
+             data-mo-filtrar="#indice" data-mo-atalho="/" autocomplete="off" id="busca-indice">
+      <kbd class="mo-atalho">/</kbd>
+    </label>
+
+    <span class="mo-empurrar"></span>
+    <div class="mo-segmentos mo-so-largo" data-mo-segmentos id="paletas" role="group" aria-label="Paleta">
+      <button class="mo-tecla mo-tecla--p" data-valor="matugen" aria-pressed="true" data-mo-dica="As cores do seu colors.css (?tema=url)" data-mo-dica-lado="baixo">matugen</button>
+      <button class="mo-tecla mo-tecla--p" data-valor="menta" aria-pressed="false">menta</button>
+      <button class="mo-tecla mo-tecla--p" data-valor="laranja" aria-pressed="false">laranja</button>
+      <button class="mo-tecla mo-tecla--p" data-valor="azul" aria-pressed="false">azul</button>
+    </div>
+    <div class="mo-controles-janela" aria-hidden="true"><span></span><span></span><span></span></div>
+  </header>
+
+  <div class="mo-corpo">
+    <mo-pixels class="mo-fundo"></mo-pixels>
+
+    <nav class="mo-lateral" aria-label="Componentes">
+      <div id="indice" class="vitrine-indice">
+        <span class="mo-lateral-rotulo">Começo</span>
+        <a class="mo-nav-item" href="#inicio" aria-current="true"><i class="mo-ponto"></i><span class="mo-nav-texto">Início</span></a>
+        <a class="mo-nav-item" href="#cores"><i class="mo-ponto"></i><span class="mo-nav-texto">Cores e tokens</span></a>
+        <a class="mo-nav-item" href="#tipografia"><i class="mo-ponto"></i><span class="mo-nav-texto">Tipografia</span></a>
+        <a class="mo-nav-item" href="#marca"><i class="mo-ponto"></i><span class="mo-nav-texto">Marca</span></a>
+        <span class="mo-lateral-rotulo">Componentes</span>
+        <a class="mo-nav-item" href="#teclas"><i class="mo-ponto"></i><span class="mo-nav-texto">Teclas</span></a>
+        <a class="mo-nav-item" href="#campos"><i class="mo-ponto"></i><span class="mo-nav-texto">Campos</span></a>
+        <a class="mo-nav-item" href="#cartoes"><i class="mo-ponto"></i><span class="mo-nav-texto">Cartões e ícones</span></a>
+        <a class="mo-nav-item" href="#listas"><i class="mo-ponto"></i><span class="mo-nav-texto">Listas e tabelas</span></a>
+        <a class="mo-nav-item" href="#estados"><i class="mo-ponto"></i><span class="mo-nav-texto">Avisos e estados</span></a>
+        <a class="mo-nav-item" href="#progresso"><i class="mo-ponto"></i><span class="mo-nav-texto">Progresso</span></a>
+        <a class="mo-nav-item" href="#sobreposicoes"><i class="mo-ponto"></i><span class="mo-nav-texto">Diálogos e menus</span></a>
+        <a class="mo-nav-item" href="#abas"><i class="mo-ponto"></i><span class="mo-nav-texto">Abas</span></a>
+        <a class="mo-nav-item" href="#terminal"><i class="mo-ponto"></i><span class="mo-nav-texto">Terminal</span></a>
+        <span class="mo-lateral-rotulo">Identidade viva</span>
+        <a class="mo-nav-item" href="#pixels"><i class="mo-ponto"></i><span class="mo-nav-texto">Pixels</span></a>
+        <a class="mo-nav-item" href="#simbolos"><i class="mo-ponto"></i><span class="mo-nav-texto">Símbolos</span></a>
+        <a class="mo-nav-item" href="#layout"><i class="mo-ponto"></i><span class="mo-nav-texto">Layout</span></a>
+        <a class="mo-nav-item" href="#janela"><i class="mo-ponto"></i><span class="mo-nav-texto">Janela de app</span></a>
+        <a class="mo-nav-item" href="#exemplo"><i class="mo-ponto"></i><span class="mo-nav-texto">Exemplo: calculadora</span></a>
+        <a class="mo-nav-item" href="#js"><i class="mo-ponto"></i><span class="mo-nav-texto">API JavaScript</span></a>
+        <p class="vitrine-sem-resultado" data-mo-sem-resultado hidden>Nada com esse nome.</p>
+      </div>
+      <div class="mo-lateral-pe">sem build · sem dependências</div>
+    </nav>
+
+    <main class="mo-conteudo" id="conteudo">
+
+      <!-- ================================================================ -->
+      <section class="vitrine-heroi" id="inicio">
+        <div class="vitrine-heroi-texto mo-cascata">
+          <span class="mo-sobretitulo">mosaic-ui · 0.1</span>
+          <h1>A identidade do Mosaic,<br>pronta para qualquer app.</h1>
+          <p class="vitrine-lead">Teclas que afundam, blocos chapados nas cores do seu wallpaper, pontos que andam atrás de tudo. Um CSS e um JS, sem build e sem dependência nenhuma: copie a pasta e escreva HTML.</p>
+          <div class="mo-linha" style="--mo-gap: 10px">
+            <a class="mo-tecla mo-tecla--destaque mo-tecla--g" href="#teclas">Ver os componentes</a>
+            <button class="mo-tecla mo-tecla--g" data-mo-copiar="#uso-minimo" data-mo-copiado="HTML mínimo copiado">Copiar o HTML mínimo</button>
+          </div>
+          <div class="vitrine-numeros">
+            <div class="mo-numero mo-numero--p"><strong>46</strong><span>componentes</span></div>
+            <div class="mo-numero mo-numero--p"><strong data-contar="simbolos">40</strong><span>símbolos em pixel</span></div>
+            <div class="mo-numero mo-numero--p"><strong>0</strong><span>dependências</span></div>
+          </div>
+        </div>
+        <div class="vitrine-heroi-arte" aria-hidden="true">
+          <mo-pixels lente="110" passo="13" class="vitrine-heroi-campo"></mo-pixels>
+          <i class="mo-marca mo-marca--viva vitrine-heroi-marca"></i>
+        </div>
+      </section>
+
+      <section class="mo-secao vitrine-secao">
+        <div class="mo-secao-titulo"><h2>Como usar</h2><span class="mo-meta">mosaic.css · mosaic.js</span></div>
+        <div class="vitrine-colunas">
+          <div class="mo-pilha">
+            <p class="mo-resumo vitrine-texto">Dois arquivos. O CSS traz tokens, base e componentes em camadas (<code>@layer</code>): qualquer CSS solto do seu app vence o da biblioteca sem <code>!important</code>. O JS registra os elementos e liga os atributos <code>data-mo-*</code>.</p>
+            <p class="mo-resumo vitrine-texto">As cores leem as variáveis do Matugen. Carregue o <code>colors.css</code> que ele gera e o app inteiro nasce com as cores do wallpaper. Sem ele, vale a paleta menta.</p>
+          </div>
+          <pre class="vitrine-codigo" id="uso-minimo"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="pt-BR"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;script src="mosaic-ui/mosaic-inicio.js"&gt;&lt;/script&gt;
+  &lt;link rel="stylesheet" href="mosaic-ui/mosaic.css"&gt;
+  &lt;link rel="stylesheet" href="~/.config/mosaic/colors.css"&gt;
+  &lt;script type="module" src="mosaic-ui/mosaic.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;button class="mo-tecla mo-tecla--destaque"&gt;Olá&lt;/button&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- ================================================================ -->
+      <section class="mo-secao vitrine-secao" id="cores">
+        <div class="mo-secao-titulo"><h2>Cores e tokens</h2><span class="mo-meta">css/tokens.css</span></div>
+        <p class="mo-resumo vitrine-texto">Todas as cores vêm do tema: nenhuma cor nova é inventada, as derivadas são misturas das de cima. Troque a paleta no cabeçalho e veja tudo acompanhar, inclusive os pixels. Clique numa cor para copiar o token.</p>
+
+        <h3 class="vitrine-subtitulo">Acentos</h3>
+        <div class="vitrine-cores" data-cores="destaque destaque-fundo sobre-destaque secundaria secundaria-fundo terciaria terciaria-fundo perigo perigo-fundo"></div>
+        <h3 class="vitrine-subtitulo">Superfícies, da mais funda para a mais alta</h3>
+        <div class="vitrine-cores" data-cores="fundo janela lateral-2 cabecalho cartao dialogo elevada"></div>
+        <h3 class="vitrine-subtitulo">Texto e linhas</h3>
+        <div class="vitrine-cores" data-cores="texto texto-2 texto-3 decorativa linha"></div>
+
+        <h3 class="vitrine-subtitulo">Os quatro tons</h3>
+        <p class="mo-resumo vitrine-texto">Cada nome cai sempre no mesmo tom (<code>tom("firefox")</code>), em qualquer app: o ícone, o cartão, o selo e a etapa de uma coisa têm a mesma cor em todo lugar.</p>
+        <template class="vitrine-modelo" data-titulo="Tons">
+<div class="mo-linha" style="--mo-gap: 14px">
+  <span class="mo-icone-app mo-tom-0">0</span>
+  <span class="mo-icone-app mo-tom-1">1</span>
+  <span class="mo-icone-app mo-tom-2">2</span>
+  <span class="mo-icone-app mo-tom-3">3</span>
+  <span class="mo-selo mo-selo--tom mo-tom-0">tom-0</span>
+  <span class="mo-selo mo-selo--tom mo-tom-1">tom-1</span>
+  <span class="mo-selo mo-selo--tom mo-tom-2">tom-2</span>
+  <span class="mo-selo mo-selo--tom mo-tom-3">tom-3</span>
+</div>
+        </template>
+
+        <h3 class="vitrine-subtitulo">Personalizar</h3>
+        <template class="vitrine-modelo" data-titulo="Um token vale para tudo dentro do elemento">
+<div class="mo-linha" style="--mo-gap: 14px">
+  <button class="mo-tecla mo-tecla--destaque">Padrão</button>
+  <div style="--mo-destaque: #ffb77c; --mo-destaque-fundo: #ffb77c; --mo-sobre-destaque: #4a2800; --mo-raio-p: 2px">
+    <button class="mo-tecla mo-tecla--destaque">Só aqui dentro</button>
+  </div>
+  <button class="mo-tecla" style="--mo-tecla-face: var(--mo-terciaria-fundo); --mo-tecla-texto: var(--mo-terciaria-texto); --mo-tecla-prof: 4px">Tecla alta</button>
+</div>
+        </template>
+      </section>
+
+      <!-- ================================================================ -->
+      <section class="mo-secao vitrine-secao" id="tipografia">
+        <div class="mo-secao-titulo"><h2>Tipografia</h2><span class="mo-meta">Space Grotesk · JetBrains Mono</span></div>
+        <template class="vitrine-modelo" data-titulo="Escala">
+<div class="mo-pilha" style="--mo-gap: 10px">
+  <span class="mo-sobretitulo">sobretítulo</span>
+  <h1>Título da tela, 26 px</h1>
+  <h2>Título de seção, 18 px</h2>
+  <h3>Título de cartão, 15 px</h3>
+  <p>Texto corrido em Space Grotesk, 13,5 px: o tamanho de tudo que se lê.</p>
+  <p class="mo-resumo">Resumo, 12 px, no segundo nível de texto.</p>
+  <p class="mo-meta">meta · 1.4.2-1 · 32,4 MiB · JetBrains Mono</p>
+</div>
+        </template>
+      </section>
+
+      <!-- ================================================================ -->
+      <section class="mo-secao vitrine-secao" id="marca">
+        <div class="mo-secao-titulo"><h2>Marca</h2><span class="mo-meta">css/marca.css</span></div>
+        <p class="mo-resumo vitrine-texto">Quatro blocos, um em cada cor. É o logo de todo app Mosaic, o indicador de "trabalhando" (um quarto de volta por vez) e o enfeite dos estados vazios.</p>
+        <template class="vitrine-modelo" data-titulo="Tamanhos e estados">
+<div class="mo-linha" style="--mo-gap: 28px">
+  <i class="mo-marca mo-marca--viva"></i>
+  <i class="mo-marca mo-marca--g mo-marca--viva"></i>
+  <i class="mo-marca mo-marca--xg mo-marca--viva"></i>
+  <i class="mo-marca mo-marca--xg mo-marca--girando"></i>
+  <i class="mo-marca mo-marca--xg mo-marca--apagada"></i>
+  <i class="mo-marca mo-marca--xg mo-marca--fraca"></i>
+</div>
+        </template>
+        <template class="vitrine-modelo" data-titulo="Cada app com a sua combinação">
+<div class="mo-linha" style="--mo-gap: 22px">
+  <a class="mo-logotipo" href="#marca"><i class="mo-marca"></i><span>Mosaic</span></a>
+  <a class="mo-logotipo" href="#marca"><i class="mo-marca" style="--mo-marca-4: var(--mo-destaque); --mo-marca-1: var(--mo-texto)"></i><span>Calculadora</span></a>
+  <a class="mo-logotipo" href="#marca"><i class="mo-marca" style="--mo-marca-1: var(--mo-terciaria); --mo-marca-3: var(--mo-destaque)"></i><span>Galeria</span></a>
+  <a class="mo-logotipo" href="#marca"><i class="mo-marca" style="--mo-marca-2: var(--mo-terciaria); --mo-marca-3: var(--mo-secundaria); --mo-marca-vao: 20%"></i><span>Notícias</span></a>
+</div>
+        </template>
+      </section>
+
+      <!-- ================================================================ -->
+      <section class="mo-secao vitrine-secao" id="teclas">
+        <div class="mo-secao-titulo"><h2>Teclas</h2><span class="mo-meta">css/tecla.css</span></div>
+        <p class="mo-resumo vitrine-texto">O botão do Mosaic é uma tecla: face chapada e uma borda de baixo mais escura. No clique ela desce e a borda some.</p>
+        <template class="vitrine-modelo" data-titulo="Cores">
+<div class="mo-linha">
+  <button class="mo-tecla mo-tecla--destaque">Instalar</button>
+  <button class="mo-tecla">Detalhes</button>
+  <button class="mo-tecla mo-tecla--secundaria">Secundária</button>
+  <button class="mo-tecla mo-tecla--terciaria">Terciária</button>
+  <button class="mo-tecla mo-tecla--tom mo-tom-3">No tom</button>
+  <button class="mo-tecla mo-tecla--perigo">Remover</button>
+  <button class="mo-tecla mo-tecla--sutil">Sutil</button>
+  <button class="mo-tecla" disabled>Desligada</button>
+</div>
+        </template>
+        <template class="vitrine-modelo" data-titulo="Tamanhos, símbolos e estados">
+<div class="mo-linha">
+  <button class="mo-tecla mo-tecla--p">Pequena</button>
+  <button class="mo-tecla">Normal</button>
+  <button class="mo-tecla mo-tecla--g mo-tecla--destaque"><mo-simbolo nome="baixar"></mo-simbolo>Grande</button>
+  <button class="mo-tecla mo-tecla--icone" aria-label="Buscar" data-mo-dica="Buscar"><mo-simbolo nome="busca"></mo-simbolo></button>
+  <button class="mo-tecla mo-tecla--icone mo-tecla--g" aria-label="Configurações" data-mo-dica="Configurações"><mo-simbolo nome="config"></mo-simbolo></button>
+  <button class="mo-tecla" aria-pressed="false" data-alternar>Alterna</button>
+  <button class="mo-tecla mo-tecla--destaque" data-ocupar>Verificar</button>
+  <button class="mo-tecla mo-tecla--sutil">Atualizações <span class="mo-contagem">7</span></button>
+</div>
+        </template>
+        <template class="vitrine-modelo" data-titulo="Segmentos: uma escolha entre várias">
+<div class="mo-segmentos" data-mo-segmentos>
+  <button class="mo-tecla" aria-pressed="true">Todos</button>
+  <button class="mo-tecla" aria-pressed="false">Oficiais</button>
+  <button class="mo-tecla" aria-pressed="false">AUR</button>
+  <button class="mo-tecla" aria-pressed="false">Flatpak</button>
+</div>
+        </template>
+        <template class="vitrine-modelo" data-titulo="Atalhos: aperte G ou Ctrl+K no teclado">
+<div class="mo-linha">
+  <button class="mo-tecla mo-tecla--mono" data-mo-atalho="g" data-avisar="Tecla G">G</button>
+  <button class="mo-tecla" data-mo-atalho="ctrl+k" data-avisar="Ctrl+K">Comandos <kbd>Ctrl K</kbd></button>
+  <span class="mo-resumo">Enfeite: <kbd class="mo-atalho">Ctrl</kbd> + <kbd class="mo-atalho">Shift</kbd> + <kbd class="mo-atalho">P</kbd></span>
+</div>
+        </template>
+      </section>
+
+      <!-- ================================================================ -->
+      <section class="mo-secao vitrine-secao" id="campos">
+        <div class="mo-secao-titulo"><h2>Campos</h2><span class="mo-meta">css/campos.css</span></div>
+        <template class="vitrine-modelo" data-titulo="Texto, escolha e busca">
+<div class="mo-grade" style="--mo-coluna: 230px">
+  <label class="mo-rotulo">
+    <span>Nome do app</span>
+    <input class="mo-campo" placeholder="calculadora">
+    <small>Só letras minúsculas e hífen.</small>
+  </label>
+  <label class="mo-rotulo">
+    <span>Mirror</span>
+    <select class="mo-campo">
+      <option>br · mirror.ufscar.br</option>
+      <option>de · ftp.fau.de</option>
+    </select>
+  </label>
+  <label class="mo-rotulo">
+    <span>Versão</span>
+    <input class="mo-campo mo-campo--mono" value="1.4.2-1" aria-invalid="true">
+    <small>Essa versão não existe no repositório.</small>
+  </label>
+  <label class="mo-busca" style="align-self: end">
+    <i class="mo-lupa"></i>
+    <input type="search" placeholder="Buscar pacotes">
+    <kbd class="mo-atalho">/</kbd>
+  </label>
+</div>
+        </template>
+        <template class="vitrine-modelo" data-titulo="Liga e desliga">
+<div class="mo-linha" style="--mo-gap: 22px">
+  <label class="mo-interruptor"><input type="checkbox" checked aria-label="Animações"><i></i></label>
+  <label class="mo-interruptor"><input type="checkbox" aria-label="Notificações"><i></i></label>
+  <label class="mo-caixa"><input type="checkbox" checked><i></i>Instalar dependências</label>
+  <label class="mo-caixa"><input type="checkbox"><i></i>Só baixar</label>
+  <div class="mo-opcoes" role="radiogroup" aria-label="Núcleos">
+    <label><input type="radio" name="nucleos-demo" value="1"><span>1</span></label>
+    <label><input type="radio" name="nucleos-demo" value="2"><span>2</span></label>
+    <label><input type="radio" name="nucleos-demo" value="4" checked><span>4</span></label>
+    <label><input type="radio" name="nucleos-demo" value="8"><span>8</span></label>
+  </div>
+</div>
+        </template>
+        <template class="vitrine-modelo" data-titulo="Deslizante e linha de configuração">
+<div class="mo-pilha" style="max-width: 560px">
+  <input type="range" class="mo-deslizante" min="0" max="100" value="62" aria-label="Volume">
+  <div>
+    <label class="mo-linha-opcao">
+      <span><strong>Animações</strong><small>Entradas, a onda de pixels e o fundo que anda.</small></span>
+      <span class="mo-interruptor"><input type="checkbox" checked><i></i></span>
+    </label>
+    <label class="mo-linha-opcao">
+      <span><strong>Compilar com prioridade baixa</strong><small>O sistema continua leve enquanto um pacote da AUR compila.</small></span>
+      <span class="mo-interruptor"><input type="checkbox"><i></i></span>
+    </label>
+  </div>
+</div>
+        </template>
+      </section>
+
+      <!-- ================================================================ -->
+      <section class="mo-secao vitrine-secao" id="cartoes">
+        <div class="mo-secao-titulo"><h2>Cartões e ícones</h2><span class="mo-meta">css/conteudo.css</span></div>
+        <template class="vitrine-modelo" data-titulo="Ícone de app: a letra e o tom saem do nome">
+<div class="mo-linha" style="--mo-gap: 14px">
+  <mo-icone-app nome="firefox"></mo-icone-app>
+  <mo-icone-app nome="gimp"></mo-icone-app>
+  <mo-icone-app nome="neovim"></mo-icone-app>
+  <mo-icone-app nome="obs-studio"></mo-icone-app>
+  <mo-icone-app nome="krita" tamanho="56" tecla></mo-icone-app>
+  <mo-icone-app nome="blender" tamanho="78" tecla></mo-icone-app>
+</div>
+        </template>
+        <template class="vitrine-modelo" data-titulo="Cartões">
+<div class="mo-grade mo-cascata">
+  <a class="mo-cartao" href="#cartoes">
+    <div class="mo-cartao-topo">
+      <mo-icone-app nome="firefox"></mo-icone-app>
+      <div><h3>firefox</h3><span class="mo-meta">131.0-1</span></div>
+    </div>
+    <p class="mo-resumo">Navegador rápido, privado e livre.</p>
+    <div class="mo-cartao-rodape">
+      <span class="mo-selo mo-selo--destaque">extra</span>
+      <span class="mo-tecla mo-tecla--destaque mo-tecla--p">Instalar</span>
+    </div>
+  </a>
+  <a class="mo-cartao" href="#cartoes">
+    <div class="mo-cartao-topo">
+      <mo-icone-app nome="visual-studio-code-bin"></mo-icone-app>
+      <div><h3>visual-studio-code-bin</h3><span class="mo-meta">1.94.2-1</span></div>
+    </div>
+    <p class="mo-resumo">Editor de código da Microsoft, binário oficial.</p>
+    <div class="mo-cartao-rodape">
+      <span class="mo-selo mo-selo--perigo">aur</span>
+      <span class="mo-tecla mo-tecla--p">Instalado</span>
+    </div>
+  </a>
+  <a class="mo-cartao" href="#cartoes">
+    <div class="mo-cartao-topo">
+      <mo-icone-app nome="obs-studio"></mo-icone-app>
+      <div><h3>obs-studio</h3><span class="mo-meta">30.2.3-2</span></div>
+    </div>
+    <p class="mo-resumo">Gravação e transmissão de vídeo.</p>
+    <div class="mo-cartao-rodape">
+      <span class="mo-selo mo-selo--destaque">extra</span>
+      <span class="mo-tecla mo-tecla--destaque mo-tecla--p">Instalar</span>
+    </div>
+  </a>
+</div>
+        </template>
+        <template class="vitrine-modelo" data-titulo="Destaque, com a retícula de pontos">
+<article class="mo-cartao mo-cartao--destaque mo-cartao--linha">
+  <i class="mo-reticula"></i>
+  <mo-icone-app nome="krita" tamanho="78" tecla></mo-icone-app>
+  <div class="mo-pilha" style="--mo-gap: 8px">
+    <span class="mo-sobretitulo">destaque da semana</span>
+    <h2>krita</h2>
+    <p class="mo-resumo">Pintura digital feita por artistas, para artistas.</p>
+    <div class="mo-linha"><button class="mo-tecla mo-tecla--destaque">Instalar</button><span class="mo-meta">5.2.6-1 · 180 MiB</span></div>
+  </div>
+</article>
+        </template>
+        <template class="vitrine-modelo" data-titulo="Chips e selos">
+<div class="mo-pilha">
+  <div class="mo-chips">
+    <div class="mo-chips" data-mo-segmentos>
+      <button class="mo-chip" aria-pressed="true">Todos <span class="mo-contagem">842</span></button>
+      <button class="mo-chip" aria-pressed="false">core <span class="mo-contagem">220</span></button>
+      <button class="mo-chip" aria-pressed="false">extra <span class="mo-contagem">571</span></button>
+      <button class="mo-chip" aria-pressed="false">aur <span class="mo-contagem">51</span></button>
+    </div>
+    <button class="mo-chip mo-chip--remover">python</button>
+  </div>
+  <div class="mo-linha">
+    <span class="mo-selo">padrão</span>
+    <span class="mo-selo mo-selo--destaque">extra</span>
+    <span class="mo-selo mo-selo--secundaria">multilib</span>
+    <span class="mo-selo mo-selo--terciaria">core</span>
+    <span class="mo-selo mo-selo--perigo">aur</span>
+    <span class="mo-selo mo-selo--destaque mo-selo--ponto">ao vivo</span>
+    <span class="mo-selo mo-selo--destaque mo-selo--cheio">7</span>
+    <span class="mo-selo mo-selo--tom mo-tom-1 mo-selo--cheio">novo</span>
+    <span class="mo-pulso"></span>
+  </div>
+</div>
+        </template>
+      </section>
+
+      <!-- ================================================================ -->
+      <section class="mo-secao vitrine-secao" id="listas">
+        <div class="mo-secao-titulo"><h2>Listas e tabelas</h2><span class="mo-meta">css/conteudo.css</span></div>
+        <template class="vitrine-modelo" data-titulo="Lista com filtro (data-mo-filtrar)">
+<div class="mo-pilha">
+  <label class="mo-busca" style="max-width: none">
+    <i class="mo-lupa"></i>
+    <input type="search" placeholder="Filtrar instalados" data-mo-filtrar="#lista-demo">
+  </label>
+  <ul class="mo-lista" id="lista-demo">
+    <li class="mo-item">
+      <mo-icone-app nome="neovim" tamanho="34"></mo-icone-app>
+      <div class="mo-item-texto"><span>neovim</span><span>Editor de texto baseado no Vim</span></div>
+      <span class="mo-item-lado">0.10.2-1<br>27 MiB</span>
+      <button class="mo-tecla mo-tecla--perigo mo-tecla--p mo-item-acao">Remover</button>
+    </li>
+    <li class="mo-item">
+      <mo-icone-app nome="git" tamanho="34"></mo-icone-app>
+      <div class="mo-item-texto"><span>git</span><span>Controle de versão distribuído</span></div>
+      <span class="mo-item-lado">2.47.0-1<br>41 MiB</span>
+      <button class="mo-tecla mo-tecla--perigo mo-tecla--p mo-item-acao">Remover</button>
+    </li>
+    <li class="mo-item">
+      <mo-icone-app nome="mpv" tamanho="34"></mo-icone-app>
+      <div class="mo-item-texto"><span>mpv</span><span>Reprodutor de mídia de linha de comando</span></div>
+      <span class="mo-item-lado">0.39.0-2<br>6 MiB</span>
+      <button class="mo-tecla mo-tecla--perigo mo-tecla--p mo-item-acao">Remover</button>
+    </li>
+    <li data-mo-sem-resultado hidden class="mo-vazio" style="padding: 26px">
+      <p>Nenhum pacote com esse nome.</p>
+    </li>
+  </ul>
+</div>
+        </template>
+        <template class="vitrine-modelo" data-titulo="Tabela e dados">
+<div class="vitrine-colunas">
+  <table class="mo-tabela">
+    <thead><tr><th>Pacote</th><th>Fonte</th><th class="mo-numerico">Tamanho</th></tr></thead>
+    <tbody>
+      <tr><td>linux</td><td><span class="mo-selo mo-selo--terciaria">core</span></td><td class="mo-numerico">138,2 MiB</td></tr>
+      <tr><td>mesa</td><td><span class="mo-selo mo-selo--destaque">extra</span></td><td class="mo-numerico">92,4 MiB</td></tr>
+      <tr><td>paru</td><td><span class="mo-selo mo-selo--perigo">aur</span></td><td class="mo-numerico">8,1 MiB</td></tr>
+    </tbody>
+  </table>
+  <dl class="mo-dados">
+    <dt>Versão</dt><dd>2.0.4-1</dd>
+    <dt>Mantenedor</dt><dd>Morganamilo</dd>
+    <dt>Licença</dt><dd>GPL-3.0-or-later</dd>
+    <dt>Depende de</dt><dd>git pacman</dd>
+  </dl>
+</div>
+        </template>
+      </section>
+
+      <!-- ================================================================ -->
+      <section class="mo-secao vitrine-secao" id="estados">
+        <div class="mo-secao-titulo"><h2>Avisos e estados</h2><span class="mo-meta">css/conteudo.css</span></div>
+        <template class="vitrine-modelo" data-titulo="Aviso no meio da página">
+<div class="mo-pilha">
+  <div class="mo-aviso mo-tom-1">
+    <i></i>
+    <div><strong>Pacotes da AUR são da comunidade</strong><p>Leia o PKGBUILD antes de instalar: ninguém revisa o que está lá.</p></div>
+    <button class="mo-tecla mo-tecla--p">Ver PKGBUILD</button>
+  </div>
+  <div class="mo-aviso mo-aviso--destaque">
+    <i></i>
+    <div><strong>7 atualizações</strong><p>linux, mesa e mais 5 pacotes têm versão nova.</p></div>
+  </div>
+  <div class="mo-aviso mo-aviso--perigo">
+    <i></i>
+    <div><strong>O pacman está travado</strong><p>Outro programa está usando o banco: /var/lib/pacman/db.lck</p></div>
+  </div>
+</div>
+        </template>
+        <template class="vitrine-modelo" data-titulo="Número, proporção e legenda">
+<div class="vitrine-resumo">
+  <div class="mo-numero"><strong>842</strong><span>pacotes instalados</span><em>3,1 GiB</em></div>
+  <div class="mo-pilha" style="--mo-gap: 14px">
+    <div class="mo-proporcao">
+      <i class="mo-tom-2" style="--parte: 220"></i>
+      <i class="mo-tom-0" style="--parte: 571"></i>
+      <i class="mo-tom-1" style="--parte: 51"></i>
+    </div>
+    <ul class="mo-legenda">
+      <li class="mo-tom-2">core <span>220</span></li>
+      <li class="mo-tom-0">extra <span>571</span></li>
+      <li class="mo-tom-1">aur <span>51</span></li>
+    </ul>
+  </div>
+</div>
+        </template>
+        <template class="vitrine-modelo" data-titulo="Vazio">
+<div class="mo-grade" style="--mo-coluna: 260px">
+  <div class="mo-vazio">
+    <i class="mo-marca mo-marca--xg"></i>
+    <h2>Tudo em dia</h2>
+    <p>Nenhum pacote com versão nova. A última verificação foi há 3 minutos.</p>
+    <button class="mo-tecla">Verificar de novo</button>
+  </div>
+  <div class="mo-vazio">
+    <i class="mo-vazio-glifo"></i>
+    <h3>A fila está vazia</h3>
+    <p>O que você mandar instalar aparece aqui.</p>
+  </div>
+</div>
+        </template>
+      </section>
+
+      <!-- ================================================================ -->
+      <section class="mo-secao vitrine-secao" id="progresso">
+        <div class="mo-secao-titulo"><h2>Progresso</h2><span class="mo-meta">css/progresso.css</span></div>
+        <template class="vitrine-modelo" data-titulo="Barras: mexa no deslizante">
+<div class="mo-pilha" style="--mo-gap: 16px">
+  <input type="range" class="mo-deslizante" min="0" max="100" value="40" data-controla="#barra-demo" aria-label="Progresso">
+  <div class="mo-barra" id="barra-demo" style="--valor: 40%"><i></i></div>
+  <div class="mo-barra mo-barra--indeterminada"><i></i></div>
+  <div class="mo-barra mo-barra--indeterminada mo-barra--fina mo-tom-1 mo-barra--tom"><i></i></div>
+  <progress class="mo-barra" value="72" max="100"></progress>
+  <div class="mo-linha" style="--mo-gap: 14px">
+    <span class="mo-blocos" id="blocos-demo" style="--passos: 12; --feitos: 5"></span>
+    <span class="mo-meta" id="blocos-texto">5 de 12</span>
+  </div>
+</div>
+        </template>
+        <template class="vitrine-modelo" data-titulo="Etapas">
+<div class="mo-pilha">
+  <ol class="mo-etapas" id="etapas-demo">
+    <li class="mo-tom-2" data-estado="pronto">core <em>pronto</em></li>
+    <li class="mo-tom-0" data-estado="rodando">extra <em>baixando</em></li>
+    <li class="mo-tom-1">aur <em>na fila</em></li>
+  </ol>
+  <div><button class="mo-tecla mo-tecla--p" data-simular-etapas>Simular</button></div>
+</div>
+        </template>
+      </section>
+
+      <!-- ================================================================ -->
+      <section class="mo-secao vitrine-secao" id="sobreposicoes">
+        <div class="mo-secao-titulo"><h2>Diálogos e menus</h2><span class="mo-meta">css/sobreposicoes.css</span></div>
+        <template class="vitrine-modelo" data-titulo="Diálogo, confirmação e painel">
+<div class="mo-linha">
+  <button class="mo-tecla" data-mo-abrir="#dialogo-demo">Abrir diálogo</button>
+  <button class="mo-tecla mo-tecla--perigo" data-mo-abrir="#alerta-demo">Remover…</button>
+  <button class="mo-tecla" data-mo-abrir="#painel-demo">Abrir painel</button>
+</div>
+
+<dialog class="mo-dialogo" id="dialogo-demo">
+  <header>
+    <h2>Detalhes do pacote</h2>
+    <button class="mo-tecla mo-tecla--sutil mo-tecla--icone" data-mo-fechar aria-label="Fechar"><mo-simbolo nome="fechar"></mo-simbolo></button>
+  </header>
+  <div class="mo-dialogo-corpo">
+    <dl class="mo-dados">
+      <dt>Nome</dt><dd>firefox</dd>
+      <dt>Versão</dt><dd>131.0-1</dd>
+      <dt>Repositório</dt><dd>extra</dd>
+    </dl>
+  </div>
+  <footer>
+    <button class="mo-tecla" data-mo-fechar>Fechar</button>
+    <button class="mo-tecla mo-tecla--destaque" data-mo-fechar>Instalar</button>
+  </footer>
+</dialog>
+
+<dialog class="mo-dialogo mo-dialogo--estreito mo-dialogo--alerta" id="alerta-demo">
+  <div class="mo-dialogo-corpo">
+    <h2>Remover neovim?</h2>
+    <p>As configurações em ~/.config/nvim continuam no lugar.</p>
+  </div>
+  <footer>
+    <button class="mo-tecla" data-mo-fechar autofocus>Cancelar</button>
+    <button class="mo-tecla mo-tecla--perigo" data-mo-fechar>Remover</button>
+  </footer>
+</dialog>
+
+<dialog class="mo-painel" id="painel-demo">
+  <header>
+    <h2>Fila</h2>
+    <button class="mo-tecla mo-tecla--sutil mo-tecla--icone" data-mo-fechar aria-label="Fechar"><mo-simbolo nome="fechar"></mo-simbolo></button>
+  </header>
+  <div class="mo-dialogo-corpo mo-pilha">
+    <div class="mo-barra mo-barra--indeterminada"><i></i></div>
+    <p>Compilando visual-studio-code-bin…</p>
+  </div>
+</dialog>
+        </template>
+        <template class="vitrine-modelo" data-titulo="Menu suspenso">
+<button class="mo-tecla" data-mo-menu="#menu-demo" aria-haspopup="menu" aria-expanded="false">Ações <mo-simbolo nome="seta-baixo" tamanho="9"></mo-simbolo></button>
+<div class="mo-menu" id="menu-demo" popover role="menu">
+  <span class="mo-menu-rotulo">Pacote</span>
+  <button class="mo-menu-item" role="menuitem"><mo-simbolo nome="atualizar"></mo-simbolo>Reinstalar</button>
+  <button class="mo-menu-item" role="menuitem"><mo-simbolo nome="copiar"></mo-simbolo>Copiar nome <kbd>Ctrl C</kbd></button>
+  <button class="mo-menu-item" role="menuitem"><mo-simbolo nome="pasta"></mo-simbolo>Abrir arquivos</button>
+  <div class="mo-menu-separador"></div>
+  <button class="mo-menu-item mo-menu-item--perigo" role="menuitem"><mo-simbolo nome="lixo"></mo-simbolo>Remover</button>
+</div>
+        </template>
+        <template class="vitrine-modelo" data-titulo="Avisos flutuantes e dicas">
+<div class="mo-linha">
+  <button class="mo-tecla" data-aviso="ok">Aviso</button>
+  <button class="mo-tecla" data-aviso="erro">Erro</button>
+  <button class="mo-tecla" data-aviso="trabalhando">Trabalhando…</button>
+  <button class="mo-tecla" data-aviso="desfazer">Com ação</button>
+  <button class="mo-tecla mo-tecla--sutil" data-mo-dica="Uma dica, só com CSS">Passe o mouse</button>
+</div>
+        </template>
+      </section>
+
+      <!-- ================================================================ -->
+      <section class="mo-secao vitrine-secao" id="abas">
+        <div class="mo-secao-titulo"><h2>Abas</h2><span class="mo-meta">role="tablist"</span></div>
+        <template class="vitrine-modelo" data-titulo="Clique ou use as setas">
+<div class="mo-pilha">
+  <div class="mo-abas" role="tablist" aria-label="Pacote">
+    <button role="tab" id="aba-sobre" aria-controls="painel-sobre" aria-selected="true">Sobre</button>
+    <button role="tab" id="aba-deps" aria-controls="painel-deps">Dependências</button>
+    <button role="tab" id="aba-arquivos" aria-controls="painel-arquivos">Arquivos</button>
+  </div>
+  <div id="painel-sobre"><p class="mo-resumo">Um gerenciador de pacotes da AUR feito em Rust.</p></div>
+  <div id="painel-deps"><p class="mo-resumo">git, pacman, libalpm</p></div>
+  <div id="painel-arquivos"><p class="mo-meta">/usr/bin/paru · /etc/paru.conf</p></div>
+  <div class="mo-abas mo-abas--linha" role="tablist" aria-label="Período">
+    <button role="tab" aria-controls="p-dia" aria-selected="true">Hoje</button>
+    <button role="tab" aria-controls="p-semana">Semana</button>
+    <button role="tab" aria-controls="p-mes">Mês</button>
+  </div>
+  <p id="p-dia" class="mo-meta">3 atualizações hoje</p>
+  <p id="p-semana" class="mo-meta">19 atualizações na semana</p>
+  <p id="p-mes" class="mo-meta">71 atualizações no mês</p>
+</div>
+        </template>
+      </section>
+
+      <!-- ================================================================ -->
+      <section class="mo-secao vitrine-secao" id="terminal">
+        <div class="mo-secao-titulo"><h2>Terminal</h2><span class="mo-meta">css/terminal.css · terminal()</span></div>
+        <template class="vitrine-modelo" data-titulo="Saída ao vivo">
+<div class="mo-terminal" style="--mo-terminal-altura: 220px">
+  <header>
+    <span class="mo-terminal-rotulo">SAÍDA</span>
+    <span class="mo-terminal-alvo">sudo pacman -Syu</span>
+    <button class="mo-tecla" data-rodar-terminal>Rodar</button>
+    <button class="mo-tecla" data-mo-copiar="#saida-demo">Copiar</button>
+  </header>
+  <pre class="mo-terminal-saida" id="saida-demo"><div class="fraco">pronto para rodar</div><i class="mo-caret"></i></pre>
+</div>
+        </template>
+      </section>
+
+      <!-- ================================================================ -->
+      <section class="mo-secao vitrine-secao" id="pixels">
+        <div class="mo-secao-titulo"><h2>Pixels</h2><span class="mo-meta">&lt;mo-pixels&gt; · revelar()</span></div>
+        <p class="mo-resumo vitrine-texto">Três ondas lentas, uma por cor do tema, passam por uma grade de pontos; em cada ponto vence a mais forte, como na separação de cores de uma impressão. Tudo é desenhado num Web Worker: o campo nunca trava a página. Passe o mouse.</p>
+        <template class="vitrine-modelo" data-titulo="Passo, lente, cores e velocidade">
+<div class="mo-grade" style="--mo-coluna: 200px">
+  <mo-pixels style="height: 170px; border-radius: 12px"></mo-pixels>
+  <mo-pixels passo="9" lente="80" style="height: 170px; border-radius: 12px"></mo-pixels>
+  <mo-pixels passo="24" velocidade="3" style="height: 170px; border-radius: 12px"></mo-pixels>
+  <mo-pixels cores="perigo secundaria #ffb77c" opacidade="0.6" lente="0" style="height: 170px; border-radius: 12px"></mo-pixels>
+</div>
+        </template>
+        <template class="vitrine-modelo" data-titulo="revelar(): troque um conteúdo por baixo da onda (clique em qualquer lugar do painel)">
+<div class="vitrine-revelar" id="revelar-demo" tabindex="0">
+  <div class="mo-vazio">
+    <mo-icone-app nome="galeria" tamanho="78" tecla></mo-icone-app>
+    <h3>galeria</h3>
+    <p>Clique: a onda sai do ponto do clique.</p>
+  </div>
+</div>
+        </template>
+      </section>
+
+      <!-- ================================================================ -->
+      <section class="mo-secao vitrine-secao" id="simbolos">
+        <div class="mo-secao-titulo"><h2>Símbolos</h2><span class="mo-meta">&lt;mo-simbolo nome&gt;</span></div>
+        <p class="mo-resumo vitrine-texto">Desenhados à mão numa grade de 9 × 9 pixels, como os pontos do fundo. Em múltiplos de 9 px cada pixel fica inteiro. Clique num para copiar.</p>
+        <div class="vitrine-simbolos" id="lista-simbolos"></div>
+      </section>
+
+      <!-- ================================================================ -->
+      <section class="mo-secao vitrine-secao" id="layout">
+        <div class="mo-secao-titulo"><h2>Layout</h2><span class="mo-meta">css/layout.css</span></div>
+        <template class="vitrine-modelo" data-titulo="Pilha, linha e grade (o vão vem de --mo-gap)">
+<div class="mo-pilha" style="--mo-gap: 14px">
+  <div class="mo-linha mo-linha--espalhada vitrine-caixas">
+    <i>linha</i><i>espalhada</i><i>←→</i>
+  </div>
+  <div class="mo-grade vitrine-caixas" style="--mo-coluna: 120px; --mo-gap: 8px">
+    <i>grade</i><i>que</i><i>se</i><i>ajusta</i><i>sozinha</i><i>à</i><i>largura</i>
+  </div>
+  <div class="mo-linha vitrine-caixas">
+    <i>linha</i><i>com</i><span class="mo-empurrar"></span><i>empurrar</i>
+  </div>
+</div>
+        </template>
+      </section>
+
+      <!-- ================================================================ -->
+      <section class="mo-secao vitrine-secao" id="janela">
+        <div class="mo-secao-titulo"><h2>Janela de app</h2><span class="mo-meta">css/app.css</span></div>
+        <p class="mo-resumo vitrine-texto">O esqueleto da loja, para todo app ter a mesma "casa": cabeçalho, lateral com a pílula, área de conteúdo com o fundo de pixels e a barra de estado. Esta página é feita com ele. Em tela estreita a lateral vira gaveta.</p>
+        <pre class="vitrine-codigo"><code>&lt;div class="mo-app"&gt;
+  &lt;header class="mo-cabecalho"&gt;
+    &lt;button class="mo-alternar-lateral" data-mo-gaveta&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;a class="mo-logotipo" href="/"&gt;&lt;i class="mo-marca"&gt;&lt;/i&gt;Galeria&lt;/a&gt;
+  &lt;/header&gt;
+  &lt;div class="mo-corpo"&gt;
+    &lt;mo-pixels class="mo-fundo"&gt;&lt;/mo-pixels&gt;
+    &lt;nav class="mo-lateral"&gt;
+      &lt;a class="mo-nav-item" href="/" aria-current="page"&gt;
+        &lt;i class="mo-ponto"&gt;&lt;/i&gt;&lt;span class="mo-nav-texto"&gt;Fotos&lt;/span&gt;&lt;span class="mo-contagem"&gt;1.204&lt;/span&gt;
+      &lt;/a&gt;
+    &lt;/nav&gt;
+    &lt;main class="mo-conteudo"&gt;…&lt;/main&gt;
+  &lt;/div&gt;
+  &lt;footer class="mo-rodape"&gt;…&lt;/footer&gt;
+&lt;/div&gt;</code></pre>
+      </section>
+
+      <!-- ================================================================ -->
+      <section class="mo-secao vitrine-secao" id="exemplo">
+        <div class="mo-secao-titulo"><h2>Exemplo: calculadora</h2><span class="mo-meta">vitrine/vitrine.js</span></div>
+        <p class="mo-resumo vitrine-texto">Um app Mosaic de verdade em 40 linhas de HTML: <code>mo-teclado</code> para a grade de teclas e <code>data-mo-atalho</code> para o teclado físico apertar as teclas da tela. Digite números, + − * /, Enter e Esc.</p>
+        <template class="vitrine-modelo" data-titulo="Calculadora" data-sem-codigo>
+<div class="vitrine-calc" id="calc" data-mo-atalhos="visivel">
+  <div class="vitrine-calc-topo">
+    <span class="mo-logotipo"><i class="mo-marca" style="--mo-marca-4: var(--mo-destaque); --mo-marca-1: var(--mo-texto)"></i>Calculadora</span>
+    <span class="mo-meta" data-calc-conta>&nbsp;</span>
+  </div>
+  <output class="vitrine-calc-visor" data-calc-visor>0</output>
+  <div class="mo-teclado" style="--mo-gap: 8px">
+    <button class="mo-tecla mo-tecla--g mo-tecla--mono mo-tecla--perigo" data-calc="limpar" data-mo-atalho="escape c delete">C</button>
+    <button class="mo-tecla mo-tecla--g mo-tecla--mono" data-calc="apagar" data-mo-atalho="backspace" aria-label="Apagar"><mo-simbolo nome="seta-esquerda"></mo-simbolo></button>
+    <button class="mo-tecla mo-tecla--g mo-tecla--mono" data-calc="%" data-mo-atalho="%">%</button>
+    <button class="mo-tecla mo-tecla--g mo-tecla--mono mo-tecla--terciaria" data-calc="/" data-mo-atalho="/" aria-label="Dividir"><mo-simbolo nome="dividir"></mo-simbolo></button>
+    <button class="mo-tecla mo-tecla--g mo-tecla--mono" data-calc="7" data-mo-atalho="7">7</button>
+    <button class="mo-tecla mo-tecla--g mo-tecla--mono" data-calc="8" data-mo-atalho="8">8</button>
+    <button class="mo-tecla mo-tecla--g mo-tecla--mono" data-calc="9" data-mo-atalho="9">9</button>
+    <button class="mo-tecla mo-tecla--g mo-tecla--mono mo-tecla--terciaria" data-calc="*" data-mo-atalho="* x" aria-label="Multiplicar"><mo-simbolo nome="vezes"></mo-simbolo></button>
+    <button class="mo-tecla mo-tecla--g mo-tecla--mono" data-calc="4" data-mo-atalho="4">4</button>
+    <button class="mo-tecla mo-tecla--g mo-tecla--mono" data-calc="5" data-mo-atalho="5">5</button>
+    <button class="mo-tecla mo-tecla--g mo-tecla--mono" data-calc="6" data-mo-atalho="6">6</button>
+    <button class="mo-tecla mo-tecla--g mo-tecla--mono mo-tecla--terciaria" data-calc="-" data-mo-atalho="-" aria-label="Menos"><mo-simbolo nome="menos"></mo-simbolo></button>
+    <button class="mo-tecla mo-tecla--g mo-tecla--mono" data-calc="1" data-mo-atalho="1">1</button>
+    <button class="mo-tecla mo-tecla--g mo-tecla--mono" data-calc="2" data-mo-atalho="2">2</button>
+    <button class="mo-tecla mo-tecla--g mo-tecla--mono" data-calc="3" data-mo-atalho="3">3</button>
+    <button class="mo-tecla mo-tecla--g mo-tecla--mono mo-tecla--terciaria" data-calc="+" data-mo-atalho="+" aria-label="Mais"><mo-simbolo nome="mais"></mo-simbolo></button>
+    <button class="mo-tecla mo-tecla--g mo-tecla--mono mo-tecla--dupla" data-calc="0" data-mo-atalho="0">0</button>
+    <button class="mo-tecla mo-tecla--g mo-tecla--mono" data-calc="," data-mo-atalho=", .">,</button>
+    <button class="mo-tecla mo-tecla--g mo-tecla--mono mo-tecla--destaque" data-calc="=" data-mo-atalho="enter =" aria-label="Igual"><mo-simbolo nome="igual"></mo-simbolo></button>
+  </div>
+</div>
+        </template>
+      </section>
+
+      <!-- ================================================================ -->
+      <section class="mo-secao vitrine-secao" id="js">
+        <div class="mo-secao-titulo"><h2>API JavaScript</h2><span class="mo-meta">mosaic.js</span></div>
+        <pre class="vitrine-codigo"><code>import { avisar, tema, revelar, terminal, abrir, tom } from "./mosaic-ui/mosaic.js";
+
+avisar("Pacote instalado");                          // aviso no canto
+const a = avisar("Sincronizando…", { tipo: "trabalhando", duracao: 0 });
+a.atualizar("Pronto", { tipo: "ok" });
+
+tema.aplicar(tema.PALETAS.laranja);                  // troca as cores ao vivo
+tema.aplicar({ destaque: "#ff8800" });               // só uma cor
+await tema.carregar("/colors.css");                  // o arquivo do Matugen
+tema.aplicar(null);                                  // volta para o CSS
+
+await revelar(painel, { x, y, trocar: () =&gt; render() }); // onda de pixels
+terminal("#saida").escrever(":: Sincronizando", "seta");
+abrir("#dialogo");                                   // ou data-mo-abrir
+tom("firefox");                                      // 0 a 3, sempre o mesmo</code></pre>
+        <p class="mo-resumo vitrine-texto">Detalhes de cada peça no <code>README.md</code> e no comentário do topo de cada arquivo.</p>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="mo-rodape">
+    <span class="mo-pulso"></span>
+    <span>mosaic-ui 0.1</span>
+    <span data-estado-pixels></span>
+    <span class="mo-empurrar"></span>
+    <span class="mo-so-largo">aperte / para buscar</span>
+  </footer>
+</div>
+
+</body>
+</html>

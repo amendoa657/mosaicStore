@@ -1,0 +1,518 @@
+/* ==========================================================================
+   Campos: tudo que recebe o que a pessoa digita ou escolhe.
+
+   Texto        <input class="mo-campo">  <textarea class="mo-campo">
+                <select class="mo-campo">
+   Com rótulo   <label class="mo-rotulo">
+                  <span>Nome</span> <input class="mo-campo"> <small>ajuda</small>
+                </label>
+   Busca        <label class="mo-busca">
+                  <i class="mo-lupa"></i> <input type="search">
+                  <kbd class="mo-atalho">/</kbd>
+                </label>
+   Interruptor  <label class="mo-interruptor"><input type="checkbox"><i></i></label>
+   Caixa        <label class="mo-caixa"><input type="checkbox"><i></i> Texto</label>
+   Opções       <div class="mo-opcoes">
+                  <label><input type="radio" name="n"><span>4</span></label> …
+                </div>
+   Deslizante   <input type="range" class="mo-deslizante">
+   Linha        <label class="mo-linha-opcao">
+                  <span><strong>Título</strong><small>explicação</small></span>
+                  …controle…
+                </label>
+
+   Variáveis: --mo-campo-fundo, --mo-campo-borda, --mo-campo-altura.
+   ========================================================================== */
+
+.mo-campo {
+  --mo-campo-fundo: var(--mo-fundo);
+  --mo-campo-borda: var(--mo-linha);
+  --mo-campo-altura: 32px;
+
+  width: 100%;
+  min-width: 0;
+  height: var(--mo-campo-altura);
+  padding: 0 11px;
+  border: 1.5px solid var(--mo-campo-borda);
+  border-radius: 8px;
+  background: var(--mo-campo-fundo);
+  color: var(--mo-texto);
+  font-size: var(--mo-tamanho-m);
+  transition:
+    border-color var(--mo-dur-curta) ease,
+    box-shadow var(--mo-dur-curta) ease;
+}
+.mo-campo::placeholder {
+  color: var(--mo-texto-3);
+}
+.mo-campo:hover {
+  --mo-campo-borda: var(--mo-decorativa);
+}
+.mo-campo:focus,
+.mo-campo:focus-visible {
+  outline: none;
+  --mo-campo-borda: var(--mo-destaque);
+  box-shadow: 0 0 0 3px var(--mo-destaque-suave);
+}
+.mo-campo:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.mo-campo:user-invalid,
+.mo-campo[aria-invalid="true"] {
+  --mo-campo-borda: var(--mo-perigo);
+}
+.mo-campo:user-invalid:focus,
+.mo-campo[aria-invalid="true"]:focus {
+  box-shadow: 0 0 0 3px var(--mo-perigo-suave);
+}
+textarea.mo-campo {
+  height: auto;
+  min-height: 88px;
+  padding: 10px 12px;
+  line-height: 1.6;
+  resize: vertical;
+}
+select.mo-campo {
+  appearance: none;
+  padding-right: 30px;
+  cursor: pointer;
+  /* A setinha é um "v" de dois traços na cor do texto. */
+  background:
+    linear-gradient(45deg, transparent 50%, var(--mo-texto-3) 50% 62%, transparent 62%) right 15px center / 6px 6px no-repeat,
+    linear-gradient(-45deg, transparent 50%, var(--mo-texto-3) 50% 62%, transparent 62%) right 11px center / 6px 6px no-repeat,
+    var(--mo-campo-fundo);
+}
+select.mo-campo option {
+  background: var(--mo-elevada);
+  color: var(--mo-texto);
+}
+.mo-campo--mono {
+  font-family: var(--mo-fonte-mono);
+  font-size: 12.5px;
+}
+.mo-campo--p {
+  --mo-campo-altura: 26px;
+  padding: 0 8px;
+  font-size: var(--mo-tamanho-p);
+  border-radius: var(--mo-raio-p);
+}
+.mo-campo--g {
+  --mo-campo-altura: 40px;
+  padding: 0 14px;
+  font-size: var(--mo-tamanho-g);
+  border-radius: var(--mo-raio-m);
+}
+
+/* ---------- Rótulo ---------- */
+.mo-rotulo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.mo-rotulo > span:first-child {
+  font-size: var(--mo-tamanho-p);
+  font-weight: 600;
+  color: var(--mo-texto-2);
+}
+.mo-rotulo > small {
+  font-size: 11.5px;
+  color: var(--mo-texto-3);
+}
+.mo-rotulo:has(:user-invalid) > small,
+.mo-rotulo:has([aria-invalid="true"]) > small {
+  color: var(--mo-perigo);
+}
+
+/* ---------- Busca ---------- */
+.mo-busca {
+  --mo-campo-fundo: var(--mo-fundo);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 32px;
+  padding: 0 12px;
+  min-width: 0;
+  flex: 1;
+  max-width: 440px;
+  background: var(--mo-campo-fundo);
+  border: 1.5px solid var(--mo-borda);
+  border-radius: 8px;
+  color: var(--mo-texto-3);
+  cursor: text;
+  transition:
+    border-color var(--mo-dur-curta) ease,
+    box-shadow var(--mo-dur-curta) ease;
+}
+.mo-busca:hover {
+  border-color: var(--mo-decorativa);
+}
+.mo-busca:focus-within {
+  border-color: var(--mo-destaque);
+  box-shadow: 0 0 0 3px var(--mo-destaque-suave);
+  color: var(--mo-texto);
+}
+.mo-busca > input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--mo-texto);
+  font-family: var(--mo-fonte-mono);
+  font-size: 13px;
+}
+.mo-busca > input::placeholder {
+  color: var(--mo-texto-3);
+}
+.mo-busca > input:focus {
+  outline: none;
+}
+.mo-busca > input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+.mo-busca:focus-within > .mo-lupa {
+  color: var(--mo-destaque);
+}
+.mo-busca:focus-within > .mo-atalho {
+  opacity: 0;
+}
+.mo-busca > .mo-atalho {
+  transition: opacity var(--mo-dur-curta) ease;
+}
+/* Uma lupa de dois traços, sem ícone. */
+.mo-lupa {
+  width: 11px;
+  height: 11px;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  flex: none;
+  position: relative;
+  transition: color var(--mo-dur-curta) ease;
+}
+.mo-lupa::after {
+  content: "";
+  position: absolute;
+  width: 4px;
+  height: 1.5px;
+  right: -4px;
+  bottom: -2px;
+  background: currentColor;
+  border-radius: 1px;
+  transform: rotate(45deg);
+}
+
+/* ---------- Interruptor ----------
+   Uma tecla que desliza num trilho: quadradinha, com a borda de baixo mais
+   escura, como as teclas. Ligado, o trilho acende. */
+.mo-interruptor {
+  --mo-interruptor-ligado: var(--mo-destaque-fundo);
+  --mo-interruptor-tecla: var(--mo-sobre-destaque);
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 26px;
+  flex: none;
+  vertical-align: middle;
+}
+.mo-interruptor > input {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.mo-interruptor > i {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  background: var(--mo-elevada);
+  box-shadow: inset 0 2px 0 color-mix(in oklab, black 30%, transparent);
+  transition: background var(--mo-dur-media) ease;
+}
+.mo-interruptor > i::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 18px;
+  border-radius: 5px;
+  background: var(--mo-texto-3);
+  box-shadow: 0 2px 0 color-mix(in oklab, var(--mo-texto-3) 45%, black);
+  transition:
+    transform var(--mo-dur-media) var(--mo-ease-saida),
+    background var(--mo-dur-media) ease,
+    box-shadow var(--mo-dur-media) ease;
+}
+.mo-interruptor > input:active + i::after {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 color-mix(in oklab, var(--mo-texto-3) 45%, black);
+}
+.mo-interruptor > input:checked + i {
+  background: var(--mo-interruptor-ligado);
+}
+.mo-interruptor > input:checked + i::after {
+  transform: translateX(20px);
+  background: var(--mo-interruptor-tecla);
+  box-shadow: 0 2px 0 color-mix(in oklab, var(--mo-interruptor-tecla) 60%, black);
+}
+.mo-interruptor > input:checked:active + i::after {
+  transform: translate(20px, 1px);
+}
+.mo-interruptor > input:focus-visible + i {
+  outline: 2px solid var(--mo-foco);
+  outline-offset: 2px;
+}
+.mo-interruptor > input:disabled {
+  cursor: not-allowed;
+}
+.mo-interruptor > input:disabled + i {
+  opacity: 0.45;
+}
+
+/* ---------- Caixa de marcar ---------- */
+.mo-caixa {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+}
+.mo-caixa > input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+}
+.mo-caixa > i {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  border-radius: 5px;
+  background: var(--mo-elevada);
+  box-shadow: 0 2px 0 color-mix(in oklab, var(--mo-elevada) 45%, black);
+  display: grid;
+  place-items: center;
+  transition:
+    background var(--mo-dur-curta) ease,
+    transform var(--mo-dur-toque) ease-out,
+    box-shadow var(--mo-dur-toque) ease-out;
+}
+/* O visto: dois traços, desenhados com borda. */
+.mo-caixa > i::after {
+  content: "";
+  width: 9px;
+  height: 5px;
+  margin-top: -2px;
+  border-left: 2px solid var(--mo-sobre-destaque);
+  border-bottom: 2px solid var(--mo-sobre-destaque);
+  transform: rotate(-45deg) scale(0.4);
+  opacity: 0;
+  transition:
+    transform var(--mo-dur-curta) var(--mo-ease-saida),
+    opacity var(--mo-dur-toque) ease;
+}
+.mo-caixa:hover > i {
+  background: var(--mo-elevada-hover);
+}
+.mo-caixa > input:checked + i {
+  background: var(--mo-destaque-fundo);
+  box-shadow: 0 2px 0 color-mix(in oklab, var(--mo-destaque-fundo) 45%, black);
+}
+.mo-caixa > input:checked + i::after {
+  transform: rotate(-45deg) scale(1);
+  opacity: 1;
+}
+.mo-caixa > input:indeterminate + i::after {
+  width: 8px;
+  height: 0;
+  margin: 0;
+  border-left: 0;
+  transform: none;
+  opacity: 1;
+  border-bottom-color: var(--mo-texto-2);
+}
+.mo-caixa:active > i {
+  transform: translateY(2px);
+  box-shadow: 0 0 0 transparent;
+}
+.mo-caixa > input:focus-visible + i {
+  outline: 2px solid var(--mo-foco);
+  outline-offset: 2px;
+}
+.mo-caixa:has(> input:disabled) {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ---------- Opções em teclas (escolha única) ----------
+   A escolhida fica afundada e acesa. Rádio ou checkbox, tanto faz. */
+.mo-opcoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.mo-opcoes > label {
+  position: relative;
+  cursor: pointer;
+}
+.mo-opcoes > label > input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  pointer-events: none;
+}
+.mo-opcoes > label > span {
+  display: grid;
+  place-items: center;
+  min-width: 38px;
+  height: 30px;
+  padding: 0 10px;
+  border-radius: var(--mo-raio-p);
+  background: var(--mo-elevada);
+  box-shadow: 0 2px 0 color-mix(in oklab, var(--mo-elevada) 45%, black);
+  font-family: var(--mo-fonte-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--mo-texto-2);
+  white-space: nowrap;
+  transition:
+    background var(--mo-dur-curta) ease,
+    color var(--mo-dur-curta) ease,
+    transform var(--mo-dur-toque) ease-out,
+    box-shadow var(--mo-dur-toque) ease-out;
+}
+.mo-opcoes > label:hover > span {
+  color: var(--mo-texto);
+}
+.mo-opcoes > label > input:checked + span {
+  background: var(--mo-destaque-fundo);
+  color: var(--mo-sobre-destaque);
+  transform: translateY(2px);
+  box-shadow: 0 0 0 transparent;
+}
+.mo-opcoes > label > input:focus-visible + span {
+  outline: 2px solid var(--mo-foco);
+  outline-offset: 2px;
+}
+.mo-opcoes > label:has(> input:disabled) {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.mo-opcoes--texto > label > span {
+  font-family: var(--mo-fonte);
+}
+
+/* ---------- Deslizante ----------
+   O trilho é uma barra (como a de progresso) e o pegador, uma tecla.
+   O preenchimento vem de --mo-valor, que o mosaic.js mantém em dia. */
+.mo-deslizante {
+  --mo-valor: 50%;
+  --mo-deslizante-cor: var(--mo-destaque);
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 22px;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.mo-deslizante:focus {
+  outline: none;
+}
+.mo-deslizante::-webkit-slider-runnable-track {
+  height: 8px;
+  border-radius: 4px;
+  background:
+    linear-gradient(var(--mo-deslizante-cor) 0 0) 0 0 / var(--mo-valor) 100% no-repeat,
+    var(--mo-elevada);
+  box-shadow: inset 0 -2px 0 color-mix(in oklab, black 30%, transparent);
+}
+.mo-deslizante::-moz-range-track {
+  height: 8px;
+  border-radius: 4px;
+  background: var(--mo-elevada);
+  box-shadow: inset 0 -2px 0 color-mix(in oklab, black 30%, transparent);
+}
+.mo-deslizante::-moz-range-progress {
+  height: 8px;
+  border-radius: 4px;
+  background: var(--mo-deslizante-cor);
+}
+.mo-deslizante::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  margin-top: -6px;
+  border: 0;
+  border-radius: 5px;
+  background: var(--mo-texto);
+  box-shadow: 0 2px 0 color-mix(in oklab, var(--mo-texto) 45%, black);
+  transition: transform var(--mo-dur-toque) ease-out;
+}
+.mo-deslizante::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border: 0;
+  border-radius: 5px;
+  background: var(--mo-texto);
+  box-shadow: 0 2px 0 color-mix(in oklab, var(--mo-texto) 45%, black);
+}
+.mo-deslizante:active::-webkit-slider-thumb {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 color-mix(in oklab, var(--mo-texto) 45%, black);
+}
+.mo-deslizante:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid var(--mo-foco);
+  outline-offset: 2px;
+}
+.mo-deslizante:focus-visible::-moz-range-thumb {
+  outline: 2px solid var(--mo-foco);
+  outline-offset: 2px;
+}
+
+/* ---------- Linha de opção (configurações) ---------- */
+.mo-linha-opcao {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--mo-linha);
+}
+label.mo-linha-opcao {
+  cursor: pointer;
+}
+.mo-linha-opcao:last-child {
+  border-bottom: 0;
+}
+.mo-linha-opcao > span:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+.mo-linha-opcao > span:first-child > strong {
+  font-size: 13px;
+  font-weight: 600;
+}
+.mo-linha-opcao > span:first-child > small {
+  font-size: 12px;
+  color: var(--mo-texto-2);
+  text-wrap: pretty;
+}
+@media (max-width: 560px) {
+  .mo-linha-opcao:has(> .mo-opcoes) {
+    flex-wrap: wrap;
+  }
+}

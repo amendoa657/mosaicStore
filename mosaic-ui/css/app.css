@@ -1,0 +1,355 @@
+/* ==========================================================================
+   Janela do app: cabeçalho, barra lateral, área de conteúdo e rodapé.
+   O mesmo esqueleto da loja, para todo app Mosaic ter a mesma "cara de casa".
+
+   <div class="mo-app">
+     <header class="mo-cabecalho">…</header>
+     <div class="mo-corpo">
+       <mo-pixels class="mo-fundo"></mo-pixels>     (opcional)
+       <nav class="mo-lateral">…</nav>               (opcional)
+       <main class="mo-conteudo">…</main>
+     </div>
+     <footer class="mo-rodape">…</footer>            (opcional)
+   </div>
+
+   Ajustes: --mo-lateral-largura, --mo-cabecalho-altura.
+   Abaixo de 760 px a lateral vira gaveta (botão com data-mo-gaveta).
+   ========================================================================== */
+
+.mo-app {
+  --mo-lateral-largura: 224px;
+  --mo-cabecalho-altura: 47px;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr);
+  height: 100dvh;
+  min-height: 320px;
+  background: var(--mo-janela);
+  overflow: hidden;
+  position: relative;
+  isolation: isolate;
+}
+
+/* ---------- Cabeçalho ---------- */
+.mo-cabecalho {
+  display: flex;
+  align-items: center;
+  gap: var(--mo-espaco-4);
+  min-height: var(--mo-cabecalho-altura);
+  padding: 0 var(--mo-espaco-3) 0 var(--mo-espaco-4);
+  background: var(--mo-cabecalho);
+  border-bottom: 1px solid var(--mo-linha);
+  min-width: 0;
+  position: relative;
+  z-index: calc(var(--mo-z-gaveta) + 5);
+}
+.mo-cabecalho-titulo {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.mo-cabecalho-meta {
+  font-family: var(--mo-fonte-mono);
+  font-size: var(--mo-tamanho-p);
+  color: var(--mo-texto-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+/* O nome do app com a marca na frente. No hover a marca gira um quarto. */
+.mo-logotipo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  font-size: var(--mo-tamanho-m);
+  color: inherit;
+  flex: none;
+}
+a.mo-logotipo:hover {
+  color: inherit;
+  text-decoration: none;
+}
+.mo-logotipo:hover .mo-marca {
+  transform: rotate(90deg);
+}
+
+/* Os três pontos de janela, decorativos (pywebview sem moldura). */
+.mo-controles-janela {
+  display: flex;
+  gap: 7px;
+  flex: none;
+}
+.mo-controles-janela > * {
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--mo-decorativa);
+  transition: background var(--mo-dur-curta) ease;
+}
+.mo-controles-janela > :last-child {
+  background: color-mix(in srgb, var(--mo-texto) 38%, transparent);
+}
+.mo-controles-janela:hover > * {
+  background: var(--mo-texto-3);
+}
+
+/* Botão da gaveta: três traços que viram um X com a gaveta aberta. */
+.mo-alternar-lateral {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  width: 30px;
+  height: 30px;
+  padding: 0 7px;
+  border: 0;
+  border-radius: var(--mo-raio-p);
+  background: transparent;
+  flex: none;
+}
+.mo-alternar-lateral > i {
+  display: block;
+  height: 1.5px;
+  border-radius: 1px;
+  background: var(--mo-texto-2);
+  transition:
+    transform var(--mo-dur-media) var(--mo-ease-saida),
+    opacity var(--mo-dur-curta) ease;
+}
+.mo-alternar-lateral:hover {
+  background: var(--mo-elevada);
+}
+[data-mo-gaveta-aberta] .mo-alternar-lateral > i:nth-child(1) { transform: translateY(4.5px) rotate(45deg); }
+[data-mo-gaveta-aberta] .mo-alternar-lateral > i:nth-child(2) { opacity: 0; }
+[data-mo-gaveta-aberta] .mo-alternar-lateral > i:nth-child(3) { transform: translateY(-4.5px) rotate(-45deg); }
+
+/* ---------- Corpo ---------- */
+.mo-corpo {
+  display: grid;
+  grid-template-columns: var(--mo-lateral-largura) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  min-height: 0;
+  position: relative;
+  z-index: 1;
+}
+.mo-corpo:not(:has(> .mo-lateral)) {
+  grid-template-columns: minmax(0, 1fr);
+}
+/* O fundo de pixels mora só na coluna do conteúdo: atrás do menu não aparece. */
+.mo-corpo > .mo-fundo {
+  grid-column: -2 / -1;
+  grid-row: 1;
+}
+.mo-corpo > :where(.mo-lateral, .mo-conteudo) {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- Barra lateral ---------- */
+.mo-lateral {
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--mo-espaco-3) 10px;
+  background: var(--mo-lateral);
+  border-right: 1px solid var(--mo-borda);
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.mo-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 9px 12px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--mo-texto-2);
+  font-weight: 500;
+  text-align: left;
+  position: relative;
+  isolation: isolate;
+  transition:
+    background var(--mo-dur-curta) ease,
+    color var(--mo-dur-curta) ease;
+}
+.mo-nav-item:hover {
+  background: var(--mo-secundaria-suave);
+  color: var(--mo-texto);
+  text-decoration: none;
+}
+/* O item atual: pílula chapada no container de destaque. Ele tem nome na
+   View Transition, então desliza (com o rótulo) de um item para o outro ao
+   trocar de página. */
+.mo-nav-item:is([aria-current]:not([aria-current="false"]), .ativo) {
+  color: var(--mo-sobre-destaque);
+  font-weight: 600;
+  view-transition-name: mo-pilula;
+}
+.mo-nav-item:is([aria-current]:not([aria-current="false"]), .ativo)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--mo-destaque-fundo);
+}
+.mo-nav-item > .mo-ponto {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--mo-decorativa);
+  flex: none;
+  transition:
+    background var(--mo-dur-curta) ease,
+    transform var(--mo-dur-curta) ease;
+}
+.mo-nav-item:hover > .mo-ponto {
+  background: var(--mo-texto-3);
+  transform: scale(1.25);
+}
+.mo-nav-item:is([aria-current]:not([aria-current="false"]), .ativo) > .mo-ponto {
+  background: var(--mo-sobre-destaque);
+}
+.mo-nav-item > .mo-simbolo {
+  color: var(--mo-texto-3);
+}
+.mo-nav-item:is([aria-current]:not([aria-current="false"]), .ativo) > .mo-simbolo {
+  color: inherit;
+}
+.mo-nav-texto {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mo-nav-item > .mo-contagem {
+  font-family: var(--mo-fonte-mono);
+  font-size: 11px;
+  color: var(--mo-texto-3);
+  flex: none;
+}
+.mo-nav-item:is([aria-current]:not([aria-current="false"]), .ativo) > .mo-contagem {
+  color: color-mix(in srgb, var(--mo-sobre-destaque) 80%, transparent);
+}
+
+/* Rótulo de grupo na lateral: mono, pequeno, espaçado. */
+.mo-lateral-rotulo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--mo-espaco-2);
+  padding: 4px 12px 8px;
+  font-family: var(--mo-fonte-mono);
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mo-texto-3);
+}
+.mo-lateral > .mo-separador {
+  margin: var(--mo-espaco-3) 4px;
+}
+.mo-lateral-pe {
+  margin-top: auto;
+  padding: var(--mo-espaco-3) 12px 4px;
+  font-family: var(--mo-fonte-mono);
+  font-size: 11px;
+  color: var(--mo-texto-3);
+}
+
+/* ---------- Conteúdo ---------- */
+.mo-conteudo {
+  grid-column: -2 / -1;
+  grid-row: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-width: 0;
+  min-height: 0;
+  /* Transparente para o fundo de pixels aparecer: sem isto o Chromium pode
+     desistir de rolar na GPU e repintar tudo a cada quadro. */
+  will-change: scroll-position;
+}
+
+/* Barra que gruda no topo do conteúdo (filtros, abas, ações). */
+.mo-barra-fixa {
+  display: flex;
+  align-items: center;
+  gap: var(--mo-espaco-2);
+  flex-wrap: wrap;
+  padding: 11px 18px;
+  background: var(--mo-lateral-2);
+  border-block: 1px solid var(--mo-borda);
+  position: sticky;
+  top: 0;
+  z-index: var(--mo-z-fixo);
+}
+.mo-barra-fixa--pe {
+  top: auto;
+  bottom: 0;
+  border-bottom: 0;
+}
+
+/* ---------- Rodapé (barra de estado) ---------- */
+.mo-rodape {
+  display: flex;
+  align-items: center;
+  gap: var(--mo-espaco-4);
+  min-height: 28px;
+  padding: 0 var(--mo-espaco-4);
+  background: var(--mo-cabecalho);
+  border-top: 1px solid var(--mo-linha);
+  font-family: var(--mo-fonte-mono);
+  font-size: 11px;
+  color: var(--mo-texto-3);
+  position: relative;
+  z-index: 2;
+}
+
+/* ---------- Telas estreitas: a lateral vira gaveta ---------- */
+@media (max-width: 760px) {
+  .mo-corpo,
+  .mo-corpo:not(:has(> .mo-lateral)) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .mo-cabecalho:has(~ .mo-corpo > .mo-lateral) .mo-alternar-lateral {
+    display: flex;
+  }
+  .mo-corpo > .mo-lateral {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: min(280px, 86vw);
+    z-index: var(--mo-z-gaveta);
+    transform: translateX(-102%);
+    visibility: hidden;
+    transition:
+      transform var(--mo-dur-longa) var(--mo-ease-gaveta),
+      visibility 0s linear var(--mo-dur-longa);
+    box-shadow: 0 0 0 100vmax transparent;
+  }
+  [data-mo-gaveta-aberta] .mo-corpo > .mo-lateral {
+    transform: none;
+    visibility: visible;
+    transition: transform var(--mo-dur-longa) var(--mo-ease-gaveta);
+    /* O resto da janela escurece sem um elemento a mais. */
+    box-shadow: 0 0 0 100vmax color-mix(in srgb, var(--mo-janela) 62%, transparent);
+  }
+  .mo-cabecalho {
+    gap: var(--mo-espaco-3);
+  }
+  .mo-cabecalho-meta,
+  .mo-controles-janela {
+    display: none;
+  }
+}

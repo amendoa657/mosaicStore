@@ -1,0 +1,42 @@
+/* ==========================================================================
+   Mosaic UI
+   A identidade visual do Mosaic em HTML, CSS e JS, para qualquer app.
+
+   Uso:
+     <script src="mosaic-ui/mosaic-inicio.js"></script>      (opcional)
+     <link rel="stylesheet" href="mosaic-ui/mosaic.css">
+     <script type="module" src="mosaic-ui/mosaic.js"></script>
+
+   A vitrine (index.html) mostra cada peça funcionando; o README.md resume.
+
+   Toda a biblioteca mora em camadas (@layer). CSS do seu app que não
+   estiver numa camada vence qualquer regra daqui, sem !important e sem
+   brigar por especificidade: é só escrever.
+
+   A ordem das camadas, da mais fraca para a mais forte:
+     mosaic.tokens       variáveis (cores do Matugen, raios, espaços, tempos)
+     mosaic.base         reset, tipografia, foco, rolagem
+     mosaic.layout       pilha, linha, grade, centro
+     mosaic.componentes  teclas, campos, cartões, barras, diálogos...
+     mosaic.movimento    entradas e transições (somem com movimento reduzido)
+     mosaic.utilitarios  ajustes pontuais (mo-mono, mo-sr...)
+   ========================================================================== */
+
+@layer mosaic.tokens, mosaic.base, mosaic.layout, mosaic.componentes, mosaic.movimento, mosaic.utilitarios;
+
+@import url("css/fontes.css");
+@import url("css/tokens.css") layer(mosaic.tokens);
+@import url("css/base.css") layer(mosaic.base);
+@import url("css/layout.css") layer(mosaic.layout);
+@import url("css/app.css") layer(mosaic.componentes);
+@import url("css/tecla.css") layer(mosaic.componentes);
+@import url("css/marca.css") layer(mosaic.componentes);
+@import url("css/campos.css") layer(mosaic.componentes);
+@import url("css/conteudo.css") layer(mosaic.componentes);
+@import url("css/progresso.css") layer(mosaic.componentes);
+@import url("css/sobreposicoes.css") layer(mosaic.componentes);
+@import url("css/terminal.css") layer(mosaic.componentes);
+@import url("css/simbolos.css") layer(mosaic.componentes);
+@import url("css/pixels.css") layer(mosaic.componentes);
+@import url("css/movimento.css") layer(mosaic.movimento);
+@import url("css/utilitarios.css") layer(mosaic.utilitarios);

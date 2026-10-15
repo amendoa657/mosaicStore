@@ -1,0 +1,95 @@
+/* ==========================================================================
+   Terminal: a saída de um comando, ao vivo.
+
+   <div class="mo-terminal">
+     <header><span class="mo-terminal-rotulo">SAÍDA</span>
+             <span class="mo-terminal-alvo">pacman -Syu</span> …teclas…</header>
+     <pre class="mo-terminal-saida">…linhas…<i class="mo-caret"></i></pre>
+   </div>
+
+   Linhas podem ter classe: .ok, .erro, .aviso, .fraco, .seta (o "::" do
+   pacman). mosaic.terminal(el).escrever("texto") acrescenta e rola sozinho,
+   só se a pessoa já estava no fim.
+   ========================================================================== */
+
+.mo-terminal {
+  --mo-terminal-altura: 300px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border: 1px solid var(--mo-borda);
+  border-radius: var(--mo-raio-g);
+  background: var(--mo-fundo);
+  overflow: hidden;
+}
+.mo-terminal > header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+  padding: 7px 10px 7px 15px;
+  background: var(--mo-lateral-2);
+  flex: none;
+}
+.mo-terminal-rotulo {
+  font-family: var(--mo-fonte-mono);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--mo-texto-2);
+  flex: none;
+}
+.mo-terminal-alvo {
+  font-family: var(--mo-fonte-mono);
+  font-size: 11px;
+  color: var(--mo-texto-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  flex: 1;
+}
+.mo-terminal > header > .mo-tecla {
+  --mo-tecla-altura: 24px;
+  --mo-tecla-pad: 10px;
+  font-family: var(--mo-fonte-mono);
+  font-weight: 500;
+  font-size: 11px;
+}
+.mo-terminal-saida {
+  height: var(--mo-terminal-altura);
+  margin: 0;
+  padding: 14px 16px;
+  overflow-y: auto;
+  font-family: var(--mo-fonte-mono);
+  font-size: 11.5px;
+  line-height: 1.85;
+  color: var(--mo-texto-2);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.mo-terminal-saida > div {
+  min-height: 1lh;
+}
+.mo-terminal-saida .seta { color: var(--mo-destaque); }
+.mo-terminal-saida .ok { color: var(--mo-destaque); }
+.mo-terminal-saida .erro { color: var(--mo-perigo); }
+.mo-terminal-saida .aviso { color: var(--mo-secundaria); }
+.mo-terminal-saida .fraco { color: var(--mo-texto-3); }
+.mo-terminal-saida .nova {
+  animation: mo-entrar-linha var(--mo-dur-media) var(--mo-ease-saida);
+}
+.mo-terminal--solto {
+  border: 0;
+  border-radius: 0;
+}
+
+/* O cursor que pisca no fim da saída. */
+.mo-caret {
+  display: inline-block;
+  width: 7px;
+  height: 13px;
+  background: var(--mo-destaque);
+  vertical-align: -2px;
+  animation: mo-piscar 1.1s steps(1) infinite;
+}

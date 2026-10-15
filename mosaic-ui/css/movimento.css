@@ -1,0 +1,169 @@
+/* ==========================================================================
+   Movimento.
+   Curvas fortes e curtas: ease-out para entrar e sair, ease-in-out para
+   mover. Nada passa de 420 ms, nada quica, nada gira sem motivo.
+
+   .mo-entra      o elemento entra subindo 8 px
+   .mo-cascata    os filhos entram um depois do outro (45 ms entre eles)
+
+   Ninguém entra animado quando a página é a mesma aberta de novo
+   (.mo-repeticao) ou quando ela chegou pela onda de pixels (.mo-via-pixels),
+   que já é a entrada. Movimento reduzido troca deslocamento por um fade
+   curto, e .mo-sem-movimento no <html> desliga tudo.
+   ========================================================================== */
+
+.mo-entra,
+.mo-cascata > * {
+  animation: mo-entrar 0.42s var(--mo-ease-saida) backwards;
+  animation-delay: calc(var(--ordem, 0) * 45ms + var(--mo-cascata-atraso, 0ms));
+}
+.mo-cascata > :nth-child(2) { --ordem: 1; }
+.mo-cascata > :nth-child(3) { --ordem: 2; }
+.mo-cascata > :nth-child(4) { --ordem: 3; }
+.mo-cascata > :nth-child(5) { --ordem: 4; }
+.mo-cascata > :nth-child(6) { --ordem: 5; }
+.mo-cascata > :nth-child(n + 7) { --ordem: 6; }
+
+.mo-repeticao :is(.mo-entra, .mo-cascata > *),
+.mo-via-pixels :is(.mo-entra, .mo-cascata > *) {
+  animation: none;
+}
+
+/* ---------- Troca de página (View Transitions) ----------
+   Entre páginas do mesmo app o conteúdo cruza rápido e a pílula da lateral
+   desliza até o item novo. Navegador sem suporte troca como sempre. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+::view-transition-group(*) {
+  animation-duration: 260ms;
+  animation-timing-function: var(--mo-ease-meio);
+}
+::view-transition-old(root) {
+  animation: 140ms ease-out both mo-sumir;
+}
+::view-transition-new(root) {
+  animation: 260ms var(--mo-ease-saida) both mo-so-aparecer;
+}
+
+/* ---------- Quadros-chave ---------- */
+@keyframes mo-entrar {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes mo-so-aparecer {
+  from { opacity: 0; }
+}
+@keyframes mo-sumir {
+  to { opacity: 0; }
+}
+@keyframes mo-surgir {
+  from { opacity: 0; transform: translateY(-4px) scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes mo-abrir {
+  from { opacity: 0; transform: scale(0.96) translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes mo-fechar {
+  to { opacity: 0; transform: scale(0.97) translateY(4px); }
+}
+@keyframes mo-entrar-direita {
+  from { transform: translateX(100%); }
+  to { transform: none; }
+}
+@keyframes mo-sair-direita {
+  to { transform: translateX(100%); }
+}
+@keyframes mo-entrar-linha {
+  from { opacity: 0; transform: translateX(-5px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes mo-aviso-entrar {
+  from { opacity: 0; transform: translateY(100%) scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes mo-aviso-sair {
+  to { opacity: 0; transform: translateY(8px) scale(0.98); }
+}
+/* A marca gira um quarto de volta por vez, com pausa entre os quartos. */
+@keyframes mo-blocos-girando {
+  0% { transform: rotate(0deg); animation-timing-function: var(--mo-ease-meio); }
+  25% { transform: rotate(90deg); animation-timing-function: var(--mo-ease-meio); }
+  50% { transform: rotate(180deg); animation-timing-function: var(--mo-ease-meio); }
+  75% { transform: rotate(270deg); animation-timing-function: var(--mo-ease-meio); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes mo-assentar {
+  from { opacity: 0; transform: scale(0.6) rotate(-90deg); }
+}
+@keyframes mo-bloco-correndo {
+  from { transform: translateX(0); }
+  to { transform: translateX(355%); }
+}
+@keyframes mo-bloco-correndo-fundo {
+  from { background-position: 0 0, 0 0; }
+  to { background-position: 100% 0, 0 0; }
+}
+@keyframes mo-crescer-bloco {
+  from { transform: scaleX(0.04); }
+}
+@keyframes mo-piscar-bloco {
+  to { background: var(--mo-tom); }
+}
+@keyframes mo-piscar {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+@keyframes mo-respirar {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(0.82); }
+}
+
+/* ---------- Movimento reduzido ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .mo-entra,
+  .mo-cascata > *,
+  .mo-dialogo[open],
+  .mo-aviso-flutuante,
+  .mo-menu:popover-open,
+  .mo-menu.mo-aberto {
+    animation: mo-so-aparecer 0.2s ease backwards;
+  }
+  .mo-painel[open] {
+    animation: mo-so-aparecer 0.2s ease;
+  }
+  .mo-painel.mo-fechando,
+  .mo-dialogo.mo-fechando {
+    animation: mo-sumir 0.15s ease forwards;
+  }
+  .mo-pulso,
+  .mo-caret {
+    animation: none;
+  }
+  .mo-marca--girando,
+  .mo-tecla[aria-busy="true"]::after {
+    animation-duration: 3.2s;
+  }
+  a.mo-cartao:hover,
+  .mo-cartao--interativo:hover,
+  .mo-chip:active {
+    transform: none;
+  }
+}
+
+/* Interruptor "sem animações" do app: desliga tudo, inclusive transições. */
+.mo-sem-movimento *,
+.mo-sem-movimento *::before,
+.mo-sem-movimento *::after,
+.mo-sem-movimento ::backdrop {
+  animation: none !important;
+  transition: none !important;
+}
+.mo-sem-movimento::view-transition-group(*),
+.mo-sem-movimento::view-transition-old(*),
+.mo-sem-movimento::view-transition-new(*) {
+  animation: none !important;
+}

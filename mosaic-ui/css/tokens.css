@@ -1,0 +1,120 @@
+/* ==========================================================================
+   Tokens
+   Tudo que a biblioteca desenha sai daqui. Cada cor lê primeiro a variável
+   que o Matugen gera (o mesmo template da loja: --corDestaque, --corFundoJanela...)
+   e só usa o valor fixo se ela não existir. Então qualquer app que carregar
+   o colors.css do Matugen já nasce com as cores do wallpaper.
+
+   Para personalizar: redefina o token no :root do seu app (ou num elemento,
+   e o ajuste vale só ali dentro):
+
+     :root { --mo-destaque: #ffb77c; --mo-raio-m: 4px; }
+   ========================================================================== */
+
+:root {
+  color-scheme: dark;
+
+  /* ---------- Cores do tema (Matugen) ---------- */
+  --mo-destaque: var(--corDestaque, #86d7ac);
+  --mo-destaque-fundo: var(--corFundoDestaque, var(--mo-destaque));
+  --mo-sobre-destaque: var(--corTextoDestaque, #003823);
+
+  --mo-secundaria: var(--corAcentoSecundario, #e9b9d3);
+  --mo-secundaria-fundo: var(--corFundoAcentoSecundario, #5f3c51);
+  --mo-secundaria-texto: var(--corTextoAcentoSecundario, #ffd8eb);
+
+  --mo-terciaria: var(--corAcentoTerciario, #b5c5f9);
+  --mo-terciaria-fundo: var(--corFundoAcentoTerciario, #354571);
+  --mo-terciaria-texto: var(--corTextoAcentoTerciario, #dae2ff);
+
+  --mo-perigo: var(--corDestrutiva, #ffb4ab);
+  --mo-perigo-fundo: var(--corFundoDestrutivo, #93000a);
+  --mo-perigo-texto: var(--corTextoDestrutivo, #ffdad6);
+
+  /* Superfícies, da mais funda para a mais alta. */
+  --mo-fundo: var(--corFundoVisualizacao, #0f0d15);
+  --mo-janela: var(--corFundoJanela, #14121a);
+  --mo-lateral-2: var(--corFundoBarraLateralSecundaria, #1d1a22);
+  --mo-cabecalho: var(--corFundoBarraCabecalho, #211e26);
+  --mo-lateral: var(--corFundoBarraLateral, #211e26);
+  --mo-cartao: var(--corFundoCartao, #211e26);
+  --mo-dialogo: var(--corFundoDialogo, #2b2931);
+  --mo-elevada: var(--corFundoPopUp, #36333c);
+
+  /* Texto: três níveis, todos com contraste de 4.5:1 sobre as superfícies. */
+  --mo-texto: var(--corTextoJanela, #e6e0ec);
+  --mo-texto-2: color-mix(in srgb, var(--mo-texto) 78%, transparent);
+  --mo-texto-3: color-mix(in srgb, var(--mo-texto) 64%, transparent);
+
+  /* ---------- Derivadas (nenhuma cor nova: tudo misturado das de cima) ---------- */
+  --mo-linha: color-mix(in srgb, var(--mo-texto) 10%, transparent);
+  --mo-borda: color-mix(in srgb, var(--mo-texto) 9%, transparent);
+  --mo-decorativa: color-mix(in srgb, var(--mo-texto) 26%, transparent);
+  --mo-cartao-hover: color-mix(in srgb, var(--mo-secundaria) 7%, var(--mo-cartao));
+  --mo-elevada-hover: color-mix(in srgb, var(--mo-texto) 14%, var(--mo-elevada));
+  --mo-destaque-suave: color-mix(in srgb, var(--mo-destaque) 16%, transparent);
+  --mo-secundaria-suave: color-mix(in srgb, var(--mo-secundaria) 20%, transparent);
+  --mo-terciaria-suave: color-mix(in srgb, var(--mo-terciaria) 20%, transparent);
+  --mo-perigo-suave: color-mix(in srgb, var(--mo-perigo-fundo) 42%, transparent);
+  --mo-mista: color-mix(in srgb, var(--mo-secundaria) 54%, var(--mo-terciaria));
+  --mo-foco: var(--mo-destaque);
+
+  /* Os quatro tons da marca. Cada pacote, ícone ou fonte escolhe um
+     (mo-tom-0...3) e mantém a mesma cor em qualquer tela. */
+  --mo-tom-0: var(--mo-destaque);
+  --mo-tom-1: var(--mo-secundaria);
+  --mo-tom-2: var(--mo-terciaria);
+  --mo-tom-3: var(--mo-mista);
+  --mo-tom: var(--mo-tom-2);
+
+  /* ---------- Tipografia ---------- */
+  --mo-fonte: "Space Grotesk", system-ui, sans-serif;
+  --mo-fonte-mono: "JetBrains Mono", ui-monospace, monospace;
+  --mo-tamanho-p: 12px;
+  --mo-tamanho-m: 13.5px;
+  --mo-tamanho-g: 15px;
+  --mo-tamanho-titulo: 26px;
+  --mo-tamanho-numero: 44px;
+
+  /* ---------- Forma ---------- */
+  --mo-raio-p: 7px;
+  --mo-raio-m: 9px;
+  --mo-raio-g: 12px;
+  --mo-raio-xg: 18px;
+  /* A borda de baixo das teclas: o que faz um botão parecer uma tecla. */
+  --mo-profundidade: 2px;
+  /* Quanto da cor da face sobra na borda de baixo (o resto é preto). */
+  --mo-tecla-sombra: 45%;
+
+  /* Espaços: escala de 4 px. */
+  --mo-espaco-1: 4px;
+  --mo-espaco-2: 8px;
+  --mo-espaco-3: 12px;
+  --mo-espaco-4: 16px;
+  --mo-espaco-5: 20px;
+  --mo-espaco-6: 26px;
+  --mo-espaco-7: 36px;
+  --mo-espaco-8: 52px;
+
+  /* ---------- Movimento ---------- */
+  --mo-ease-saida: cubic-bezier(0.23, 1, 0.32, 1);
+  --mo-ease-meio: cubic-bezier(0.77, 0, 0.175, 1);
+  --mo-ease-gaveta: cubic-bezier(0.32, 0.72, 0, 1);
+  --mo-dur-toque: 90ms;
+  --mo-dur-curta: 180ms;
+  --mo-dur-media: 240ms;
+  --mo-dur-longa: 420ms;
+
+  /* ---------- Camadas ---------- */
+  --mo-z-fixo: 3;
+  --mo-z-gaveta: 25;
+  --mo-z-avisos: 60;
+  --mo-z-cortina: 80;
+}
+
+/* Os tons como classes: põe a cor do tom em --mo-tom, que os componentes
+   (ícone, cartão, chip, selo, etapa...) usam. */
+.mo-tom-0 { --mo-tom: var(--mo-tom-0); }
+.mo-tom-1 { --mo-tom: var(--mo-tom-1); }
+.mo-tom-2 { --mo-tom: var(--mo-tom-2); }
+.mo-tom-3 { --mo-tom: var(--mo-tom-3); }

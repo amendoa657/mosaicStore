@@ -1,0 +1,105 @@
+/* ==========================================================================
+   Progresso.
+   A barra é uma tecla comprida, afundada. Com o valor conhecido ela enche;
+   sem, um bloco corre de um lado para o outro.
+
+   <div class="mo-barra" style="--valor: 40%"><i></i></div>
+   <div class="mo-barra mo-barra--indeterminada"><i></i></div>
+   <progress class="mo-barra" value="40" max="100"></progress>
+   <progress class="mo-barra"></progress>            (sem valor: indeterminada)
+
+   Todas as barras indeterminadas da tela correm juntas, no mesmo compasso,
+   mesmo as que surgem depois (o mosaic.js acerta o --mo-atraso de cada uma).
+   Cor: --mo-barra-cor. Altura: --mo-barra-altura.
+   ========================================================================== */
+
+.mo-barra {
+  --mo-barra-cor: var(--mo-destaque);
+  --mo-barra-trilho: var(--mo-elevada);
+  --mo-barra-altura: 12px;
+  --mo-atraso: 0ms;
+  display: block;
+  width: 100%;
+  height: var(--mo-barra-altura);
+  border: 0;
+  border-radius: calc(var(--mo-barra-altura) / 2);
+  background: var(--mo-barra-trilho);
+  box-shadow: inset 0 -2px 0 color-mix(in oklab, var(--mo-barra-trilho) 60%, black);
+  overflow: hidden;
+  position: relative;
+  appearance: none;
+  -webkit-appearance: none;
+  color: var(--mo-barra-cor);
+}
+.mo-barra > i {
+  display: block;
+  width: var(--valor, 0%);
+  height: 100%;
+  border-radius: inherit;
+  background: var(--mo-barra-cor);
+  box-shadow: inset 0 -2px 0 color-mix(in oklab, var(--mo-barra-cor) 55%, black);
+  transition: width 0.5s var(--mo-ease-saida);
+}
+.mo-barra--indeterminada > i {
+  width: 22%;
+  animation: mo-bloco-correndo 1.3s var(--mo-ease-meio) infinite alternate;
+  animation-delay: var(--mo-atraso);
+}
+
+/* <progress> nativo, com a mesma cara. */
+progress.mo-barra::-webkit-progress-bar {
+  background: transparent;
+}
+progress.mo-barra::-webkit-progress-value {
+  border-radius: calc(var(--mo-barra-altura) / 2);
+  background: var(--mo-barra-cor);
+  box-shadow: inset 0 -2px 0 color-mix(in oklab, var(--mo-barra-cor) 55%, black);
+  transition: width 0.5s var(--mo-ease-saida);
+}
+progress.mo-barra::-moz-progress-bar {
+  border-radius: calc(var(--mo-barra-altura) / 2);
+  background: var(--mo-barra-cor);
+}
+/* Sem valor: o Chromium não anima o <progress> sozinho do nosso jeito,
+   então o bloco é desenhado por cima. */
+progress.mo-barra:indeterminate::-webkit-progress-value {
+  display: none;
+}
+progress.mo-barra:indeterminate::-moz-progress-bar {
+  background: transparent;
+}
+progress.mo-barra:indeterminate {
+  background:
+    linear-gradient(var(--mo-barra-cor) 0 0) 0 0 / 22% 100% no-repeat,
+    var(--mo-barra-trilho);
+  animation: mo-bloco-correndo-fundo 1.3s var(--mo-ease-meio) infinite alternate;
+  animation-delay: var(--mo-atraso);
+}
+
+/* Cores e tamanhos. */
+.mo-barra--perigo { --mo-barra-cor: var(--mo-perigo); }
+.mo-barra--tom { --mo-barra-cor: var(--mo-tom); }
+.mo-barra--fina { --mo-barra-altura: 6px; box-shadow: none; }
+.mo-barra--fina > i { box-shadow: none; }
+
+/* Barra em blocos: o progresso em quadradinhos, um por passo.
+   <div class="mo-blocos" style="--passos: 12; --feitos: 5"></div> */
+.mo-blocos {
+  --mo-blocos-cor: var(--mo-destaque);
+  --mo-blocos-tamanho: 10px;
+  --mo-blocos-vao: 4px;
+  --passos: 10;
+  --feitos: 0;
+  --mo-blocos-celula: calc(var(--mo-blocos-tamanho) + var(--mo-blocos-vao));
+  display: block;
+  width: calc(var(--passos) * var(--mo-blocos-celula) - var(--mo-blocos-vao));
+  max-width: 100%;
+  height: var(--mo-blocos-tamanho);
+  background:
+    linear-gradient(var(--mo-blocos-cor) 0 0) 0 0 / calc(var(--feitos) * var(--mo-blocos-celula)) 100% no-repeat,
+    var(--mo-elevada);
+  /* A máscara recorta a faixa em quadradinhos. */
+  -webkit-mask: linear-gradient(90deg, #000 var(--mo-blocos-tamanho), transparent 0) 0 0 / var(--mo-blocos-celula) 100% repeat-x;
+  mask: linear-gradient(90deg, #000 var(--mo-blocos-tamanho), transparent 0) 0 0 / var(--mo-blocos-celula) 100% repeat-x;
+  transition: background-size 0.4s var(--mo-ease-saida);
+}
