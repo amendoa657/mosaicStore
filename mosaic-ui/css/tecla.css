@@ -226,21 +226,13 @@
 }
 
 /* ---------- Atalho de teclado ---------- */
-/* Uma tecla pequena, de enfeite: <kbd class="mo-atalho">Ctrl</kbd> */
+/* A tecla que faz algo, escrita pequena: <kbd class="mo-atalho">/</kbd> */
 .mo-atalho {
-  display: inline-grid;
-  place-items: center;
-  min-width: 20px;
-  height: 20px;
-  padding: 0 6px;
-  border-radius: 4px;
-  background: var(--mo-elevada);
-  box-shadow: 0 1.5px 0 color-mix(in oklab, var(--mo-elevada) 50%, black);
-  color: var(--mo-texto-3);
   font-family: var(--mo-fonte-mono);
   font-size: 10.5px;
-  font-weight: 500;
-  line-height: 1;
-  vertical-align: 1px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: var(--mo-elevada);
+  color: var(--mo-texto-3);
   flex: none;
 }

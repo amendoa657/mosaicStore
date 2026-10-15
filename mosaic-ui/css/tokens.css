@@ -127,6 +127,9 @@
   --mo-dur-media: 240ms;
   --mo-dur-longa: 420ms;
 
+  /* Escala da interface inteira (zoom no <html>). */
+  --mo-escala: 1;
+
   /* ---------- Camadas ---------- */
   --mo-z-fixo: 3;
   --mo-z-gaveta: 25;

@@ -24,7 +24,7 @@
 
 {% block cabecalho %}
   <a class="btn btn-voltar" href="/buscar">← Voltar</a>
-  <span class="meta meta-cabecalho">{{ pacote.repositorio }} / {{ pacote.nome }}</span>
+  <span class="meta mo-cabecalho-meta">{{ pacote.repositorio }} / {{ pacote.nome }}</span>
 {% endblock %}
 
 {# Esta tela ocupa a largura toda: sem barra lateral e sem rodapé. #}
@@ -63,7 +63,7 @@
              durante a compilação. Revise o script antes de continuar.</p>
           {% if pacote.pkgBuild %}
             <div class="acoes">
-              <button class="btn btn-destrutivo" data-abrir="pkgbuild">Ver PKGBUILD</button>
+              <button class="btn btn-destrutivo" data-mo-abrir="#pkgbuild">Ver PKGBUILD</button>
             </div>
           {% endif %}
         </div>
@@ -125,7 +125,7 @@
     </section>
 
     {% if pacote.dependencias %}
-      <div class="separador" style="margin: 0"></div>
+      <div class="mo-separador" style="margin: 0"></div>
       <section>
         <div class="rotulo-painel">DEPENDÊNCIAS · {{ pacote.dependencias| length }}</div>
         <div class="nuvem-deps" style="margin-top: 9px">
@@ -138,11 +138,11 @@
     {% endif %}
 
     {% if pacote.pkgBuild %}
-      <div class="separador" style="margin: 0"></div>
+      <div class="mo-separador" style="margin: 0"></div>
       <section>
         <div class="rotulo-painel">
           <span>PKGBUILD</span>
-          <button class="vinculo-painel" data-abrir="pkgbuild">abrir</button>
+          <button class="vinculo-painel" data-mo-abrir="#pkgbuild">abrir</button>
         </div>
         <pre class="pkgbuild" style="margin: 9px 0 0">{{ pacote.pkgBuild.split("\n")[:5] | join("\n") }}
 …</pre>
@@ -156,13 +156,13 @@
       <header class="dialogo-cabecalho">
         <h2>PKGBUILD</h2>
         <span class="meta">{{ pacote.Name }} {{ pacote.Version }}</span>
-        <button class="btn btn-icone btn-fechar" data-fechar aria-label="Fechar">✕</button>
+        <button class="btn btn-icone btn-fechar" data-mo-fechar aria-label="Fechar">✕</button>
       </header>
       <div class="dialogo-corpo">
         <pre class="pkgbuild pkgbuild-cheio">{{ pacote.pkgBuild }}</pre>
       </div>
       <footer class="dialogo-rodape">
-        <button class="btn btn-primario" data-fechar>Fechar</button>
+        <button class="btn btn-primario" data-mo-fechar>Fechar</button>
       </footer>
     </dialog>
   {% endif %}

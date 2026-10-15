@@ -1,6 +1,6 @@
 /* ==========================================================================
    Janela do app: cabeçalho, barra lateral, área de conteúdo e rodapé.
-   O mesmo esqueleto da loja, para todo app Mosaic ter a mesma "cara de casa".
+   O esqueleto da loja, para todo app Mosaic ter a mesma "cara de casa".
 
    <div class="mo-app">
      <header class="mo-cabecalho">…</header>
@@ -12,18 +12,25 @@
      <footer class="mo-rodape">…</footer>            (opcional)
    </div>
 
-   Ajustes: --mo-lateral-largura, --mo-cabecalho-altura.
-   Abaixo de 760 px a lateral vira gaveta (botão com data-mo-gaveta).
+   Ajustes: --mo-lateral-largura, --mo-cabecalho-altura, --mo-escala.
+   Até 900 px a lateral vira um trilho só de ícones; até 760 px, gaveta
+   (botão com data-mo-gaveta).
    ========================================================================== */
+
+/* Escala da interface inteira: :root { --mo-escala: 1.1 } deixa tudo 10%
+   maior, sem mexer em medida nenhuma. */
+html {
+  zoom: var(--mo-escala);
+}
 
 .mo-app {
   --mo-lateral-largura: 224px;
   --mo-cabecalho-altura: 47px;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto;
-  grid-template-columns: minmax(0, 1fr);
-  height: 100dvh;
-  min-height: 320px;
+  height: calc(100vh / var(--mo-escala));
+  height: calc(100dvh / var(--mo-escala));
+  min-height: calc(420px / var(--mo-escala));
   background: var(--mo-janela);
   overflow: hidden;
   position: relative;
@@ -34,45 +41,37 @@
 .mo-cabecalho {
   display: flex;
   align-items: center;
-  gap: var(--mo-espaco-4);
+  gap: 16px;
   min-height: var(--mo-cabecalho-altura);
-  padding: 0 var(--mo-espaco-3) 0 var(--mo-espaco-4);
+  padding: 0 12px 0 16px;
   background: var(--mo-cabecalho);
   border-bottom: 1px solid var(--mo-linha);
-  min-width: 0;
+  color: var(--mo-texto-cabecalho);
   position: relative;
   z-index: calc(var(--mo-z-gaveta) + 5);
 }
-.mo-cabecalho-titulo {
-  font-weight: 600;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  min-width: 0;
-}
 .mo-cabecalho-meta {
   font-family: var(--mo-fonte-mono);
-  font-size: var(--mo-tamanho-p);
+  font-size: 12px;
   color: var(--mo-texto-3);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  min-width: 0;
 }
 
 /* O nome do app com a marca na frente. No hover a marca gira um quarto. */
 .mo-logotipo {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 10px;
   font-weight: 600;
-  font-size: var(--mo-tamanho-m);
+  font-size: 13.5px;
   color: inherit;
   flex: none;
+  position: relative;
 }
-a.mo-logotipo:hover {
+.mo-logotipo:hover {
   color: inherit;
-  text-decoration: none;
 }
 .mo-logotipo:hover .mo-marca {
   transform: rotate(90deg);
@@ -82,6 +81,7 @@ a.mo-logotipo:hover {
 .mo-controles-janela {
   display: flex;
   gap: 7px;
+  margin-left: auto;
   flex: none;
 }
 .mo-controles-janela > * {
@@ -91,7 +91,7 @@ a.mo-logotipo:hover {
   border: 0;
   border-radius: 50%;
   background: var(--mo-decorativa);
-  transition: background var(--mo-dur-curta) ease;
+  transition: background 0.18s;
 }
 .mo-controles-janela > :last-child {
   background: color-mix(in srgb, var(--mo-texto) 38%, transparent);
@@ -100,7 +100,7 @@ a.mo-logotipo:hover {
   background: var(--mo-texto-3);
 }
 
-/* Botão da gaveta: três traços que viram um X com a gaveta aberta. */
+/* Botão da gaveta (três traços), só aparece em tela estreita. */
 .mo-alternar-lateral {
   display: none;
   flex-direction: column;
@@ -112,29 +112,23 @@ a.mo-logotipo:hover {
   border: 0;
   border-radius: var(--mo-raio-p);
   background: transparent;
-  flex: none;
+  cursor: pointer;
 }
 .mo-alternar-lateral > i {
   display: block;
   height: 1.5px;
-  border-radius: 1px;
   background: var(--mo-texto-2);
-  transition:
-    transform var(--mo-dur-media) var(--mo-ease-saida),
-    opacity var(--mo-dur-curta) ease;
+  border-radius: 1px;
+  transition: transform 0.2s;
 }
 .mo-alternar-lateral:hover {
   background: var(--mo-elevada);
 }
-[data-mo-gaveta-aberta] .mo-alternar-lateral > i:nth-child(1) { transform: translateY(4.5px) rotate(45deg); }
-[data-mo-gaveta-aberta] .mo-alternar-lateral > i:nth-child(2) { opacity: 0; }
-[data-mo-gaveta-aberta] .mo-alternar-lateral > i:nth-child(3) { transform: translateY(-4.5px) rotate(-45deg); }
 
 /* ---------- Corpo ---------- */
 .mo-corpo {
   display: grid;
   grid-template-columns: var(--mo-lateral-largura) minmax(0, 1fr);
-  grid-template-rows: minmax(0, 1fr);
   min-height: 0;
   position: relative;
   z-index: 1;
@@ -147,20 +141,21 @@ a.mo-logotipo:hover {
   grid-column: -2 / -1;
   grid-row: 1;
 }
-.mo-corpo > :where(.mo-lateral, .mo-conteudo) {
+/* Tudo que vem por cima do fundo. Com peso zero (:where), para não vencer
+   a gaveta da tela estreita, que troca o position por absolute. */
+:where(.mo-corpo > .mo-lateral, .mo-corpo > .mo-conteudo) {
   position: relative;
   z-index: 1;
 }
 
 /* ---------- Barra lateral ---------- */
 .mo-lateral {
-  grid-column: 1;
-  grid-row: 1;
   display: flex;
   flex-direction: column;
   gap: 2px;
-  padding: var(--mo-espaco-3) 10px;
+  padding: 12px 10px;
   background: var(--mo-lateral);
+  color: var(--mo-texto-lateral);
   border-right: 1px solid var(--mo-borda);
   overflow-y: auto;
   min-height: 0;
@@ -171,12 +166,9 @@ a.mo-logotipo:hover {
   align-items: center;
   gap: 11px;
   padding: 9px 12px;
-  border: 0;
   border-radius: 8px;
-  background: transparent;
   color: var(--mo-texto-2);
   font-weight: 500;
-  text-align: left;
   position: relative;
   isolation: isolate;
   transition:
@@ -185,24 +177,30 @@ a.mo-logotipo:hover {
 }
 .mo-nav-item:hover {
   background: var(--mo-secundaria-suave);
-  color: var(--mo-texto);
-  text-decoration: none;
+  color: var(--mo-texto-lateral);
 }
-/* O item atual: pílula chapada no container de destaque. Ele tem nome na
-   View Transition, então desliza (com o rótulo) de um item para o outro ao
-   trocar de página. */
-.mo-nav-item:is([aria-current]:not([aria-current="false"]), .ativo) {
+/* O item atual: pílula chapada no container de destaque. */
+.mo-nav-item:is([aria-current]:not([aria-current="false"]), .ativo),
+.mo-nav-item:is([aria-current]:not([aria-current="false"]), .ativo):hover {
+  background: transparent;
   color: var(--mo-sobre-destaque);
   font-weight: 600;
-  view-transition-name: mo-pilula;
 }
-.mo-nav-item:is([aria-current]:not([aria-current="false"]), .ativo)::before {
+.mo-nav-item:is([aria-current]:not([aria-current="false"]), .ativo):not(:has(> .mo-pilula))::before,
+.mo-nav-item > .mo-pilula {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
   border-radius: inherit;
   background: var(--mo-destaque-fundo);
+}
+/* Com a pílula como elemento (<i class="mo-pilula">), ela ganha nome na
+   View Transition e desliza de um item para o outro ao trocar de página.
+   Dê nome também ao ponto e ao rótulo de cada item (style="view-transition-
+   name: rotulo-x") para eles ficarem por cima, só trocando de cor. */
+.mo-nav-item > .mo-pilula {
+  view-transition-name: mo-pilula;
 }
 .mo-nav-item > .mo-ponto {
   width: 7px;
@@ -211,8 +209,8 @@ a.mo-logotipo:hover {
   background: var(--mo-decorativa);
   flex: none;
   transition:
-    background var(--mo-dur-curta) ease,
-    transform var(--mo-dur-curta) ease;
+    background 0.16s,
+    transform 0.16s;
 }
 .mo-nav-item:hover > .mo-ponto {
   background: var(--mo-texto-3);
@@ -243,27 +241,43 @@ a.mo-logotipo:hover {
 .mo-nav-item:is([aria-current]:not([aria-current="false"]), .ativo) > .mo-contagem {
   color: color-mix(in srgb, var(--mo-sobre-destaque) 80%, transparent);
 }
+/* Contagem que pede atenção (atualizações): selo cheio no destaque. */
+.mo-nav-item > .mo-nav-selo {
+  font-family: var(--mo-fonte-mono);
+  font-weight: 600;
+  font-size: 11px;
+  padding: 1px 7px;
+  border-radius: 9px;
+  flex: none;
+  background: var(--mo-destaque-fundo);
+  color: var(--mo-sobre-destaque);
+}
+.mo-nav-item:is([aria-current]:not([aria-current="false"]), .ativo) > .mo-nav-selo {
+  background: var(--mo-sobre-destaque);
+  color: var(--mo-destaque-fundo);
+}
 
 /* Rótulo de grupo na lateral: mono, pequeno, espaçado. */
 .mo-lateral-rotulo {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--mo-espaco-2);
-  padding: 4px 12px 8px;
+  gap: 8px;
   font-family: var(--mo-fonte-mono);
   font-weight: 600;
   font-size: 10px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--mo-texto-3);
+  padding: 4px 12px 8px;
 }
 .mo-lateral > .mo-separador {
-  margin: var(--mo-espaco-3) 4px;
+  margin: 12px 4px;
 }
+/* Pé da lateral: o que fica embaixo de tudo (versão, estado). */
 .mo-lateral-pe {
   margin-top: auto;
-  padding: var(--mo-espaco-3) 12px 4px;
+  padding: 12px 12px 4px;
   font-family: var(--mo-fonte-mono);
   font-size: 11px;
   color: var(--mo-texto-3);
@@ -271,22 +285,22 @@ a.mo-logotipo:hover {
 
 /* ---------- Conteúdo ---------- */
 .mo-conteudo {
-  grid-column: -2 / -1;
-  grid-row: 1;
+  background: transparent;
+  color: var(--mo-texto-conteudo);
+  /* Transparente para o fundo de pixels aparecer: sem isto o Chromium pode
+     desistir de rolar na GPU e repintar tudo a cada quadro. */
+  will-change: scroll-position;
   overflow-y: auto;
   overflow-x: hidden;
   min-width: 0;
   min-height: 0;
-  /* Transparente para o fundo de pixels aparecer: sem isto o Chromium pode
-     desistir de rolar na GPU e repintar tudo a cada quadro. */
-  will-change: scroll-position;
 }
 
 /* Barra que gruda no topo do conteúdo (filtros, abas, ações). */
 .mo-barra-fixa {
   display: flex;
   align-items: center;
-  gap: var(--mo-espaco-2);
+  gap: 8px;
   flex-wrap: wrap;
   padding: 11px 18px;
   background: var(--mo-lateral-2);
@@ -294,6 +308,7 @@ a.mo-logotipo:hover {
   position: sticky;
   top: 0;
   z-index: var(--mo-z-fixo);
+  flex: none;
 }
 .mo-barra-fixa--pe {
   top: auto;
@@ -305,50 +320,111 @@ a.mo-logotipo:hover {
 .mo-rodape {
   display: flex;
   align-items: center;
-  gap: var(--mo-espaco-4);
-  min-height: 28px;
-  padding: 0 var(--mo-espaco-4);
+  gap: 10px;
+  min-height: 32px;
+  padding: 0 18px;
   background: var(--mo-cabecalho);
-  border-top: 1px solid var(--mo-linha);
+  border-top: 1px solid var(--mo-borda);
+  position: relative;
+  z-index: 1;
   font-family: var(--mo-fonte-mono);
   font-size: 11px;
   color: var(--mo-texto-3);
-  position: relative;
-  z-index: 2;
+}
+.mo-rodape a {
+  color: var(--mo-texto-3);
+}
+.mo-rodape a:hover {
+  color: var(--mo-destaque);
 }
 
-/* ---------- Telas estreitas: a lateral vira gaveta ---------- */
+/* ---------- Até 900 px: a lateral vira trilho, só os pontos ---------- */
+@media (max-width: 900px) {
+  .mo-corpo:has(> .mo-lateral) {
+    grid-template-columns: 64px minmax(0, 1fr);
+  }
+  .mo-lateral {
+    padding: 12px 8px;
+  }
+  .mo-nav-item {
+    justify-content: center;
+    padding: 10px 0;
+  }
+  .mo-nav-texto,
+  .mo-nav-item > .mo-contagem,
+  .mo-lateral-rotulo {
+    display: none;
+  }
+  .mo-nav-item > .mo-nav-selo {
+    position: absolute;
+    margin: -18px 0 0 22px;
+    font-size: 9.5px;
+    padding: 0 5px;
+  }
+}
+
+/* ---------- Até 760 px: a lateral vira gaveta ---------- */
 @media (max-width: 760px) {
-  .mo-corpo,
-  .mo-corpo:not(:has(> .mo-lateral)) {
+  .mo-corpo:has(> .mo-lateral) {
     grid-template-columns: minmax(0, 1fr);
   }
-  .mo-cabecalho:has(~ .mo-corpo > .mo-lateral) .mo-alternar-lateral {
+  .mo-alternar-lateral {
     display: flex;
   }
   .mo-corpo > .mo-lateral {
     position: absolute;
     inset: 0 auto 0 0;
-    width: min(280px, 86vw);
+    width: var(--mo-lateral-largura);
     z-index: var(--mo-z-gaveta);
-    transform: translateX(-102%);
-    visibility: hidden;
-    transition:
-      transform var(--mo-dur-longa) var(--mo-ease-gaveta),
-      visibility 0s linear var(--mo-dur-longa);
-    box-shadow: 0 0 0 100vmax transparent;
+    padding: 12px 10px;
+    transform: translateX(-100%);
+    transition: transform 0.3s var(--mo-ease-gaveta);
+    background: var(--mo-janela);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
   }
   [data-mo-gaveta-aberta] .mo-corpo > .mo-lateral {
     transform: none;
-    visibility: visible;
-    transition: transform var(--mo-dur-longa) var(--mo-ease-gaveta);
-    /* O resto da janela escurece sem um elemento a mais. */
-    box-shadow: 0 0 0 100vmax color-mix(in srgb, var(--mo-janela) 62%, transparent);
+  }
+  /* O resto da janela escurece por trás da gaveta. */
+  [data-mo-gaveta-aberta] .mo-corpo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: calc(var(--mo-z-gaveta) - 1);
+    background: rgba(0, 0, 0, 0.5);
+    animation: mo-so-aparecer 0.2s ease-out;
+  }
+  .mo-nav-item {
+    justify-content: flex-start;
+    padding: 9px 12px;
+  }
+  .mo-nav-texto,
+  .mo-nav-item > .mo-contagem {
+    display: block;
+  }
+  .mo-lateral-rotulo {
+    display: flex;
+  }
+  .mo-nav-texto {
+    flex: 1;
+  }
+  .mo-nav-item > .mo-nav-selo {
+    position: static;
+    margin: 0;
+    font-size: 11px;
+    padding: 1px 7px;
   }
   .mo-cabecalho {
-    gap: var(--mo-espaco-3);
+    padding: 0 10px;
+    gap: 10px;
   }
-  .mo-cabecalho-meta,
+}
+
+/* ---------- Até 520 px: o cabeçalho fica só com a marca ---------- */
+@media (max-width: 520px) {
+  .mo-logotipo span {
+    display: none;
+  }
   .mo-controles-janela {
     display: none;
   }

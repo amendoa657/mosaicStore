@@ -85,35 +85,35 @@
 </head>
 <body>
 
-<div class="janela">
+<div class="mo-app">
 
   {#
     Cabeçalho. A tela pode trocar o miolo inteiro sobrescrevendo o bloco —
     a página do pacote põe um "voltar" no lugar da marca, por exemplo.
   #}
-  <header class="barra-cabecalho">
+  <header class="mo-cabecalho">
     {% block cabecalho %}
-      <a class="marca" href="/"><i class="marca-glifo"></i><span>Mosaic</span></a>
+      <a class="mo-logotipo" href="/"><i class="mo-marca"></i><span>Mosaic</span></a>
 
-      <form class="busca-envolucro" action="/buscar" method="get" role="search">
-        <i class="lupa" aria-hidden="true"></i>
-        <input class="campo-busca" type="search" name="q" value="{{ termo or '' }}"
+      <form class="mo-busca" action="/buscar" method="get" role="search">
+        <i class="mo-lupa" aria-hidden="true"></i>
+        <input type="search" name="q" value="{{ termo or '' }}" data-mo-atalho="/"
                placeholder="Buscar pacotes" aria-label="Buscar pacotes" autocomplete="off">
-        <kbd class="atalho">/</kbd>
+        <kbd class="mo-atalho">/</kbd>
       </form>
     {% endblock %}
 
-    <button class="alternar-lateral" data-menu aria-label="Abrir menu"><i></i><i></i><i></i></button>
-    <div class="controles-janela" aria-hidden="true"><span></span><span></span><span></span></div>
+    <button class="mo-alternar-lateral" data-mo-gaveta aria-label="Abrir menu"><i></i><i></i><i></i></button>
+    <div class="mo-controles-janela" aria-hidden="true"><span></span><span></span><span></span></div>
   </header>
 
-  <div class="corpo {% block classe_corpo %}{% endblock %}">
+  <div class="mo-corpo {% block classe_corpo %}{% endblock %}">
 
     {# Fundo de pontos (luzes.js). Fica atrás de tudo e nunca recebe clique. #}
     <div class="fundo" aria-hidden="true"><canvas class="fundo-pontos"></canvas></div>
 
     {% block lateral %}
-      <nav class="barra-lateral" aria-label="Navegação principal">
+      <nav class="mo-lateral" aria-label="Navegação principal">
         {% set menu = [
           {"rotulo": "Descobrir",     "url": "/",              "id": "descobrir"},
           {"rotulo": "Buscar",        "url": "/buscar",        "id": "buscar"},
@@ -124,14 +124,14 @@
         ] %}
 
         {% for item in menu %}
-          <a class="item-lateral {{ 'ativo' if pagina == item.id }}" href="{{ item.url }}"
+          <a class="mo-nav-item {{ 'ativo' if pagina == item.id }}" href="{{ item.url }}"
              {{ 'aria-current=page' if pagina == item.id }}>
             {# A pílula desliza de um item para o outro entre páginas. #}
-            {% if pagina == item.id %}<i class="pilula" aria-hidden="true"></i>{% endif %}
-            <i class="ponto" aria-hidden="true" style="view-transition-name: ponto-{{ item.id }}"></i>
-            <span class="texto" style="view-transition-name: rotulo-{{ item.id }}">{{ item.rotulo }}</span>
-            {% if item.contagem %}<span class="contagem">{{ item.contagem }}</span>{% endif %}
-            {% if item.selo %}<span class="selo-contagem">{{ item.selo }}</span>{% endif %}
+            {% if pagina == item.id %}<i class="mo-pilula" aria-hidden="true"></i>{% endif %}
+            <i class="mo-ponto" aria-hidden="true" style="view-transition-name: ponto-{{ item.id }}"></i>
+            <span class="mo-nav-texto" style="view-transition-name: rotulo-{{ item.id }}">{{ item.rotulo }}</span>
+            {% if item.contagem %}<span class="mo-contagem">{{ item.contagem }}</span>{% endif %}
+            {% if item.selo %}<span class="mo-nav-selo">{{ item.selo }}</span>{% endif %}
           </a>
         {% endfor %}
 
@@ -142,8 +142,8 @@
            Cada repositório tem sempre a mesma cor (as do tema). #}
         {% if fontes %}
           {% set tons = {"core": 0, "extra": 2, "multilib": 3, "aur": 1} %}
-          <div class="separador"></div>
-          <div class="rotulo-secao">
+          <div class="mo-separador"></div>
+          <div class="mo-lateral-rotulo">
             <span>FONTES</span>
             <span class="contagem-fontes">{{ fontes | selectattr("ligada") | list | length }}/{{ fontes | length }}</span>
           </div>
@@ -171,7 +171,7 @@
         <form class="form-acao" method="post" action="/syncDb" data-sincronizar>
           <input type="hidden" name="voltar" value="{{ request.full_path.rstrip('?') }}">
           <button class="btn estado-sync" title="Baixar de novo os bancos de core, extra e AUR">
-            <i class="glifo-sync" aria-hidden="true"></i>
+            <i class="mo-marca glifo-sync" aria-hidden="true"></i>
             <span class="sync-texto">
               <span class="texto" data-rotulo-sync>Sincronizar mirrors</span>
               <span class="detalhe-sync">{{ sincronizado or "core · extra · aur" }}</span>
@@ -181,26 +181,23 @@
       </nav>
     {% endblock %}
 
-    <main class="visualizacao {% block classe_conteudo %}{% endblock %}">
+    <main class="mo-conteudo {% block classe_conteudo %}{% endblock %}">
       {% block conteudo %}{% endblock %}
     </main>
 
     {# Cortina de pixels da transição entre páginas (luzes.js). #}
     <canvas class="transicao-pixels" aria-hidden="true"></canvas>
-
-    {# Fundo escuro atrás da gaveta do menu em telas estreitas. #}
-    <div class="fundo-lateral" data-fechar-menu></div>
   </div>
 
   {% block estado %}
     {% if contagens %}
-      <footer class="barra-estado">
+      <footer class="mo-rodape">
         <i class="pulso" aria-hidden="true"></i>
         <span>bancos sincronizados {{ sincronizado }}</span>
         <div class="direita">
-          <a class="vinculo-estado" href="/fila">{{ contagens.fila or 0 }} na fila</a>
+          <a href="/fila">{{ contagens.fila or 0 }} na fila</a>
           <span>·</span>
-          <a class="vinculo-estado" href="/atualizacoes">{{ contagens.atualizacoes or 0 }} atualizações pendentes</a>
+          <a href="/atualizacoes">{{ contagens.atualizacoes or 0 }} atualizações pendentes</a>
         </div>
       </footer>
     {% endif %}
@@ -226,6 +223,7 @@
   {% endif %}
 {% endwith %}
 
+<script type="module" src="{{ url_for('static', filename='mosaic-ui/mosaic.js') }}"></script>
 <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 <script src="{{ url_for('static', filename='js/luzes.js') }}"></script>
 </body>

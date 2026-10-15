@@ -9,7 +9,7 @@
    <i class="mo-marca mo-marca--apagada"></i>     sem cor (erro, desligado)
 
    As quatro cores são --mo-marca-1…4 (de cima à esquerda, em leitura), e
-   --mo-marca-vao é o espaço entre os blocos. Um app pode ter a própria
+   --mo-marca-vao é o espaço entre os blocos e --mo-marca-raio, o canto. Um app pode ter a própria
    combinação:  .calculadora { --mo-marca-4: var(--mo-terciaria); }
    ========================================================================== */
 
@@ -27,7 +27,7 @@
   height: var(--mo-marca-tamanho);
   flex: none;
   /* O raio cresce com a marca: 2 px a 15 px, 8 px a 64 px. */
-  border-radius: max(2px, calc(var(--mo-marca-tamanho) * 0.09));
+  border-radius: var(--mo-marca-raio, max(2px, calc(var(--mo-marca-tamanho) * 0.09)));
   background:
     linear-gradient(var(--mo-marca-1) 0 0) 0 0 / var(--mo-bloco) var(--mo-bloco),
     linear-gradient(var(--mo-marca-2) 0 0) 100% 0 / var(--mo-bloco) var(--mo-bloco),

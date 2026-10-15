@@ -33,11 +33,11 @@
 {% endblock %}
 
 {% block cabecalho %}
-  <a class="marca" href="/"><i class="marca-glifo"></i><span>Fila de instalação</span></a>
-  <span class="meta meta-cabecalho">
+  <a class="mo-logotipo" href="/"><i class="mo-marca"></i><span>Fila de instalação</span></a>
+  <span class="meta mo-cabecalho-meta">
     {{ concluidos | length }} de {{ fila | length }} concluídos
   </span>
-  <div class="espaco-cabecalho"></div>
+  <span class="mo-empurrar"></span>
 
   {% if instalando or aguardando %}
     <form class="form-acao" method="post" action="/cancelar-tudo">
@@ -59,7 +59,7 @@
       {# Agora: o pacote que está sendo instalado. #}
       {% for item in instalando %}
         <article class="cartao item-agora">
-          <div class="rotulo-painel"><span><i class="glifo-sync girando" aria-hidden="true"></i> INSTALANDO AGORA</span></div>
+          <div class="rotulo-painel"><span><i class="mo-marca glifo-sync girando" aria-hidden="true"></i> INSTALANDO AGORA</span></div>
           <div class="linha">
             {{ icone(item, "icone-46") }}
             <a class="info" href="/buscar/{{ item.nome }}">
@@ -128,7 +128,7 @@
 
     {% else %}
       <div class="em-dia fila-vazia">
-        <div class="glifo-grande glifo-em-dia" aria-hidden="true"></div>
+        <div class="mo-marca glifo-grande glifo-em-dia" aria-hidden="true"></div>
         <h2>Fila vazia</h2>
         <p>Nada instalando agora. O que você mandar instalar aparece aqui, com o build ao vivo.</p>
         <a class="btn btn-g btn-primario" href="/">Descobrir pacotes</a>

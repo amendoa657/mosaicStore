@@ -4,6 +4,7 @@
 
    data-mo-abrir="#id"      abre o <dialog> (diálogo ou painel) ou popover
    data-mo-fechar           fecha o diálogo/painel/menu em que está
+   data-mo-fechar-fora      no <dialog>: clicar no fundo escurecido fecha
    data-mo-gaveta           abre e fecha a lateral em telas estreitas
    data-mo-menu="#id"       abre o menu suspenso embaixo do botão
    data-mo-segmentos        grupo de teclas ou chips: só um fica ligado
@@ -28,35 +29,17 @@ export function abrir(alvo) {
   if (!el) return;
   if (el instanceof HTMLDialogElement) {
     if (el.open) return;
-    el.classList.remove("mo-fechando");
     el.showModal();
   } else if (el.hasAttribute("popover")) {
     el.showPopover?.();
   }
 }
 
-/* Fecha com a animação de saída e só então tira da tela. */
 export function fechar(alvo, valor) {
   const el = typeof alvo === "string" ? $(alvo) : alvo;
   if (!el) return;
   if (el instanceof HTMLDialogElement) {
-    if (!el.open || el.classList.contains("mo-fechando")) return;
-    const animado = !matchMedia("(prefers-reduced-motion: reduce)").matches &&
-      !document.documentElement.classList.contains("mo-sem-movimento");
-    if (!animado) {
-      el.close(valor);
-      return;
-    }
-    el.classList.add("mo-fechando");
-    let feito = false;
-    const fim = () => {
-      if (feito) return;
-      feito = true;
-      el.classList.remove("mo-fechando");
-      el.close(valor);
-    };
-    el.addEventListener("animationend", fim, { once: true });
-    setTimeout(fim, 400);
+    if (el.open) el.close(valor);
   } else if (el.hasAttribute("popover")) {
     el.hidePopover?.();
   } else {
@@ -82,22 +65,18 @@ function ligarDialogos() {
       }
       return;
     }
-    /* Clique no fundo escurecido (fora da caixa do diálogo) fecha. */
+    /* Com data-mo-fechar-fora, clicar no fundo escurecido também fecha. */
     const dialogo = e.target;
-    if (dialogo instanceof HTMLDialogElement && dialogo.open && dialogo.matches(".mo-dialogo, .mo-painel")) {
+    if (dialogo instanceof HTMLDialogElement && dialogo.open && dialogo.hasAttribute("data-mo-fechar-fora")) {
       const r = dialogo.getBoundingClientRect();
       const fora = e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom;
-      if (fora && !dialogo.hasAttribute("data-mo-fixo")) fechar(dialogo);
+      if (fora) fechar(dialogo);
     }
   });
 
-  /* Esc: o navegador fecha na hora; a gente troca pela saída animada. */
+  /* Esc fecha (é o próprio <dialog>), menos com data-mo-fixo. */
   document.addEventListener("cancel", (e) => {
-    const d = e.target;
-    if (d instanceof HTMLDialogElement && d.matches(".mo-dialogo, .mo-painel")) {
-      e.preventDefault();
-      if (!d.hasAttribute("data-mo-fixo")) fechar(d);
-    }
+    if (e.target instanceof HTMLDialogElement && e.target.hasAttribute("data-mo-fixo")) e.preventDefault();
   }, true);
 }
 

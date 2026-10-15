@@ -2,47 +2,23 @@
    vem da Mosaic UI (mosaic-ui/, carregada antes deste arquivo): aqui toda
    cor é um token --mo-*, que lê as cores do Matugen. */
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
 :root {
   /* Listras dos lugares de imagem que ainda não chegou. */
   --corPlaceholderA: color-mix(in srgb, var(--mo-texto) 12%, var(--mo-cartao));
   --corPlaceholderB: color-mix(in srgb, var(--mo-texto) 5%, var(--mo-cartao));
 }
 
-html {
-  --escala-interface: 1.1;
-  zoom: var(--escala-interface);
+:root {
+  /* A interface inteira 10% maior (a Mosaic UI aplica com zoom no <html>). */
+  --mo-escala: 1.1;
 }
 
+/* Base, rolagem, foco e seleção vêm da Mosaic UI. A janela não rola:
+   quem rola é a área de conteúdo. */
 html,
 body {
   height: 100%;
   overflow: hidden;
-}
-body {
-  margin: 0;
-  font-family: var(--mo-fonte);
-  font-size: 13px;
-  line-height: 1.45;
-  background: var(--mo-janela);
-  color: var(--mo-texto);
-  -webkit-font-smoothing: antialiased;
-}
-a {
-  color: var(--mo-destaque);
-  text-decoration: none;
-}
-a:hover {
-  color: color-mix(in srgb, var(--mo-destaque) 78%, var(--mo-texto));
-}
-:focus-visible {
-  outline: 2px solid var(--mo-foco);
-  outline-offset: 2px;
 }
 .mono {
   font-family: var(--mo-fonte-mono);
@@ -53,145 +29,21 @@ mark {
   border-radius: 3px;
   padding: 0 1px;
 }
-::selection {
-  background: var(--mo-destaque-suave);
-  color: var(--mo-texto);
-}
 .sem-script {
   padding: 24px;
   color: var(--mo-texto-2);
 }
 
-/* Rolagem no tom da janela, sem barra clara do sistema. */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: var(--mo-decorativa) transparent;
-}
-*::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-*::-webkit-scrollbar-thumb {
-  background: var(--mo-decorativa);
-  border-radius: 6px;
-  border: 3px solid transparent;
-  background-clip: content-box;
-}
-*::-webkit-scrollbar-thumb:hover {
-  background: var(--mo-texto-3);
-  background-clip: content-box;
-}
-*::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-/* ---------- Janela ---------- */
-.janela {
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
-  height: calc(100vh / var(--escala-interface));
-  height: calc(100dvh / var(--escala-interface));
-  min-height: calc(420px / var(--escala-interface));
-  background: var(--mo-janela);
-  overflow: hidden;
-  position: relative;
-  isolation: isolate;
-}
-.corpo {
-  display: grid;
-  grid-template-columns: 224px minmax(0, 1fr);
-  min-height: 0;
-  position: relative;
-  z-index: 1;
-}
-.corpo.sem-lateral {
-  grid-template-columns: minmax(0, 1fr);
-}
-
-/* ---------- Barra de cabeçalho ---------- */
-.barra-cabecalho {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  min-height: 47px;
-  padding: 0 12px 0 16px;
-  background: var(--mo-cabecalho);
-  border-bottom: 1px solid var(--mo-linha);
-  color: var(--mo-texto-cabecalho);
-  position: relative;
-  z-index: 30;
-}
-.marca {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 600;
-  font-size: 13.5px;
-  color: inherit;
-  flex: none;
-  position: relative;
-}
-.marca:hover {
-  color: inherit;
-}
-/* A marca são quatro pacotes empilhados, um em cada cor do tema. No hover
-   o bloco gira um quarto de volta e as cores trocam de lugar. */
-.marca-glifo,
-.glifo-grande {
-  --bloco: 44%;
-  background:
-    linear-gradient(var(--mo-destaque) 0 0) 0 0 / var(--bloco) var(--bloco),
-    linear-gradient(var(--mo-secundaria) 0 0) 100% 0 / var(--bloco) var(--bloco),
-    linear-gradient(var(--mo-terciaria) 0 0) 0 100% / var(--bloco) var(--bloco),
-    linear-gradient(var(--mo-texto) 0 0) 100% 100% / var(--bloco) var(--bloco);
-  background-repeat: no-repeat;
-  transition: transform 0.36s var(--mo-ease-saida);
-}
-.marca-glifo {
-  width: 15px;
-  height: 15px;
-  border-radius: 2px;
-}
+/* A marca é a .mo-marca da Mosaic UI; aqui ficam só os tamanhos da loja. */
 .letraLogo {
   position: absolute;
   left: 4%;
   top: 4%;
   color: var(--mo-janela);
 }
-.marca:hover .marca-glifo {
-  transform: rotate(90deg);
-}
-.meta-cabecalho {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 /* Empurra para a direita tudo que vier depois dele no cabeçalho. */
-.espaco-cabecalho {
-  flex: 1;
-}
 .btn-voltar {
   flex: none;
-}
-
-.controles-janela {
-  display: flex;
-  gap: 7px;
-  margin-left: auto;
-  flex: none;
-}
-.controles-janela span {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--mo-decorativa);
-  transition: background 0.18s;
-}
-.controles-janela span:last-child {
-  background: color-mix(in srgb, var(--mo-texto) 38%, transparent);
-}
-.controles-janela:hover span {
-  background: var(--mo-texto-3);
 }
 
 .abas {
@@ -218,74 +70,7 @@ mark {
   font-weight: 600;
 }
 
-.alternar-lateral {
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  gap: 3px;
-  width: 30px;
-  height: 30px;
-  padding: 0 7px;
-  border: 0;
-  border-radius: var(--mo-raio-p);
-  background: transparent;
-  cursor: pointer;
-}
-.alternar-lateral i {
-  display: block;
-  height: 1.5px;
-  background: var(--mo-texto-2);
-  border-radius: 1px;
-  transition: transform 0.2s;
-}
-.alternar-lateral:hover {
-  background: var(--mo-elevada);
-}
-
 /* ---------- Busca ---------- */
-.busca-envolucro {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  height: 32px;
-  padding: 0 12px;
-  flex: 1;
-  max-width: 440px;
-  min-width: 0;
-  background: var(--mo-fundo);
-  border: 1.5px solid var(--mo-borda);
-  border-radius: 8px;
-  color: var(--mo-texto-3);
-  transition:
-    border-color var(--mo-dur-curta) ease,
-    box-shadow var(--mo-dur-curta) ease;
-}
-.busca-envolucro:focus-within {
-  border-color: var(--mo-destaque);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--mo-destaque) 18%, transparent);
-  color: var(--mo-texto);
-}
-.campo-busca {
-  flex: 1;
-  min-width: 0;
-  height: 100%;
-  border: 0;
-  padding: 0;
-  background: none;
-  color: var(--mo-texto);
-  font-family: var(--mo-fonte-mono);
-  font-size: 13px;
-}
-.campo-busca::placeholder {
-  color: var(--mo-texto-3);
-}
-.campo-busca:focus {
-  outline: none;
-}
-.campo-busca::-webkit-search-cancel-button {
-  -webkit-appearance: none;
-}
 .lupa {
   width: 11px;
   height: 11px;
@@ -293,137 +78,12 @@ mark {
   border-radius: 50%;
   flex: none;
 }
-.busca-envolucro:focus-within .lupa {
-  border-color: var(--mo-destaque);
-}
-.atalho {
-  font-family: var(--mo-fonte-mono);
-  font-size: 10.5px;
-  padding: 1px 6px;
-  border-radius: 4px;
-  background: var(--mo-elevada);
-  color: var(--mo-texto-3);
-  flex: none;
-  transition: opacity var(--mo-dur-curta) ease;
-}
-.busca-envolucro:focus-within .atalho {
-  opacity: 0;
-}
 
 /* ---------- Barra lateral ---------- */
-.barra-lateral {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: 12px 10px;
-  background: var(--mo-lateral);
-  position: relative;
-  color: var(--mo-texto-lateral);
-  border-right: 1px solid var(--mo-borda);
-  overflow-y: auto;
-  min-height: 0;
-}
-.item-lateral {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  padding: 9px 12px;
-  border-radius: 8px;
-  color: var(--mo-texto-2);
-  font-weight: 500;
-  position: relative;
-  isolation: isolate;
-  transition:
-    background var(--mo-dur-curta) ease,
-    color var(--mo-dur-curta) ease;
-}
-.item-lateral:hover {
-  background: var(--mo-secundaria-suave);
-  color: var(--mo-texto-lateral);
-}
 /* O fundo do item ativo tem nome próprio na view transition: ao trocar de
    página ele desliza do item antigo para o novo. Os rótulos e pontos de
    cada item também têm nome (base.html), então ficam por cima da pílula e
    só trocam de cor no lugar enquanto ela passa por baixo. */
-.item-lateral.ativo,
-.item-lateral.ativo:hover {
-  background: transparent;
-  color: var(--mo-sobre-destaque);
-  font-weight: 600;
-}
-.pilula {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: inherit;
-  background: var(--mo-destaque-fundo);
-  view-transition-name: pilula-lateral;
-}
-.item-lateral .ponto {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--mo-decorativa);
-  flex: none;
-  transition:
-    background 0.16s,
-    transform 0.16s;
-}
-.item-lateral:hover .ponto {
-  background: var(--mo-texto-3);
-  transform: scale(1.25);
-}
-.item-lateral.ativo .ponto {
-  background: var(--mo-sobre-destaque);
-}
-.item-lateral .texto {
-  flex: 1;
-  min-width: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.item-lateral .contagem {
-  font-family: var(--mo-fonte-mono);
-  font-size: 11px;
-  color: var(--mo-texto-3);
-  flex: none;
-}
-.item-lateral.ativo .contagem {
-  color: color-mix(in srgb, var(--mo-sobre-destaque) 80%, transparent);
-}
-.selo-contagem {
-  font-family: var(--mo-fonte-mono);
-  font-weight: 600;
-  font-size: 11px;
-  padding: 1px 7px;
-  border-radius: 9px;
-  flex: none;
-  background: var(--mo-destaque-fundo);
-  color: var(--mo-sobre-destaque);
-}
-.item-lateral.ativo .selo-contagem {
-  background: var(--mo-sobre-destaque);
-  color: var(--mo-destaque-fundo);
-}
-
-.rotulo-secao {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  font-family: var(--mo-fonte-mono);
-  font-weight: 600;
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  color: var(--mo-texto-3);
-  padding: 4px 12px 8px;
-}
-.separador {
-  height: 1px;
-  background: var(--mo-linha);
-  margin: 12px 4px;
-}
 
 /* ---------- Fontes ----------
    Cada repositório é uma linha com um bloquinho na cor dele: aceso quando a
@@ -514,17 +174,10 @@ mark {
   border-radius: 9px;
 }
 .glifo-sync {
-  --bloco: 42%;
+  --mo-marca-vao: 16%;
+  --mo-marca-raio: 0;
   width: 16px;
   height: 16px;
-  flex: none;
-  background:
-    linear-gradient(var(--mo-destaque) 0 0) 0 0 / var(--bloco) var(--bloco),
-    linear-gradient(var(--mo-secundaria) 0 0) 100% 0 / var(--bloco) var(--bloco),
-    linear-gradient(var(--mo-terciaria) 0 0) 0 100% / var(--bloco) var(--bloco),
-    linear-gradient(var(--mo-texto) 0 0) 100% 100% / var(--bloco) var(--bloco);
-  background-repeat: no-repeat;
-  transition: transform 0.36s var(--mo-ease-saida);
 }
 .estado-sync:hover .glifo-sync {
   transform: rotate(90deg);
@@ -556,17 +209,10 @@ mark {
     0 0 0 transparent;
 }
 .estado-sync.sincronizando .glifo-sync {
-  animation: blocos-girando 1.6s infinite;
+  animation: mo-blocos-girando 1.6s infinite;
 }
 .estado-sync.sincronizando .texto::after {
   content: "…";
-}
-@keyframes blocos-girando {
-  0% { transform: rotate(0deg); animation-timing-function: var(--mo-ease-meio); }
-  25% { transform: rotate(90deg); animation-timing-function: var(--mo-ease-meio); }
-  50% { transform: rotate(180deg); animation-timing-function: var(--mo-ease-meio); }
-  75% { transform: rotate(270deg); animation-timing-function: var(--mo-ease-meio); }
-  100% { transform: rotate(360deg); }
 }
 .pulso {
   width: 6px;
@@ -576,22 +222,8 @@ mark {
   flex: none;
   animation: respirar 2.6s ease-in-out infinite;
 }
-.fundo-lateral {
-  display: none;
-}
 
 /* ---------- Área de conteúdo ---------- */
-.visualizacao {
-  background: transparent;
-  color: var(--mo-texto-conteudo);
-  /* A área é transparente (os pontos aparecem atrás). Sem isto o Chromium
-     pode desistir de rolar na GPU e repintar o conteúdo a cada quadro. */
-  will-change: scroll-position;
-  overflow-y: auto;
-  overflow-x: hidden;
-  min-width: 0;
-  min-height: 0;
-}
 .pilha {
   display: flex;
   flex-direction: column;
@@ -1197,7 +829,8 @@ a.cartao:hover,
   pointer-events: none;
 }
 .glifo-grande {
-  --bloco: 45%;
+  --mo-marca-vao: 10%;
+  --mo-marca-raio: 0;
   width: 46px;
   height: 46px;
 }
@@ -1668,7 +1301,7 @@ a.cartao:hover,
     0 0 0 transparent;
 }
 .btn-verificar.verificando .glifo-sync {
-  animation: blocos-girando 1.6s infinite;
+  animation: mo-blocos-girando 1.6s infinite;
 }
 
 /* Faixa de aviso da AUR: a mesma voz do aviso na página do pacote. */
@@ -1797,7 +1430,7 @@ a.cartao:hover,
   border-radius: 5px;
 }
 .tarefa-rodando .glifo-tarefa {
-  animation: blocos-girando 1.6s infinite;
+  animation: mo-blocos-girando 1.6s infinite;
 }
 .tarefa-concluida .glifo-tarefa {
   animation: assentar-marca 0.6s var(--mo-ease-saida) backwards;
@@ -2404,32 +2037,12 @@ a.cartao:hover,
 }
 
 /* ---------- Barra de estado ---------- */
-.barra-estado {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 32px;
-  padding: 0 18px;
-  background: var(--mo-cabecalho);
-  border-top: 1px solid var(--mo-borda);
-  position: relative;
-  z-index: 1;
-  font-family: var(--mo-fonte-mono);
-  font-size: 11px;
-  color: var(--mo-texto-3);
-}
-.barra-estado .direita {
+.mo-rodape .direita {
   margin-left: auto;
   display: flex;
   align-items: center;
   gap: 6px;
   white-space: nowrap;
-}
-.vinculo-estado {
-  color: var(--mo-texto-3);
-}
-.vinculo-estado:hover {
-  color: var(--mo-destaque);
 }
 
 /* ---------- Página de pacote ---------- */
@@ -2752,7 +2365,7 @@ button.dep {
   height: 11px;
 }
 .glifo-sync.girando {
-  animation: blocos-girando 1.6s infinite;
+  animation: mo-blocos-girando 1.6s infinite;
 }
 .item-agora .linha {
   display: flex;
@@ -3688,8 +3301,8 @@ button.dep {
   }
 }
 @media (max-width: 1100px) {
-  .visualizacao.detalhe,
-  .visualizacao.fila {
+  .mo-conteudo.detalhe,
+  .mo-conteudo.fila {
     display: block;
     overflow-y: auto;
   }
@@ -3731,32 +3344,10 @@ button.dep {
   }
 }
 @media (max-width: 900px) {
-  .corpo {
-    grid-template-columns: 64px minmax(0, 1fr);
-  }
-  .barra-lateral {
-    padding: 12px 8px;
-  }
-  .item-lateral {
-    justify-content: center;
-    padding: 10px 0;
-  }
-  .item-lateral .texto,
-  .item-lateral .contagem,
-  .rotulo-secao,
   .fonte-repo .texto,
   .fonte-estado,
   .sync-texto {
     display: none;
-  }
-  .item-lateral .selo-contagem {
-    position: absolute;
-    margin: -18px 0 0 22px;
-    font-size: 9.5px;
-    padding: 0 5px;
-  }
-  .item-lateral {
-    position: relative;
   }
   .fonte-repo {
     justify-content: center;
@@ -3798,56 +3389,12 @@ button.dep {
   }
 }
 @media (max-width: 760px) {
-  .corpo {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .alternar-lateral {
-    display: flex;
-  }
-  .barra-lateral {
-    position: absolute;
-    inset: 0 auto 0 0;
-    width: 224px;
-    z-index: 25;
-    padding: 12px 10px;
-    transform: translateX(-100%);
-    transition: transform 0.3s var(--mo-ease-gaveta);
-    background: var(--mo-janela);
-    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
-  }
-  .lateral-aberta .barra-lateral {
-    transform: none;
-  }
-  .lateral-aberta .fundo-lateral {
-    display: block;
-    position: absolute;
-    inset: 0;
-    z-index: 24;
-    background: rgba(0, 0, 0, 0.5);
-    animation: entrar-fundo 0.2s ease-out;
-  }
-  .item-lateral {
-    justify-content: flex-start;
-    padding: 9px 12px;
-  }
-  .item-lateral .texto,
-  .item-lateral .contagem,
   .fonte-repo .texto,
   .fonte-estado {
     display: block;
   }
-  .rotulo-secao,
   .sync-texto {
     display: flex;
-  }
-  .item-lateral .texto {
-    flex: 1;
-  }
-  .item-lateral .selo-contagem {
-    position: static;
-    margin: 0;
-    font-size: 11px;
-    padding: 1px 7px;
   }
   .fonte-repo {
     justify-content: flex-start;
@@ -3866,16 +3413,6 @@ button.dep {
   .secao {
     padding: 20px 16px;
   }
-  .barra-cabecalho {
-    padding: 0 10px;
-    gap: 10px;
-  }
-  .busca-envolucro {
-    max-width: none;
-  }
-  .atalho {
-    display: none;
-  }
 }
 @media (max-width: 720px) {
   .linha-pacote {
@@ -3892,7 +3429,7 @@ button.dep {
   .destaque {
     flex-direction: column;
   }
-  .barra-estado .direita {
+  .mo-rodape .direita {
     display: none;
   }
   .coluna-fila,
@@ -3922,12 +3459,6 @@ button.dep {
     min-height: 64px;
     padding: 10px 14px;
     align-items: center;
-  }
-  .marca span {
-    display: none;
-  }
-  .controles-janela {
-    display: none;
   }
   .capa-indice h1 {
     font-size: 22px;

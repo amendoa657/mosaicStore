@@ -24,8 +24,8 @@
 .mo-linha--espalhada { justify-content: space-between; }
 .mo-linha--fim { justify-content: flex-end; }
 
-/* Empurra o que vem depois para o fim da linha. */
-.mo-empurrar { margin-left: auto; }
+/* Ocupa a sobra da linha: o que vem depois vai para o fim. */
+.mo-empurrar { flex: 1; }
 
 /* Grade: colunas que se ajustam sozinhas à largura (mínimo --mo-coluna). */
 .mo-grade {

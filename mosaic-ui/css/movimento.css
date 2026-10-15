@@ -135,10 +135,6 @@
   .mo-painel[open] {
     animation: mo-so-aparecer 0.2s ease;
   }
-  .mo-painel.mo-fechando,
-  .mo-dialogo.mo-fechando {
-    animation: mo-sumir 0.15s ease forwards;
-  }
   .mo-pulso,
   .mo-caret {
     animation: none;

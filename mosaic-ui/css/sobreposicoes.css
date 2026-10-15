@@ -36,17 +36,11 @@
   display: flex;
   animation: mo-abrir var(--mo-dur-media) var(--mo-ease-saida);
 }
-.mo-dialogo.mo-fechando {
-  animation: mo-fechar var(--mo-dur-curta) ease-in forwards;
-}
 .mo-dialogo::backdrop {
   background: color-mix(in oklab, var(--mo-janela) 70%, transparent);
 }
 .mo-dialogo[open]::backdrop {
   animation: mo-so-aparecer var(--mo-dur-media) ease-out;
-}
-.mo-dialogo.mo-fechando::backdrop {
-  animation: mo-sumir var(--mo-dur-curta) ease-in forwards;
 }
 .mo-dialogo--estreito { --mo-dialogo-largura: 420px; }
 .mo-dialogo--largo { --mo-dialogo-largura: 920px; }
@@ -122,17 +116,11 @@
   display: flex;
   animation: mo-entrar-direita var(--mo-dur-longa) var(--mo-ease-gaveta);
 }
-.mo-painel.mo-fechando {
-  animation: mo-sair-direita var(--mo-dur-media) var(--mo-ease-gaveta) forwards;
-}
 .mo-painel::backdrop {
   background: color-mix(in oklab, var(--mo-janela) 55%, transparent);
 }
 .mo-painel[open]::backdrop {
   animation: mo-so-aparecer var(--mo-dur-media) ease-out;
-}
-.mo-painel.mo-fechando::backdrop {
-  animation: mo-sumir var(--mo-dur-media) ease-in forwards;
 }
 .mo-painel > .mo-dialogo-corpo {
   flex: 1;

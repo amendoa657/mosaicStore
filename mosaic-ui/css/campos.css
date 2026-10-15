@@ -129,37 +129,34 @@ select.mo-campo option {
 /* ---------- Busca ---------- */
 .mo-busca {
   --mo-campo-fundo: var(--mo-fundo);
+  position: relative;
   display: flex;
   align-items: center;
   gap: 10px;
   height: 32px;
   padding: 0 12px;
-  min-width: 0;
   flex: 1;
   max-width: 440px;
+  min-width: 0;
   background: var(--mo-campo-fundo);
   border: 1.5px solid var(--mo-borda);
   border-radius: 8px;
   color: var(--mo-texto-3);
-  cursor: text;
   transition:
     border-color var(--mo-dur-curta) ease,
     box-shadow var(--mo-dur-curta) ease;
 }
-.mo-busca:hover {
-  border-color: var(--mo-decorativa);
-}
 .mo-busca:focus-within {
   border-color: var(--mo-destaque);
-  box-shadow: 0 0 0 3px var(--mo-destaque-suave);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--mo-destaque) 18%, transparent);
   color: var(--mo-texto);
 }
 .mo-busca > input {
   flex: 1;
   min-width: 0;
   height: 100%;
-  padding: 0;
   border: 0;
+  padding: 0;
   background: none;
   color: var(--mo-texto);
   font-family: var(--mo-fonte-mono);
@@ -175,34 +172,29 @@ select.mo-campo option {
   -webkit-appearance: none;
 }
 .mo-busca:focus-within > .mo-lupa {
-  color: var(--mo-destaque);
-}
-.mo-busca:focus-within > .mo-atalho {
-  opacity: 0;
+  border-color: var(--mo-destaque);
 }
 .mo-busca > .mo-atalho {
   transition: opacity var(--mo-dur-curta) ease;
 }
-/* Uma lupa de dois traços, sem ícone. */
+.mo-busca:focus-within > .mo-atalho {
+  opacity: 0;
+}
+@media (max-width: 760px) {
+  .mo-busca {
+    max-width: none;
+  }
+  .mo-busca > .mo-atalho {
+    display: none;
+  }
+}
+/* A lupa: só um círculo, na cor do texto. */
 .mo-lupa {
   width: 11px;
   height: 11px;
   border: 1.5px solid currentColor;
   border-radius: 50%;
   flex: none;
-  position: relative;
-  transition: color var(--mo-dur-curta) ease;
-}
-.mo-lupa::after {
-  content: "";
-  position: absolute;
-  width: 4px;
-  height: 1.5px;
-  right: -4px;
-  bottom: -2px;
-  background: currentColor;
-  border-radius: 1px;
-  transform: rotate(45deg);
 }
 
 /* ---------- Interruptor ----------
