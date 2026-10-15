@@ -41,7 +41,7 @@
 
   {% if instalando or aguardando %}
     <form class="form-acao" method="post" action="/cancelar-tudo">
-      <button class="btn btn-destrutivo">Cancelar tudo</button>
+      <button class="mo-tecla mo-tecla--perigo">Cancelar tudo</button>
     </form>
   {% endif %}
 {% endblock %}
@@ -85,7 +85,7 @@
               </a>
               <form class="form-acao" method="post" action="/cancelar">
                 <input type="hidden" name="pacote" value="{{ item.nome }}">
-                <button class="btn btn-cancelar" aria-label="Tirar {{ item.nome }} da fila" title="Tirar da fila">✕</button>
+                <button class="mo-tecla btn-cancelar" aria-label="Tirar {{ item.nome }} da fila" title="Tirar da fila">✕</button>
               </form>
             </article>
           {% endfor %}
@@ -131,7 +131,7 @@
         <div class="mo-marca glifo-grande glifo-em-dia" aria-hidden="true"></div>
         <h2>Fila vazia</h2>
         <p>Nada instalando agora. O que você mandar instalar aparece aqui, com o build ao vivo.</p>
-        <a class="btn btn-g btn-primario" href="/">Descobrir pacotes</a>
+        <a class="mo-tecla mo-tecla--g mo-tecla--destaque" href="/">Descobrir pacotes</a>
       </div>
     {% endif %}
   </div>

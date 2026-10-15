@@ -42,9 +42,6 @@ mark {
   color: var(--mo-janela);
 }
 /* Empurra para a direita tudo que vier depois dele no cabeçalho. */
-.btn-voltar {
-  flex: none;
-}
 
 .abas {
   display: flex;
@@ -165,22 +162,14 @@ mark {
 .estado-sync {
   margin-top: auto;
   width: 100%;
-  height: auto;
   min-height: 46px;
-  padding: 8px 12px;
-  justify-content: flex-start;
-  gap: 11px;
   text-align: left;
-  border-radius: 9px;
 }
 .glifo-sync {
   --mo-marca-vao: 16%;
   --mo-marca-raio: 0;
   width: 16px;
   height: 16px;
-}
-.estado-sync:hover .glifo-sync {
-  transform: rotate(90deg);
 }
 .sync-texto {
   display: flex;
@@ -250,105 +239,8 @@ mark {
   font-size: 12px;
 }
 
-/* ---------- Botões ---------- */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  height: 30px;
-  padding: 0 14px;
-  border: 0;
-  border-radius: var(--mo-raio-p);
-  font-family: var(--mo-fonte);
-  font-weight: 600;
-  font-size: 12px;
-  /* Botões são teclas: cor chapada e uma borda de baixo mais escura que
-     some quando a tecla desce. --tecla é a cor da face. */
-  --tecla: var(--mo-elevada);
-  background: var(--tecla);
-  color: var(--mo-texto-elevada);
-  box-shadow:
-    inset 0 1px 0 color-mix(in oklab, var(--mo-texto) 7%, transparent),
-    0 2px 0 color-mix(in oklab, var(--tecla) 45%, black);
-  cursor: pointer;
-  white-space: nowrap;
-  flex: none;
-  transition:
-    background var(--mo-dur-curta) ease,
-    color var(--mo-dur-curta) ease,
-    box-shadow 90ms ease-out,
-    transform 90ms ease-out,
-    opacity var(--mo-dur-curta) ease;
-}
-.btn:hover {
-  background: color-mix(in oklab, var(--tecla) 88%, var(--mo-texto));
-}
-.btn:active {
-  transform: translateY(2px);
-  box-shadow:
-    inset 0 1px 0 color-mix(in oklab, var(--mo-texto) 4%, transparent),
-    0 0 0 color-mix(in oklab, var(--tecla) 45%, black);
-}
-.btn:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-}
-.btn:disabled:hover {
-  background: var(--tecla);
-}
-.btn:disabled:active {
-  transform: none;
-}
-.btn-g {
-  height: 37px;
-  padding: 0 22px;
-  font-size: 13.5px;
-  border-radius: var(--mo-raio-m);
-}
-.btn-primario {
-  --tecla: var(--mo-destaque-fundo);
-  color: var(--mo-sobre-destaque);
-}
-.btn-primario:hover {
-  background: color-mix(in oklab, var(--tecla) 90%, white);
-}
-.btn-sucesso {
-  --tecla: var(--mo-sucesso-fundo);
-  color: var(--mo-sucesso-texto);
-}
-.btn-destrutivo {
-  --tecla: var(--mo-perigo-suave);
-  color: var(--mo-perigo);
-}
-.btn-destrutivo:hover {
-  background: color-mix(
-    in srgb,
-    var(--mo-perigo) 22%,
-    var(--mo-perigo-suave)
-  );
-}
-.btn-contorno {
-  --tecla: transparent;
-  box-shadow: none;
-  border: 1px solid color-mix(in srgb, var(--mo-perigo) 40%, transparent);
-  color: var(--mo-perigo-texto);
-}
-.btn-contorno:hover {
-  background: var(--mo-perigo-suave);
-}
-.btn-icone {
-  width: 37px;
-  height: 37px;
-  padding: 0;
-  border-radius: var(--mo-raio-m);
-  font-size: 15px;
-  color: var(--mo-texto-2);
-}
-.btn.ocupado {
-  pointer-events: none;
-  opacity: 0.6;
-}
+/* ---------- Teclas ----------
+   A tecla é a .mo-tecla da Mosaic UI; aqui só os estados da loja. */
 
 /* Botão de ação do pacote: o preenchimento acompanha o progresso da fila. */
 .btn-pacote {
@@ -356,7 +248,7 @@ mark {
   position: relative;
   overflow: hidden;
 }
-.btn-pacote.btn-g {
+.btn-pacote.mo-tecla--g {
   min-width: 118px;
 }
 .btn-ocupado {
@@ -498,7 +390,7 @@ mark {
   gap: 8px;
   margin-top: auto;
 }
-.cartao-rodape .btn {
+.cartao-rodape .mo-tecla {
   margin-left: auto;
   height: 28px;
 }
@@ -1153,7 +1045,7 @@ a.cartao:hover,
   display: flex;
   justify-content: flex-end;
 }
-.col-acao .btn {
+.col-acao .mo-tecla {
   height: 28px;
 }
 /* Versão instalada e a nova empilhadas: cabem na altura padrão da linha e
@@ -1289,9 +1181,6 @@ a.cartao:hover,
 .btn-verificar .glifo-sync {
   width: 14px;
   height: 14px;
-}
-.btn-verificar:hover .glifo-sync {
-  transform: rotate(90deg);
 }
 .btn-verificar.verificando {
   pointer-events: none;
@@ -1961,8 +1850,8 @@ a.cartao:hover,
 }
 .btn-remover:hover,
 .btn-remover:focus-visible {
-  --tecla: var(--mo-perigo-suave);
-  background: var(--tecla);
+  --mo-tecla-face: var(--mo-perigo-suave);
+  background: var(--mo-tecla-face);
   color: var(--mo-perigo);
 }
 @media (hover: none) {
@@ -1987,8 +1876,8 @@ a.cartao:hover,
     grid-template-areas: "total" "mosaico" "legenda" "acoes";
     padding: 20px 18px;
   }
-  .resumo-acoes .form-acao .btn,
-  .resumo-acoes .btn {
+  .resumo-acoes .form-acao .mo-tecla,
+  .resumo-acoes .mo-tecla {
     flex: 1;
   }
   .aviso-aur-faixa {
@@ -2179,11 +2068,11 @@ a.cartao:hover,
   margin-top: 11px;
   flex-wrap: wrap;
 }
-.aviso .btn-destrutivo {
+.aviso .mo-tecla--perigo {
   background: var(--mo-perigo);
   color: var(--mo-perigo-fundo);
 }
-.aviso .btn-destrutivo:hover {
+.aviso .mo-tecla--perigo:hover {
   background: color-mix(
     in srgb,
     var(--mo-perigo-texto) 40%,
@@ -2570,7 +2459,7 @@ button.dep {
   display: flex;
   gap: 7px;
 }
-.terminal-cabecalho .btn {
+.terminal-cabecalho .mo-tecla {
   height: 24px;
   padding: 0 10px;
   font-family: var(--mo-fonte-mono);

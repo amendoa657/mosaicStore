@@ -139,7 +139,7 @@
                     <div class="glifo-vazio" aria-hidden="true"></div>
                     <h3>Nenhum pacote encontrado</h3>
                     <p>Nada corresponde a “{{ termo }}” {{ "na AUR" if modo == "aur" else "nos repositórios oficiais" }}.</p>
-                    <a class="btn" href="/buscar?q={{ termo | urlencode }}&modo={{ 'pacman' if modo == 'aur' else 'aur' }}">
+                    <a class="mo-tecla" href="/buscar?q={{ termo | urlencode }}&modo={{ 'pacman' if modo == 'aur' else 'aur' }}">
                         Procurar {{ "nos repositórios" if modo == "aur" else "na AUR" }}
                     </a>
                 </div>

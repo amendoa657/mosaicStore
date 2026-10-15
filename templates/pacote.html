@@ -23,7 +23,7 @@
 {% block titulo %}{{ pacote.nome}} — Mosaic{% endblock %}
 
 {% block cabecalho %}
-  <a class="btn btn-voltar" href="/buscar">← Voltar</a>
+  <a class="mo-tecla" href="/buscar">← Voltar</a>
   <span class="meta mo-cabecalho-meta">{{ pacote.repositorio }} / {{ pacote.nome }}</span>
 {% endblock %}
 
@@ -63,7 +63,7 @@
              durante a compilação. Revise o script antes de continuar.</p>
           {% if pacote.pkgBuild %}
             <div class="acoes">
-              <button class="btn btn-destrutivo" data-mo-abrir="#pkgbuild">Ver PKGBUILD</button>
+              <button class="mo-tecla mo-tecla--perigo" data-mo-abrir="#pkgbuild">Ver PKGBUILD</button>
             </div>
           {% endif %}
         </div>
@@ -77,7 +77,7 @@
           <span class="meta">{{ pacote.progresso or 0 }}%</span>
         </div>
         <div class="barra-progresso alta"><i style="width: {{ pacote.progresso or 0 }}%"></i></div>
-        <a class="btn" href="/fila">Ver fila</a>
+        <a class="mo-tecla" href="/fila">Ver fila</a>
       </div>
     {% endif %}
 
@@ -156,13 +156,13 @@
       <header class="dialogo-cabecalho">
         <h2>PKGBUILD</h2>
         <span class="meta">{{ pacote.Name }} {{ pacote.Version }}</span>
-        <button class="btn btn-icone btn-fechar" data-mo-fechar aria-label="Fechar">✕</button>
+        <button class="mo-tecla mo-tecla--icone btn-fechar" data-mo-fechar aria-label="Fechar">✕</button>
       </header>
       <div class="dialogo-corpo">
         <pre class="pkgbuild pkgbuild-cheio">{{ pacote.pkgBuild }}</pre>
       </div>
       <footer class="dialogo-rodape">
-        <button class="btn btn-primario" data-mo-fechar>Fechar</button>
+        <button class="mo-tecla mo-tecla--destaque" data-mo-fechar>Fechar</button>
       </footer>
     </dialog>
   {% endif %}

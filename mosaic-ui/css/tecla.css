@@ -7,12 +7,13 @@
    <button class="mo-tecla mo-tecla--destaque">Instalar</button>
    <a class="mo-tecla mo-tecla--sutil" href="…">Ver tudo</a>
 
-   Variantes:  --destaque  --secundaria  --terciaria  --tom  --perigo
-               --sutil (sem borda, só aparece no hover)  --icone (quadrada)
+   Variantes:  --destaque  --secundaria  --terciaria  --sucesso  --tom
+               --perigo  --sutil (sem borda, só aparece no hover)
+               --icone (quadrada, para um símbolo)
    Tamanhos:   --p  --g  (e --largura-total)
-   Estados:    :disabled, aria-pressed="true" (afundada), aria-busy="true"
-               (a marca gira no lugar do rótulo), .mo-apertada (afundada
-               pelo teclado: data-mo-atalho)
+   Estados:    :disabled, aria-pressed="true" (afundada e acesa),
+               aria-busy="true" (afundada; a .mo-marca de dentro gira),
+               .mo-apertada (afundada pelo teclado: data-mo-atalho)
 
    Tudo é variável, então dá para criar uma tecla nova sem tocar aqui:
      .minha-tecla { --mo-tecla-face: #ffb77c; --mo-tecla-texto: #4a2800; }
@@ -20,7 +21,7 @@
 
 .mo-tecla {
   --mo-tecla-face: var(--mo-elevada);
-  --mo-tecla-texto: var(--mo-texto);
+  --mo-tecla-texto: var(--mo-texto-elevada);
   --mo-tecla-borda: color-mix(in oklab, var(--mo-tecla-face) var(--mo-tecla-sombra), black);
   --mo-tecla-hover: color-mix(in oklab, var(--mo-tecla-face) 88%, var(--mo-texto));
   --mo-tecla-altura: 30px;
@@ -34,27 +35,23 @@
   justify-content: center;
   gap: 7px;
   height: var(--mo-tecla-altura);
-  min-width: 0;
   padding: 0 var(--mo-tecla-pad);
   border: 0;
   border-radius: var(--mo-tecla-raio);
-  background: var(--mo-tecla-face);
-  color: var(--mo-tecla-texto);
   font-family: var(--mo-fonte);
   font-weight: 600;
   font-size: var(--mo-tecla-fonte);
-  line-height: 1;
-  white-space: nowrap;
-  text-decoration: none;
+  background: var(--mo-tecla-face);
+  color: var(--mo-tecla-texto);
   box-shadow:
     inset 0 1px 0 color-mix(in oklab, var(--mo-texto) 7%, transparent),
     0 var(--mo-tecla-prof) 0 var(--mo-tecla-borda);
   cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
   flex: none;
-  position: relative;
   user-select: none;
   -webkit-user-select: none;
-  touch-action: manipulation;
   transition:
     background var(--mo-dur-curta) ease,
     color var(--mo-dur-curta) ease,
@@ -65,11 +62,13 @@
 .mo-tecla:hover {
   background: var(--mo-tecla-hover);
   color: var(--mo-tecla-texto);
-  text-decoration: none;
 }
+/* Apertada: pelo mouse (:active), pelo teclado (.mo-apertada, ver
+   data-mo-atalho), ligada (aria-pressed) ou ocupada (aria-busy). */
 .mo-tecla:active,
 .mo-tecla.mo-apertada,
-.mo-tecla[aria-pressed="true"] {
+.mo-tecla[aria-pressed="true"],
+.mo-tecla[aria-busy="true"] {
   transform: translateY(var(--mo-tecla-prof));
   box-shadow:
     inset 0 1px 0 color-mix(in oklab, var(--mo-texto) 4%, transparent),
@@ -89,33 +88,41 @@
 .mo-tecla[aria-disabled="true"] {
   opacity: 0.45;
   cursor: not-allowed;
+}
+.mo-tecla:disabled:hover,
+.mo-tecla[aria-disabled="true"]:hover {
+  background: var(--mo-tecla-face);
+}
+.mo-tecla:disabled:active,
+.mo-tecla[aria-disabled="true"]:active {
+  transform: none;
+}
+a.mo-tecla[aria-disabled="true"] {
   pointer-events: none;
 }
 
-/* Ocupada: o rótulo some (sem mudar a largura) e a marca gira no meio. */
+/* Ocupada (a resposta ainda não chegou): fica afundada, não aceita outro
+   clique, e a marca que estiver dentro gira um quarto por vez. */
 .mo-tecla[aria-busy="true"] {
-  color: transparent;
   pointer-events: none;
 }
-.mo-tecla[aria-busy="true"] > * {
-  visibility: hidden;
-}
-.mo-tecla[aria-busy="true"]::after {
-  --mo-bloco: 44%;
-  content: "";
-  position: absolute;
-  inset: 0;
-  width: 13px;
-  height: 13px;
-  margin: auto;
-  border-radius: 2px;
-  background:
-    linear-gradient(var(--mo-tecla-texto) 0 0) 0 0 / var(--mo-bloco) var(--mo-bloco),
-    linear-gradient(var(--mo-tecla-texto) 0 0) 100% 0 / var(--mo-bloco) var(--mo-bloco),
-    linear-gradient(var(--mo-tecla-texto) 0 0) 0 100% / var(--mo-bloco) var(--mo-bloco),
-    linear-gradient(color-mix(in srgb, var(--mo-tecla-texto) 45%, transparent) 0 0) 100% 100% / var(--mo-bloco) var(--mo-bloco);
-  background-repeat: no-repeat;
+.mo-tecla[aria-busy="true"] > .mo-marca {
   animation: mo-blocos-girando 1.6s infinite;
+}
+.mo-tecla:hover > .mo-marca {
+  transform: rotate(90deg);
+}
+
+/* ---------- Ícone ----------
+   Tecla quadrada, para um símbolo só (fechar, configurações). Vem antes
+   das cores e dos tamanhos: --destaque, --p etc. continuam valendo. */
+.mo-tecla--icone {
+  --mo-tecla-altura: 37px;
+  --mo-tecla-raio: var(--mo-raio-m);
+  --mo-tecla-fonte: 15px;
+  --mo-tecla-texto: var(--mo-texto-2);
+  width: var(--mo-tecla-altura);
+  padding: 0;
 }
 
 /* ---------- Cores ---------- */
@@ -132,16 +139,21 @@
   --mo-tecla-face: var(--mo-terciaria-fundo);
   --mo-tecla-texto: var(--mo-terciaria-texto);
 }
+.mo-tecla--sucesso {
+  --mo-tecla-face: var(--mo-sucesso-fundo);
+  --mo-tecla-texto: var(--mo-sucesso-texto);
+}
 /* No tom do elemento (mo-tom-0…3 nele ou num pai). */
 .mo-tecla--tom {
   --mo-tecla-face: var(--mo-tom);
   --mo-tecla-texto: color-mix(in oklab, var(--mo-tom) 22%, black);
   --mo-tecla-hover: color-mix(in oklab, var(--mo-tom) 90%, white);
 }
+/* Perigo: face translúcida no vermelho do tema, letra no vermelho claro. */
 .mo-tecla--perigo {
-  --mo-tecla-face: color-mix(in srgb, var(--mo-perigo-fundo) 42%, var(--mo-elevada));
+  --mo-tecla-face: var(--mo-perigo-suave);
   --mo-tecla-texto: var(--mo-perigo);
-  --mo-tecla-hover: color-mix(in srgb, var(--mo-perigo) 22%, var(--mo-tecla-face));
+  --mo-tecla-hover: color-mix(in srgb, var(--mo-perigo) 22%, var(--mo-perigo-suave));
 }
 /* Sem corpo: só ganha fundo no hover. Para ações de menor peso. */
 .mo-tecla--sutil {
@@ -155,7 +167,7 @@
   --mo-tecla-texto: var(--mo-texto);
 }
 
-/* ---------- Tamanhos e formas ---------- */
+/* ---------- Tamanhos ---------- */
 .mo-tecla--p {
   --mo-tecla-altura: 24px;
   --mo-tecla-pad: 10px;
@@ -166,10 +178,6 @@
   --mo-tecla-pad: 22px;
   --mo-tecla-fonte: var(--mo-tamanho-m);
   --mo-tecla-raio: var(--mo-raio-m);
-}
-.mo-tecla--icone {
-  width: var(--mo-tecla-altura);
-  padding: 0;
 }
 .mo-tecla--largura-total {
   width: 100%;

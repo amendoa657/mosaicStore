@@ -124,7 +124,7 @@
                 {% else %}
                   <form class="form-acao" method="post" action="/remover">
                     <input type="hidden" name="pacote" value="{{ pacote.nome }}">
-                    <button class="btn btn-remover" title="Remover {{ pacote.nome }}">Remover</button>
+                    <button class="mo-tecla btn-remover" title="Remover {{ pacote.nome }}">Remover</button>
                   </form>
                 {% endif %}
               </div>
@@ -142,7 +142,7 @@
                "A lista vem do pacman. Se ela chegou vazia, confira se o pacman responde no terminal.") }}
     {% else %}
       {{ vazio("Nada por aqui", "Nenhum pacote instalado nesta categoria.",
-               '<a class="btn" href="/instalados">Ver todos</a>') }}
+               '<a class="mo-tecla" href="/instalados">Ver todos</a>') }}
     {% endif %}
   </div>
 

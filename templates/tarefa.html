@@ -125,14 +125,14 @@
     <div class="tarefa-acoes">
       {% if situacao == "parada" or situacao == "erro" %}
         <form class="form-acao" method="post" action="/tarefa/{{ nome }}">
-          <button class="btn btn-g btn-primario">{{ "Tentar de novo" if situacao == "erro" else textos.comecar }}</button>
+          <button class="mo-tecla mo-tecla--g mo-tecla--destaque">{{ "Tentar de novo" if situacao == "erro" else textos.comecar }}</button>
         </form>
       {% endif %}
       {% if situacao == "concluida" or situacao == "erro" or situacao == "parada" %}
         {% if nome == "sistema" %}
-          <a class="btn btn-g" href="/atualizacoes">Ver atualizações</a>
+          <a class="mo-tecla mo-tecla--g" href="/atualizacoes">Ver atualizações</a>
         {% else %}
-          <a class="btn btn-g" href="/buscar">Ir para a busca</a>
+          <a class="mo-tecla mo-tecla--g" href="/buscar">Ir para a busca</a>
         {% endif %}
       {% endif %}
       {% if situacao == "rodando" %}

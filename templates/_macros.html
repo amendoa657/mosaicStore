@@ -55,23 +55,23 @@
   Cada botão é um formulário: quem decide o que fazer é o Python.
 #}
 {% macro botao(pacote, grande=false, primario=false) %}
-  {% set tamanho = " btn-g" if grande else "" %}
+  {% set tamanho = " mo-tecla--g" if grande else "" %}
 
   {% if pacote.na_fila %}
-    <button class="btn btn-ocupado{{ tamanho }}" style="--progresso: {{ pacote.progresso or 0 }}%" disabled>
+    <button class="mo-tecla btn-ocupado{{ tamanho }}" style="--progresso: {{ pacote.progresso or 0 }}%" disabled>
       {% if pacote.na_fila == "instalando" %}Instalando {{ pacote.progresso or 0 }}%{% else %}Na fila{% endif %}
     </button>
 
   {% elif pacote.nova_versao %}
     <form class="form-acao" method="post" action="/atualizar">
       <input type="hidden" name="pacote" value="{{ pacote.nome }}">
-      <button class="btn btn-primario{{ tamanho }}">Atualizar</button>
+      <button class="mo-tecla mo-tecla--destaque{{ tamanho }}">Atualizar</button>
     </form>
 
   {% elif pacote.instalado %}
     <form class="form-acao" method="post" action="/remover">
       <input type="hidden" name="pacote" value="{{ pacote.nome }}">
-      <button class="btn btn-sucesso btn-instalado{{ tamanho }}" title="Remover {{ pacote.nome }}">
+      <button class="mo-tecla mo-tecla--sucesso btn-instalado{{ tamanho }}" title="Remover {{ pacote.nome }}">
         <span class="rotulo-padrao">Instalado</span>
         <span class="rotulo-hover">Remover</span>
       </button>
@@ -80,7 +80,7 @@
   {% else %}
     <form class="form-acao" method="post" action="/aur/instalar">
       <input type="hidden" name="pacote" value="{{ pacote.nome }}">
-      <button class="btn{{ " btn-primario" if primario else "" }}{{ tamanho }}">Instalar</button>
+      <button class="mo-tecla{{ " mo-tecla--destaque" if primario else "" }}{{ tamanho }}">Instalar</button>
     </form>
   {% endif %}
 {% endmacro %}

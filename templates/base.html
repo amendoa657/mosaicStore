@@ -131,7 +131,7 @@
            chega, o app.js deixa a tecla em estado "sincronizando". #}
         <form class="form-acao" method="post" action="/syncDb" data-sincronizar>
           <input type="hidden" name="voltar" value="{{ request.full_path.rstrip('?') }}">
-          <button class="btn estado-sync" title="Baixar de novo os bancos de core, extra e AUR">
+          <button class="mo-tecla estado-sync" title="Baixar de novo os bancos de core, extra e AUR">
             <i class="mo-marca glifo-sync" aria-hidden="true"></i>
             <span class="sync-texto">
               <span class="texto" data-rotulo-sync>Sincronizar mirrors</span>

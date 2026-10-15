@@ -75,11 +75,11 @@
       </ul>
 
       <div class="resumo-acoes">
-        <a class="btn btn-g btn-verificar" href="/atualizacoes" data-verificar>
+        <a class="mo-tecla mo-tecla--g btn-verificar" href="/atualizacoes" data-verificar>
           <i class="mo-marca glifo-sync" aria-hidden="true"></i><span data-rotulo-verificar>Verificar agora</span>
         </a>
         <form class="form-acao" method="post" action="/atualizar-tudo">
-          <button class="btn btn-g btn-primario">Atualizar tudo</button>
+          <button class="mo-tecla mo-tecla--g mo-tecla--destaque">Atualizar tudo</button>
         </form>
       </div>
     </section>
@@ -129,7 +129,7 @@
             <div class="col-acao">
               <form class="form-acao" method="post" action="/atualizar">
                 <input type="hidden" name="pacote" value="{{ pacote.nome }}">
-                <button class="btn btn-primario">Atualizar</button>
+                <button class="mo-tecla mo-tecla--destaque">Atualizar</button>
               </form>
             </div>
           </div>
@@ -139,7 +139,7 @@
           <div class="glifo-vazio" aria-hidden="true"></div>
           <h3>Nada nesta fonte</h3>
           <p>As atualizações pendentes são de outra fonte.</p>
-          <a class="btn" href="/atualizacoes">Ver todas</a>
+          <a class="mo-tecla" href="/atualizacoes">Ver todas</a>
         </div>
       {% endif %}
     </div>
@@ -151,7 +151,7 @@
       <div class="mo-marca glifo-grande glifo-em-dia" aria-hidden="true"></div>
       <h2>Tudo em dia</h2>
       <p>Nenhuma atualização pendente nos repositórios oficiais nem na AUR.</p>
-      <a class="btn btn-g btn-verificar" href="/atualizacoes" data-verificar>
+      <a class="mo-tecla mo-tecla--g btn-verificar" href="/atualizacoes" data-verificar>
         <i class="mo-marca glifo-sync" aria-hidden="true"></i><span data-rotulo-verificar>Verificar de novo</span>
       </a>
     </div>
