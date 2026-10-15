@@ -97,8 +97,8 @@
 
     <div class="barra-filtros">
       {% for id, rotulo, n in [("", "Todas", pacotes | length), ("oficiais", "Oficiais", oficiais | length), ("aur", "AUR", aur | length)] if n or not id or fonte == id %}
-        <a class="chip chip-contado {{ 'ativo' if fonte == id }}" href="/atualizacoes{{ '?fonte=' ~ id if id }}"
-           {{ 'aria-current=page' if fonte == id }}>{{ rotulo }}<span>{{ n }}</span></a>
+        <a class="mo-chip {{ 'ativo' if fonte == id }}" href="/atualizacoes{{ '?fonte=' ~ id if id }}"
+           {{ 'aria-current=page' if fonte == id }}>{{ rotulo }}<span class="mo-contagem">{{ n }}</span></a>
       {% endfor %}
     </div>
 

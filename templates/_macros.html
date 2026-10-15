@@ -22,11 +22,11 @@
 {# Etiqueta da fonte: a AUR ganha a cor de alerta, o resto a cor calma. #}
 {% macro selo(pacote) %}
   {% if pacote.repositorio == "aur" %}
-    <span class="selo selo-aur">AUR</span>
+    <span class="mo-selo mo-selo--perigo">AUR</span>
   {% elif pacote.repositorio == "local" %}
-    <span class="selo selo-local">local</span>
+    <span class="mo-selo mo-selo--neutro">local</span>
   {% elif pacote.repositorio %}
-    <span class="selo selo-oficial">{{ pacote.repositorio }}</span>
+    <span class="mo-selo mo-selo--sucesso">{{ pacote.repositorio }}</span>
   {% endif %}
 {% endmacro %}
 
@@ -96,7 +96,7 @@
         <div class="versao">{{ pacote.versao }}</div>
       </div>
     </a>
-    <p class="resumo">{{ pacote.descricao }}</p>
+    <p class="mo-resumo">{{ pacote.descricao }}</p>
     <div class="cartao-rodape">
       {{ selo(pacote) }}
       {{ botao(pacote) }}

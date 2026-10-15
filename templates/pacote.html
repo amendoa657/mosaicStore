@@ -24,7 +24,7 @@
 
 {% block cabecalho %}
   <a class="mo-tecla" href="/buscar">← Voltar</a>
-  <span class="meta mo-cabecalho-meta">{{ pacote.repositorio }} / {{ pacote.nome }}</span>
+  <span class="mo-meta mo-cabecalho-meta">{{ pacote.repositorio }} / {{ pacote.nome }}</span>
 {% endblock %}
 
 {# Esta tela ocupa a largura toda: sem barra lateral e sem rodapé. #}
@@ -74,7 +74,7 @@
       <div class="faixa-progresso">
         <div class="faixa-progresso-texto">
           <strong>{{ pacote.passo or "na fila" }}</strong>
-          <span class="meta">{{ pacote.progresso or 0 }}%</span>
+          <span class="mo-meta">{{ pacote.progresso or 0 }}%</span>
         </div>
         <div class="barra-progresso alta"><i style="width: {{ pacote.progresso or 0 }}%"></i></div>
         <a class="mo-tecla" href="/fila">Ver fila</a>
@@ -155,7 +155,7 @@
     <dialog class="dialogo" id="pkgbuild">
       <header class="dialogo-cabecalho">
         <h2>PKGBUILD</h2>
-        <span class="meta">{{ pacote.Name }} {{ pacote.Version }}</span>
+        <span class="mo-meta">{{ pacote.Name }} {{ pacote.Version }}</span>
         <button class="mo-tecla mo-tecla--icone btn-fechar" data-mo-fechar aria-label="Fechar">✕</button>
       </header>
       <div class="dialogo-corpo">

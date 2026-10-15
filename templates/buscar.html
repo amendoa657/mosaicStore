@@ -71,9 +71,9 @@
 
         {# Trocar de modo é só recarregar a mesma busca com ?modo= diferente. #}
         <div class="modos-busca">
-            <a class="chip {{ 'ativo' if modo == 'aur' }}"
+            <a class="mo-chip {{ 'ativo' if modo == 'aur' }}"
                href="/buscar?q={{ termo | urlencode }}&modo=aur">AUR</a>
-            <a class="chip {{ 'ativo' if modo == 'pacman' }}"
+            <a class="mo-chip {{ 'ativo' if modo == 'pacman' }}"
                href="/buscar?q={{ termo | urlencode }}&modo=pacman">Repositorios Oficiais</a>
         </div>
 
@@ -124,9 +124,9 @@
 
                     <div class="col-fonte">
                         {% if pacote.repositorio == "aur" %}
-                            <span class="selo selo-aur">AUR</span>
+                            <span class="mo-selo mo-selo--perigo">AUR</span>
                         {% else %}
-                            <span class="selo selo-oficial">{{ pacote.repositorio}}</span>
+                            <span class="mo-selo mo-selo--sucesso">{{ pacote.repositorio}}</span>
                         {% endif %}
                     </div>
                 </div>

@@ -77,8 +77,8 @@
       ("local", "Locais", locais | length),
       ("atualizaveis", "Com atualização", atualizaveis | length),
     ] if n or not id or fonte == id %}
-      <a class="chip chip-contado {{ 'ativo' if fonte == id }}" href="/instalados{{ '?fonte=' ~ id if id }}"
-         {{ 'aria-current=page' if fonte == id }}>{{ rotulo }}<span>{{ n }}</span></a>
+      <a class="mo-chip {{ 'ativo' if fonte == id }}" href="/instalados{{ '?fonte=' ~ id if id }}"
+         {{ 'aria-current=page' if fonte == id }}>{{ rotulo }}<span class="mo-contagem">{{ n }}</span></a>
     {% endfor %}
 
     {% if lista %}

@@ -194,7 +194,7 @@ if (telaTarefa) {
     );
     const cursor = document.createElement("div");
     cursor.className = "linha-cursor";
-    cursor.innerHTML = '<i class="caret" aria-hidden="true"></i>';
+    cursor.innerHTML = '<i class="mo-caret" aria-hidden="true"></i>';
     saida.append(cursor);
     if (noFim) saida.scrollTop = saida.scrollHeight;
   };

@@ -34,7 +34,7 @@
 
 {% block cabecalho %}
   <a class="mo-logotipo" href="/"><i class="mo-marca"></i><span>Fila de instalação</span></a>
-  <span class="meta mo-cabecalho-meta">
+  <span class="mo-meta mo-cabecalho-meta">
     {{ concluidos | length }} de {{ fila | length }} concluídos
   </span>
   <span class="mo-empurrar"></span>
@@ -159,7 +159,7 @@
           <div class="terminal-ocioso">Sem build em andamento.</div>
         {% endfor %}
 
-        {% if instalando %}<div class="linha-cursor"><i class="caret" aria-hidden="true"></i></div>{% endif %}
+        {% if instalando %}<div class="linha-cursor"><i class="mo-caret" aria-hidden="true"></i></div>{% endif %}
       </div>
     </section>
   </div>

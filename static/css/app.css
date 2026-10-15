@@ -203,14 +203,6 @@ mark {
 .estado-sync.sincronizando .texto::after {
   content: "…";
 }
-.pulso {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--mo-destaque);
-  flex: none;
-  animation: respirar 2.6s ease-in-out infinite;
-}
 
 /* ---------- Área de conteúdo ---------- */
 .pilha {
@@ -293,28 +285,6 @@ mark {
 }
 
 /* ---------- Selos ---------- */
-.selo {
-  display: inline-flex;
-  align-items: center;
-  flex: none;
-  font-family: var(--mo-fonte-mono);
-  font-weight: 500;
-  font-size: 10.5px;
-  padding: 2px 7px;
-  border-radius: 5px;
-}
-.selo-oficial {
-  background: var(--mo-sucesso-fundo);
-  color: var(--mo-sucesso);
-}
-.selo-aur {
-  background: var(--mo-perigo-suave);
-  color: var(--mo-perigo);
-}
-.selo-destaque {
-  background: var(--mo-destaque-suave);
-  color: var(--mo-destaque);
-}
 
 /* ---------- Cartões ---------- */
 .cartao {
@@ -377,12 +347,6 @@ mark {
   font-family: var(--mo-fonte-mono);
   font-size: 11px;
   color: var(--mo-texto-3);
-}
-.resumo {
-  color: var(--mo-texto-2);
-  font-size: 12px;
-  margin: 0;
-  text-wrap: pretty;
 }
 .cartao-rodape {
   display: flex;
@@ -555,13 +519,6 @@ a.cartao:hover,
   gap: 8px;
   min-width: 0;
 }
-.sobretitulo {
-  font-family: var(--mo-fonte-mono);
-  font-weight: 600;
-  font-size: 10px;
-  letter-spacing: 0.16em;
-  color: var(--mo-secundaria);
-}
 .destaque h1 {
   margin: 0;
   font-size: 23px;
@@ -580,11 +537,6 @@ a.cartao:hover,
   gap: 11px;
   margin-top: 3px;
   flex-wrap: wrap;
-}
-.meta {
-  font-family: var(--mo-fonte-mono);
-  font-size: 12px;
-  color: var(--mo-texto-3);
 }
 .vinculo-detalhe {
   font-size: 12px;
@@ -882,44 +834,6 @@ a.cartao:hover,
   font-size: 12px;
   color: var(--mo-texto-3);
   margin-right: 4px;
-}
-.chip {
-  padding: 4px 12px;
-  border: 0;
-  border-radius: 20px;
-  font-family: var(--mo-fonte);
-  background: var(--mo-elevada);
-  color: var(--mo-texto-2);
-  font-size: 12px;
-  cursor: pointer;
-  transition:
-    background var(--mo-dur-curta) ease,
-    color var(--mo-dur-curta) ease,
-    box-shadow var(--mo-dur-curta) ease,
-    transform var(--mo-dur-toque) var(--mo-ease-saida);
-}
-.chip:hover {
-  background: var(--mo-elevada-hover);
-  color: var(--mo-texto);
-}
-.chip:active {
-  transform: scale(0.96);
-}
-.chip.ativo {
-  background: var(--mo-destaque-fundo);
-  color: var(--mo-sobre-destaque);
-  font-weight: 600;
-}
-.chip-remover {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  background: var(--mo-destaque-suave);
-  color: var(--mo-destaque);
-}
-.chip-remover i {
-  font-style: normal;
-  font-size: 10px;
 }
 .ordenacao {
   margin-left: auto;
@@ -1747,16 +1661,6 @@ a.cartao:hover,
 }
 
 /* Chips com a contagem ao lado do rótulo. */
-.chip-contado {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-}
-.chip-contado span {
-  font-family: var(--mo-fonte-mono);
-  font-size: 10.5px;
-  opacity: 0.7;
-}
 
 /* O campo que filtra a lista na hora, no fim da barra de filtros. */
 .filtro-lista {
@@ -1829,10 +1733,6 @@ a.cartao:hover,
   font-size: 12px;
   color: var(--mo-texto-3);
   white-space: nowrap;
-}
-.selo-local {
-  background: var(--mo-elevada);
-  color: var(--mo-texto-2);
 }
 
 /* Remover fica discreto e só ganha corpo com a linha em foco: numa lista
@@ -2500,14 +2400,6 @@ button.dep {
 .linha-nova {
   animation: entrar-linha var(--mo-dur-media) var(--mo-ease-saida);
 }
-.caret {
-  display: inline-block;
-  width: 7px;
-  height: 13px;
-  background: var(--mo-destaque);
-  vertical-align: -2px;
-  animation: piscar 1.1s steps(1) infinite;
-}
 
 .progresso-simples {
   flex: 1;
@@ -2763,7 +2655,7 @@ button.dep {
   gap: 4px;
   padding: 6px 18px;
 }
-.bloco-config > .resumo {
+.bloco-config > .mo-resumo {
   padding: 12px 0 4px;
 }
 .linha-config {
@@ -2913,7 +2805,7 @@ button.dep {
   font-weight: 700;
   letter-spacing: -0.02em;
 }
-.capa-indice .resumo {
+.capa-indice .mo-resumo {
   max-width: 640px;
   font-size: 13px;
   line-height: 1.65;
@@ -3113,14 +3005,14 @@ button.dep {
     animation: so-aparecer 0.2s ease backwards;
   }
   .barra-progresso.alta > i,
-  .pulso {
+  .mo-pulso {
     animation: none;
   }
   a.cartao:hover,
   .cartao-app:hover,
   .cartao-categoria:hover,
   .cartao-indice:hover,
-  .chip:active {
+  .mo-chip:active {
     transform: none;
   }
   .aviso-flutuante {

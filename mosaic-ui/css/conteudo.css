@@ -18,6 +18,7 @@
   color: var(--mo-tom-sobretitulo, var(--mo-secundaria));
 }
 .mo-resumo {
+  margin: 0;
   color: var(--mo-texto-2);
   font-size: var(--mo-tamanho-p);
   text-wrap: pretty;
@@ -203,32 +204,30 @@ a.mo-cartao:hover,
 .mo-icone-app--xg { --mo-icone-tamanho: 100px; }
 
 /* ---------- Chip ----------
-   Filtro que liga e desliga. <button class="mo-chip" aria-pressed="false">
-   Com contagem: <span class="mo-contagem">12</span> dentro. */
+   Filtro que liga e desliga. <a class="mo-chip ativo">Todos</a> ou
+   <button class="mo-chip" aria-pressed="false">.
+   Com contagem: <span class="mo-contagem">12</span> depois do rótulo. */
 .mo-chip {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  height: 26px;
-  padding: 0 12px;
+  padding: 4px 12px;
   border: 0;
   border-radius: 20px;
+  font-family: var(--mo-fonte);
   background: var(--mo-elevada);
   color: var(--mo-texto-2);
-  font-family: var(--mo-fonte);
-  font-size: var(--mo-tamanho-p);
-  white-space: nowrap;
-  flex: none;
+  font-size: 12px;
   cursor: pointer;
   transition:
     background var(--mo-dur-curta) ease,
     color var(--mo-dur-curta) ease,
+    box-shadow var(--mo-dur-curta) ease,
     transform var(--mo-dur-toque) var(--mo-ease-saida);
 }
 .mo-chip:hover {
   background: var(--mo-elevada-hover);
   color: var(--mo-texto);
-  text-decoration: none;
 }
 .mo-chip:active {
   transform: scale(0.96);
@@ -241,8 +240,7 @@ a.mo-cartao:hover,
 .mo-chip > .mo-contagem {
   font-family: var(--mo-fonte-mono);
   font-size: 10.5px;
-  font-weight: 500;
-  opacity: 0.72;
+  opacity: 0.7;
 }
 /* Removível: o x no fim. */
 .mo-chip--remover {
@@ -262,31 +260,38 @@ a.mo-cartao:hover,
   gap: var(--mo-espaco-2);
 }
 
-/* ---------- Selo ---------- */
+/* ---------- Selo ----------
+   Etiqueta curta (fonte, estado). A cor vem de --mo-selo-cor, com o fundo
+   na mesma cor bem fraca; as variantes usam os containers do tema. */
 .mo-selo {
   --mo-selo-cor: var(--mo-texto-2);
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  height: 19px;
-  padding: 0 7px;
+  flex: none;
+  padding: 2px 7px;
   border-radius: 5px;
   background: color-mix(in srgb, var(--mo-selo-cor) 16%, transparent);
   color: var(--mo-selo-cor);
   font-family: var(--mo-fonte-mono);
   font-weight: 500;
   font-size: 10.5px;
-  white-space: nowrap;
-  flex: none;
-  vertical-align: middle;
 }
 .mo-selo--destaque { --mo-selo-cor: var(--mo-destaque); }
 .mo-selo--secundaria { --mo-selo-cor: var(--mo-secundaria); }
 .mo-selo--terciaria { --mo-selo-cor: var(--mo-terciaria); }
 .mo-selo--tom { --mo-selo-cor: var(--mo-tom); }
+.mo-selo--sucesso {
+  --mo-selo-cor: var(--mo-sucesso);
+  background: var(--mo-sucesso-fundo);
+}
 .mo-selo--perigo {
   --mo-selo-cor: var(--mo-perigo);
   background: var(--mo-perigo-suave);
+}
+.mo-selo--neutro {
+  --mo-selo-cor: var(--mo-texto-2);
+  background: var(--mo-elevada);
 }
 /* Cheio: cor chapada, para contagens que pedem atenção. */
 .mo-selo--cheio {

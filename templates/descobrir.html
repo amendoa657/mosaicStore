@@ -18,13 +18,13 @@
       <article class="destaque">
         {{ icone(destaque, "icone-100") }}
         <div class="destaque-texto">
-          <div class="sobretitulo">EM DESTAQUE</div>
+          <div class="mo-sobretitulo">EM DESTAQUE</div>
           <h1>{{ destaque.titulo or destaque.nome }}</h1>
           <p>{{ destaque.descricao }}</p>
           <div class="destaque-acoes">
             {{ botao(destaque, grande=true, primario=true) }}
             {{ selo(destaque) }}
-            <span class="meta">{{ destaque.versao }}</span>
+            <span class="mo-meta">{{ destaque.versao }}</span>
             <a class="vinculo-detalhe" href="/buscar/{{ destaque.nome }}">Ver detalhes →</a>
           </div>
         </div>
