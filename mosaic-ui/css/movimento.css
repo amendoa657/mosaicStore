@@ -111,7 +111,7 @@
   from { transform: scaleX(0.04); }
 }
 @keyframes mo-piscar-bloco {
-  to { background: var(--mo-tom); }
+  to { background: var(--mo-tom, var(--mo-terciaria)); }
 }
 @keyframes mo-piscar {
   0%, 49% { opacity: 1; }
@@ -144,6 +144,7 @@
     animation-duration: 3.2s;
   }
   a.mo-cartao:hover,
+  .mo-cartao--app:hover,
   .mo-cartao--interativo:hover,
   .mo-chip:active {
     transform: none;

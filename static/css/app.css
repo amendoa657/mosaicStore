@@ -286,156 +286,23 @@ mark {
 
 /* ---------- Selos ---------- */
 
-/* ---------- Cartões ---------- */
-.cartao {
-  background: var(--mo-cartao);
-  color: var(--mo-texto-cartao);
-  border-radius: var(--mo-raio-g);
-  padding: 15px;
-  border: 1px solid var(--mo-borda);
-  box-shadow: var(--mo-sombra-cartao);
-}
+/* ---------- Cartões e ícones ----------
+   O cartão e o ícone são da Mosaic UI (.mo-cartao, .mo-cartao--app,
+   .mo-icone-app); aqui só o que é da loja. */
 .grade-cartoes {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 14px;
 }
-.cartao-app {
-  display: flex;
-  flex-direction: column;
-  gap: 11px;
-}
-
-/* O cartão herda o tom do próprio ícone para a borda do hover. */
-.cartao-app:has(.mo-tom-0),
-.item-fila:has(.mo-tom-0),
-.item-agora:has(.mo-tom-0) { --mo-tom: var(--mo-destaque); }
-.cartao-app:has(.mo-tom-1),
-.item-fila:has(.mo-tom-1),
-.item-agora:has(.mo-tom-1) { --mo-tom: var(--mo-secundaria); }
-.cartao-app:has(.mo-tom-2),
-.item-fila:has(.mo-tom-2),
-.item-agora:has(.mo-tom-2) { --mo-tom: var(--mo-terciaria); }
-.cartao-app:has(.mo-tom-3),
-.item-fila:has(.mo-tom-3),
-.item-agora:has(.mo-tom-3) { --mo-tom: var(--mo-mista); }
-.cartao-app h3 {
-  margin: 0;
-  font-size: 13.5px;
-  font-weight: 600;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.cartao-topo {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  min-width: 0;
-  color: inherit;
-}
-.cartao-topo:hover {
-  color: inherit;
-}
-.cartao-topo:hover h3 {
-  color: var(--mo-destaque);
-}
-.cartao-identidade {
-  min-width: 0;
-}
+/* A fila também herda o tom do ícone, para a borda do hover. */
+.item-fila:has(.mo-tom-0) { --mo-tom: var(--mo-destaque); }
+.item-fila:has(.mo-tom-1) { --mo-tom: var(--mo-secundaria); }
+.item-fila:has(.mo-tom-2) { --mo-tom: var(--mo-terciaria); }
+.item-fila:has(.mo-tom-3) { --mo-tom: var(--mo-mista); }
 .versao {
   font-family: var(--mo-fonte-mono);
   font-size: 11px;
   color: var(--mo-texto-3);
-}
-.cartao-rodape {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: auto;
-}
-.cartao-rodape .mo-tecla {
-  margin-left: auto;
-  height: 28px;
-}
-
-a.cartao,
-.cartao-app,
-.cartao-categoria,
-.cartao-indice {
-  transition:
-    transform var(--mo-dur-media) var(--mo-ease-saida),
-    background var(--mo-dur-curta) ease,
-    border-color var(--mo-dur-curta) ease,
-    box-shadow var(--mo-dur-media) ease;
-}
-a.cartao:hover,
-.cartao-app:hover,
-.cartao-categoria:hover,
-.cartao-indice:hover {
-  background: var(--mo-cartao-hover);
-  border-color: color-mix(in oklab, var(--mo-tom, var(--mo-secundaria)) 38%, transparent);
-  box-shadow: var(--mo-sombra-cartao-hover);
-}
-@media (hover: hover) and (pointer: fine) {
-  a.cartao:hover,
-  .cartao-app:hover,
-  .cartao-categoria:hover,
-  .cartao-indice:hover {
-    transform: translateY(-2px);
-  }
-}
-.cartao-indice {
-  color: inherit;
-}
-.cartao-indice:hover {
-  color: inherit;
-}
-.cartao-indice h3 {
-  color: var(--mo-destaque);
-}
-
-/* Ícones: a inicial em mono sobre um bloco de cor chapada no tom do pacote
-   (tom-0…3 vem do macro `icone`). */
-.icone-app {
-  --tom-icone: var(--mo-tom, var(--mo-terciaria));
-  border-radius: 11px;
-  flex: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--tom-icone);
-  font-family: var(--mo-fonte-mono);
-  font-weight: 700;
-  color: color-mix(in oklab, var(--tom-icone) 22%, black);
-  font-size: 15px;
-  letter-spacing: -0.02em;
-  user-select: none;
-}
-.icone-42 {
-  width: 42px;
-  height: 42px;
-}
-.icone-38 {
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
-  font-size: 14px;
-}
-.icone-78 {
-  width: 78px;
-  height: 78px;
-  border-radius: var(--mo-raio-xg);
-  font-size: 28px;
-}
-.icone-100 {
-  width: 100px;
-  height: 100px;
-  border-radius: 22px;
-  font-size: 36px;
-}
-.icone-app.rotulado {
-  color: color-mix(in srgb, var(--mo-texto) 34%, transparent);
 }
 .placeholder {
   display: flex;
@@ -509,8 +376,8 @@ a.cartao:hover,
 .destaque.deslizando-direita {
   animation: deslizar var(--mo-dur-media) var(--mo-ease-saida);
 }
-.destaque .icone-app {
-  box-shadow: 0 4px 0 color-mix(in oklab, var(--tom-icone) 40%, black);
+.destaque .mo-icone-app {
+  box-shadow: 0 4px 0 color-mix(in oklab, var(--mo-icone-cor) 40%, black);
 }
 .destaque-texto {
   display: flex;
@@ -1722,12 +1589,6 @@ a.cartao:hover,
 .nome-instalado:hover strong {
   color: var(--mo-destaque);
 }
-.icone-34 {
-  width: 34px;
-  height: 34px;
-  border-radius: 9px;
-  font-size: 13px;
-}
 .col-tamanho {
   font-family: var(--mo-fonte-mono);
   font-size: 12px;
@@ -2162,12 +2023,6 @@ button.dep {
   gap: 13px;
   min-width: 0;
 }
-.icone-46 {
-  width: 46px;
-  height: 46px;
-  border-radius: 12px;
-  font-size: 17px;
-}
 .item-agora .info,
 .item-fila .info {
   flex: 1;
@@ -2271,7 +2126,7 @@ button.dep {
 .item-fila.falhou .info span {
   color: var(--mo-perigo);
 }
-.item-fila.concluido .icone-app {
+.item-fila.concluido .mo-icone-app {
   opacity: 0.75;
 }
 .item-fila .btn-cancelar {
@@ -2816,7 +2671,7 @@ button.dep {
   margin-top: 18px;
   flex-wrap: wrap;
 }
-.pagina-indice .cartao-app h3 {
+.pagina-indice .mo-cartao--app h3 {
   font-size: 14px;
 }
 
@@ -2921,7 +2776,7 @@ button.dep {
 .linha-pacote:not(.cabecalho-tabela),
 .destaque,
 .faixa-atualizacoes,
-.secao > .cartao {
+.secao > .mo-cartao {
   animation: entrar 0.42s var(--mo-ease-saida) backwards;
   animation-delay: calc(var(--ordem, 0) * 45ms);
 }
@@ -2978,13 +2833,13 @@ button.dep {
 .mo-repeticao .linha-pacote,
 .mo-repeticao .destaque,
 .mo-repeticao .faixa-atualizacoes,
-.mo-repeticao .secao > .cartao,
+.mo-repeticao .secao > .mo-cartao,
 .mo-via-pixels .grade-cartoes > *,
 .mo-via-pixels .item-fila,
 .mo-via-pixels .linha-pacote,
 .mo-via-pixels .destaque,
 .mo-via-pixels .faixa-atualizacoes,
-.mo-via-pixels .secao > .cartao {
+.mo-via-pixels .secao > .mo-cartao {
   animation: none;
 }
 
@@ -3000,7 +2855,7 @@ button.dep {
   .linha-pacote:not(.cabecalho-tabela),
   .destaque,
   .faixa-atualizacoes,
-  .secao > .cartao,
+  .secao > .mo-cartao,
   .dialogo[open] {
     animation: so-aparecer 0.2s ease backwards;
   }
@@ -3008,10 +2863,7 @@ button.dep {
   .mo-pulso {
     animation: none;
   }
-  a.cartao:hover,
-  .cartao-app:hover,
   .cartao-categoria:hover,
-  .cartao-indice:hover,
   .mo-chip:active {
     transform: none;
   }
@@ -3211,7 +3063,7 @@ button.dep {
   .destaque h1 {
     font-size: 20px;
   }
-  .icone-100 {
+  .mo-icone-app--xg {
     width: 72px;
     height: 72px;
     border-radius: 18px;

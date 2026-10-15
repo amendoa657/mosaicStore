@@ -58,10 +58,10 @@
 
       {# Agora: o pacote que está sendo instalado. #}
       {% for item in instalando %}
-        <article class="cartao item-agora">
+        <article class="mo-cartao item-agora">
           <div class="rotulo-painel"><span><i class="mo-marca glifo-sync girando" aria-hidden="true"></i> INSTALANDO AGORA</span></div>
           <div class="linha">
-            {{ icone(item, "icone-46") }}
+            {{ icone(item, "m") }}
             <a class="info" href="/buscar/{{ item.nome }}">
               <strong>{{ item.nome }}</strong>
               <span class="passo-atual">{{ item.passo or "Preparando..." }}</span>
@@ -78,7 +78,7 @@
           {% for item in aguardando %}
             <article class="item-fila">
               <span class="posicao" aria-label="Posição {{ loop.index }}">{{ loop.index }}</span>
-              {{ icone(item, "icone-34") }}
+              {{ icone(item, "p") }}
               <a class="info" href="/buscar/{{ item.nome }}">
                 <strong>{{ item.nome }}</strong>
                 <span>aguardando</span>
@@ -99,7 +99,7 @@
           {% for item in terminados | reverse %}
             <article class="item-fila {{ 'falhou' if item.situacao == 'erro' else 'concluido' }}">
               <span class="selo-estado" aria-hidden="true">{{ "✕" if item.situacao == "erro" else "✓" }}</span>
-              {{ icone(item, "icone-34") }}
+              {{ icone(item, "p") }}
               <a class="info" href="/buscar/{{ item.nome }}">
                 <strong>{{ item.nome }}</strong>
                 <span>{{ item.passo or ("falhou" if item.situacao == "erro" else "instalado") }}</span>

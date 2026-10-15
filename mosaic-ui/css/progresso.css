@@ -78,7 +78,7 @@ progress.mo-barra:indeterminate {
 
 /* Cores e tamanhos. */
 .mo-barra--perigo { --mo-barra-cor: var(--mo-perigo); }
-.mo-barra--tom { --mo-barra-cor: var(--mo-tom); }
+.mo-barra--tom { --mo-barra-cor: var(--mo-tom, var(--mo-terciaria)); }
 .mo-barra--fina { --mo-barra-altura: 6px; box-shadow: none; }
 .mo-barra--fina > i { box-shadow: none; }
 

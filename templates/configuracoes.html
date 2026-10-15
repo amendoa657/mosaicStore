@@ -56,7 +56,7 @@
         <h2>Tema</h2>
         <p>As cores vêm do seu wallpaper, pelo Matugen.</p>
       </div>
-      <div class="cartao config-cartao">
+      <div class="mo-cartao config-cartao">
         <div class="amostras-tema">
           {% for var, rotulo in [("--mo-destaque", "Destaque"), ("--mo-secundaria", "Secundária"),
                                   ("--mo-terciaria", "Terciária"), ("--mo-texto", "Texto")] %}
@@ -90,7 +90,7 @@
         <h2>Comportamento</h2>
         <p>Avisos e o que aparece durante a instalação.</p>
       </div>
-      <div class="cartao config-cartao">
+      <div class="mo-cartao config-cartao">
         {{ interruptor("aviso_aur", "Avisar sobre pacotes da AUR",
                        "Mostra o alerta de PKGBUILD enviado por usuários na página do pacote e nas atualizações.") }}
         {{ interruptor("saida_terminal", "Mostrar a saída do build",
@@ -106,7 +106,7 @@
         <h2>Compilação</h2>
         <p>Para um build pesado da AUR não travar a máquina.</p>
       </div>
-      <div class="cartao config-cartao">
+      <div class="mo-cartao config-cartao">
         <div class="linha-config linha-nucleos">
           <div class="linha-config-texto">
             <strong>Núcleos usados no build</strong>
@@ -131,7 +131,7 @@
       <div class="config-secao-titulo">
         <h2>Sobre</h2>
       </div>
-      <div class="cartao config-cartao sobre">
+      <div class="mo-cartao config-cartao sobre">
         <div class="sobre-marca">
           <i class="mo-marca glifo-grande" aria-hidden="true"></i>
           <div>

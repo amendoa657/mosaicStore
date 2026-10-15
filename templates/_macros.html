@@ -35,10 +35,10 @@
    O tom (uma das quatro cores do tema) e o ângulo saem do nome, então o
    mesmo pacote tem sempre a mesma cara em qualquer tela.
    Troque por <img src="..."> quando tiver ícones de verdade. #}
-{% macro icone(pacote, tamanho="icone-42") %}
+{% macro icone(pacote, tamanho="") %}
   {% set nome = (pacote.titulo or pacote.nome or "?") | lower %}
   {% set semente = "abcdefghijklmnopqrstuvwxyz0123456789".find(nome[0]) + nome | length * 7 %}
-  <div class="icone-app {{ tamanho }} mo-tom-{{ semente % 4 }}" style="--angulo: {{ (semente * 47) % 360 }}deg" aria-hidden="true">
+  <div class="mo-icone-app{{ ' mo-icone-app--' ~ tamanho if tamanho }} mo-tom-{{ semente % 4 }}" style="--angulo: {{ (semente * 47) % 360 }}deg" aria-hidden="true">
     {{ nome[0] | upper }}
   </div>
 {% endmacro %}
@@ -88,16 +88,16 @@
 
 {# Cartão para as grades de Descobrir. #}
 {% macro cartao(pacote) %}
-  <article class="cartao cartao-app">
-    <a class="cartao-topo" href="/buscar/{{ pacote.nome }}">
+  <article class="mo-cartao mo-cartao--app">
+    <a class="mo-cartao-topo" href="/buscar/{{ pacote.nome }}">
       {{ icone(pacote) }}
-      <div class="cartao-identidade">
+      <div>
         <h3>{{ pacote.titulo or pacote.nome }}</h3>
         <div class="versao">{{ pacote.versao }}</div>
       </div>
     </a>
     <p class="mo-resumo">{{ pacote.descricao }}</p>
-    <div class="cartao-rodape">
+    <div class="mo-cartao-rodape">
       {{ selo(pacote) }}
       {{ botao(pacote) }}
     </div>

@@ -27,7 +27,13 @@ export class MoIconeApp extends HTMLElement {
     this.classList.toggle("mo-icone-app--tecla", this.hasAttribute("tecla"));
 
     const tamanho = this.getAttribute("tamanho");
-    if (tamanho) this.style.setProperty("--mo-icone-tamanho", /^\d+$/.test(tamanho) ? `${tamanho}px` : tamanho);
+    if (tamanho) {
+      /* Tamanho livre: o canto e a letra acompanham na proporção do de 42 px. */
+      const px = /^\d+$/.test(tamanho) ? Number(tamanho) : null;
+      this.style.setProperty("--mo-icone-tamanho", px ? `${px}px` : tamanho);
+      this.style.setProperty("--mo-icone-raio", px ? `${Math.round(px * 0.26)}px` : `calc(${tamanho} * 0.26)`);
+      this.style.setProperty("--mo-icone-letra", px ? `${Math.round(px * 0.36)}px` : `calc(${tamanho} * 0.36)`);
+    }
 
     const imagem = this.getAttribute("imagem");
     this.textContent = "";

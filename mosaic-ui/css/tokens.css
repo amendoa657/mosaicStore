@@ -80,12 +80,13 @@
     0 4px 0 color-mix(in srgb, var(--mo-janela) 70%, transparent);
 
   /* Os quatro tons da marca. Cada pacote, ícone ou fonte escolhe um
-     (mo-tom-0...3) e mantém a mesma cor em qualquer tela. */
+     (mo-tom-0...3) e mantém a mesma cor em qualquer tela. --mo-tom só
+     existe dentro de quem escolheu um tom; fora disso, cada componente
+     usa a cor dele (quase sempre a terciária). */
   --mo-tom-0: var(--mo-destaque);
   --mo-tom-1: var(--mo-secundaria);
   --mo-tom-2: var(--mo-terciaria);
   --mo-tom-3: var(--mo-mista);
-  --mo-tom: var(--mo-tom-2);
 
   /* ---------- Tipografia ---------- */
   --mo-fonte: "Space Grotesk", system-ui, sans-serif;

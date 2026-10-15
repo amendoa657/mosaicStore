@@ -117,7 +117,7 @@
           {% set nova = pacote.nova_versao or pacote.versao %}
           <div class="linha-pacote linha-atualizacao {{ 'sem-download' if not com_download }}">
             <a class="nome-instalado" href="/buscar/{{ pacote.nome }}?pagina=atualizacoes">
-              {{ icone(pacote, "icone-34") }}
+              {{ icone(pacote, "p") }}
               <span class="nome-pacote">
                 <strong>{{ pacote.nome }}</strong>
                 <span>{{ pacote.descricao or "Sem descrição no banco local" }}</span>

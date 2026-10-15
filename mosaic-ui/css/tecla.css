@@ -145,9 +145,9 @@ a.mo-tecla[aria-disabled="true"] {
 }
 /* No tom do elemento (mo-tom-0…3 nele ou num pai). */
 .mo-tecla--tom {
-  --mo-tecla-face: var(--mo-tom);
-  --mo-tecla-texto: color-mix(in oklab, var(--mo-tom) 22%, black);
-  --mo-tecla-hover: color-mix(in oklab, var(--mo-tom) 90%, white);
+  --mo-tecla-face: var(--mo-tom, var(--mo-terciaria));
+  --mo-tecla-texto: color-mix(in oklab, var(--mo-tom, var(--mo-terciaria)) 22%, black);
+  --mo-tecla-hover: color-mix(in oklab, var(--mo-tom, var(--mo-terciaria)) 90%, white);
 }
 /* Perigo: face translúcida no vermelho do tema, letra no vermelho claro. */
 .mo-tecla--perigo {

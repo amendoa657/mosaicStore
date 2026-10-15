@@ -144,14 +144,14 @@ const ALFABETO = "abcdefghijklmnopqrstuvwxyz0123456789";
 /* O tom (0 a 3) de um nome. O mesmo nome cai sempre no mesmo tom, em
    qualquer app: "firefox" é sempre da mesma cor. */
 export function tom(nome = "") {
-  const texto = String(nome).trim().toLowerCase();
+  const texto = String(nome).toLowerCase();
   if (!texto) return 0;
-  const s = Math.max(0, ALFABETO.indexOf(texto[0])) + texto.length * 7;
+  const s = ALFABETO.indexOf(texto[0]) + texto.length * 7;
   return s % 4;
 }
 
 /* A inicial que vai no ícone: a primeira letra ou número do nome. */
 export function inicial(nome = "") {
   const achada = String(nome).match(/[\p{L}\p{N}]/u);
-  return achada ? achada[0].toLowerCase() : "?";
+  return achada ? achada[0].toUpperCase() : "?";
 }

@@ -16,7 +16,7 @@
   {% if destaque %}
     <section class="secao">
       <article class="destaque">
-        {{ icone(destaque, "icone-100") }}
+        {{ icone(destaque, "xg") }}
         <div class="destaque-texto">
           <div class="mo-sobretitulo">EM DESTAQUE</div>
           <h1>{{ destaque.titulo or destaque.nome }}</h1>
@@ -87,7 +87,7 @@
 
       <div class="grade-cartoes">
         {% for categoria in categorias %}
-          <a class="cartao cartao-categoria" href="/buscar?categoria={{ categoria.id }}">
+          <a class="mo-cartao cartao-categoria" href="/buscar?categoria={{ categoria.id }}">
             <i class="barra-categoria" style="background: {{ categoria.cor or 'var(--mo-destaque)' }}"></i>
             <div>
               <h3>{{ categoria.nome }}</h3>

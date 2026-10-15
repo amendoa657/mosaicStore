@@ -8,7 +8,7 @@
 .mo-texto-2 { color: var(--mo-texto-2); }
 .mo-texto-3 { color: var(--mo-texto-3); }
 .mo-cor-destaque { color: var(--mo-destaque); }
-.mo-cor-tom { color: var(--mo-tom); }
+.mo-cor-tom { color: var(--mo-tom, var(--mo-terciaria)); }
 .mo-cor-perigo { color: var(--mo-perigo); }
 .mo-p { font-size: var(--mo-tamanho-p); }
 .mo-g { font-size: var(--mo-tamanho-g); }
