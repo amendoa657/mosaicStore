@@ -192,7 +192,7 @@ select.mo-campo option {
 /* Grande: a busca no meio de uma tela vazia (a tela de Buscar da loja).
    Pílula de 50 px, no fundo do cartão, com a borda de baixo de objeto. */
 .mo-busca--grande {
-  flex: none;
+  flex: 0 1 auto;
   gap: 13px;
   width: 100%;
   max-width: 560px;
@@ -230,7 +230,7 @@ select.mo-campo option {
 /* Filtro: o campo pequeno que filtra uma lista na hora, numa barra de
    filtros. Discreto até ganhar o foco, quando cresce um pouco. */
 .mo-busca--filtro {
-  flex: none;
+  flex: 0 1 auto;
   gap: 8px;
   width: 210px;
   max-width: none;
@@ -249,6 +249,7 @@ select.mo-campo option {
   width: 260px;
 }
 .mo-busca--filtro > input {
+  height: auto;
   font-size: 12px;
 }
 
@@ -424,9 +425,6 @@ select.mo-campo option {
 .mo-opcoes > label > input {
   position: absolute;
   opacity: 0;
-  width: 1px;
-  height: 1px;
-  margin: 0;
   pointer-events: none;
 }
 .mo-opcoes > label > span {

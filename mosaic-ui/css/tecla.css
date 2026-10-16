@@ -50,8 +50,6 @@
   white-space: nowrap;
   text-decoration: none;
   flex: none;
-  user-select: none;
-  -webkit-user-select: none;
   transition:
     background var(--mo-dur-curta) ease,
     color var(--mo-dur-curta) ease,

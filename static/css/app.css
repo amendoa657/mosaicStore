@@ -516,6 +516,7 @@ mark {
   --mo-marca-raio: 0;
   width: 46px;
   height: 46px;
+  flex-shrink: 1;
 }
 .marca-busca:hover .glifo-grande {
   transform: rotate(90deg);
