@@ -1,0 +1,9 @@
+{# O ícone do app: a marca do Mosaic numa placa. As cores vêm do tema
+   (config/tema.py, getCoresIcone), na mesma ordem da .mo-marca. -#}
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Mosaic Store">
+  <rect width="512" height="512" rx="112.64" fill="{{ placa }}"/>
+  <rect x="87.04" y="87.04" width="154.598" height="154.598" rx="20.2752" fill="{{ bloco1 }}"/>
+  <rect x="270.362" y="87.04" width="154.598" height="154.598" rx="20.2752" fill="{{ bloco2 }}"/>
+  <rect x="87.04" y="270.362" width="154.598" height="154.598" rx="20.2752" fill="{{ bloco3 }}"/>
+  <rect x="270.362" y="270.362" width="154.598" height="154.598" rx="20.2752" fill="{{ bloco4 }}"/>
+</svg>

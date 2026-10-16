@@ -4,6 +4,7 @@ import services.pacotesService as s
 import system.downloadQueue as q
 import system.tarefas as tarefas
 from config.fontes import fontes
+from config.icone import atualizarIcone
 from config.tema import getTema
 
 pageBp = Blueprint("pageBp", __name__)
@@ -70,6 +71,8 @@ def getFila():
 
 @pageBp.route("/tema.css")
 def temaCss():
+    # Se o Matugen trocou as cores, o ícone troca junto.
+    atualizarIcone()
     return getTema()
 
 
