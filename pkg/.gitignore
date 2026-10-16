@@ -1,0 +1,9 @@
+# O que o makepkg gera ao montar o pacote (src/, pkg/, o clone do código,
+# logs, assinaturas) fica fora do git. Entram só os arquivos do pacote e o
+# pacote pronto (.pkg.tar.zst).
+*
+!.gitignore
+!PKGBUILD
+!mosaic-store.sh
+!mosaic-store.desktop
+!*.pkg.tar.zst
