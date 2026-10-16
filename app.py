@@ -9,6 +9,7 @@ from flask import Flask
 from config.init import init
 from config.janela import abrirJanela
 from config.paru import criarConfigParu
+from config.versao import VERSAO
 
 #from config.downloadFromMirrors import downloadAur
 from controllers.aurController import aurBp
@@ -32,6 +33,10 @@ app.register_blueprint(pacmanBp)
 
 
 if __name__ == "__main__":
+    if "--versao" in sys.argv:
+        print(f"Mosaic {VERSAO}")
+        sys.exit()
+
     config_paru = criarConfigParu()
 
     init()
