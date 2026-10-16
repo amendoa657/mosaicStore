@@ -1,7 +1,8 @@
 import os
+import sys
 
 os.environ["PYWEBVIEW_GUI"] = "qt"
-os.environ.setdefault("QT_QPA_PLATFORM", "wayland")
+os.environ.setdefault("QT_QPA_PLATFORM", "wayland;xcb")
 
 from flask import Flask
 
@@ -38,5 +39,8 @@ if __name__ == "__main__":
     trabalhador.start()
     insertsThread.start()
 
-    app.run(debug=True, use_reloader=False)
-    #abrirJanela(app)
+    # python app.py --janela abre o app (é assim que o pacote abre).
+    if "--janela" in sys.argv:
+        abrirJanela(app)
+    else:
+        app.run(debug=True, use_reloader=False)

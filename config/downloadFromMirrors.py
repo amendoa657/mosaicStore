@@ -2,11 +2,13 @@ import requests, gzip, json, tarfile
 
 from pathlib import Path
 
+from database.connect import CACHE_DIR
+
 urlAur = "https://aur.archlinux.org/packages-meta-v1.json.gz"
 urlCore = "https://geo.mirror.pkgbuild.com/core/os/x86_64/core.db"
 urlExtra = "https://geo.mirror.pkgbuild.com/extra/os/x86_64/extra.db"
 raiz = Path(__file__).resolve().parent.parent
-pasta = raiz / "database" / "pacotes"
+pasta = CACHE_DIR / "pacotes"
 
 
 def extractdb(arquivo):

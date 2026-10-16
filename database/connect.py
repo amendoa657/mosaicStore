@@ -1,8 +1,13 @@
 import sqlite3
+from pathlib import Path
+
+CACHE_DIR = Path.home() / ".cache" / "mosaic-store"
 
 
 def getConnection():
-    con = sqlite3.connect("pacotesArch.db")
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+
+    con = sqlite3.connect(CACHE_DIR / "pacotesArch.db")
     con.row_factory = sqlite3.Row
     return con
 
