@@ -7,6 +7,30 @@ versão está no [VERSIONAMENTO.md](VERSIONAMENTO.md).
 
 ## [Não lançado]
 
+## [0.6.0] - 2026-10-16
+
+### Adicionado
+- Tela de espera: quando uma tela demora a abrir, o conteúdo é coberto por
+  uma onda de pixels e mostra o que está vindo ("Instalados / lendo a lista
+  do pacman"). Esc desiste.
+- Tela de abertura: a janela abre na cor do tema, com a marca girando, em vez
+  de branca, e a loja se revela a partir dela.
+- PKGBUILD (`pkg/`) para instalar o Mosaic como pacote do sistema, com o
+  comando `mosaic-store` e o atalho no menu.
+- Licença GPL-3.0-or-later.
+- Versão do app (`python app.py --versao`), este CHANGELOG e o guia de
+  versionamento, com o `scripts/lancar.sh` e a conferência das mensagens de
+  commit.
+
+### Mudado
+- `python app.py --janela` abre a janela; sem o `--janela`, sobe só o Flask.
+- O banco e os downloads ficam em `~/.cache/mosaic-store`.
+- A janela cai para o X11 quando não tem Wayland.
+
+### Corrigido
+- O Descobrir não dá mais erro com o banco vazio, na primeira vez que o app
+  abre.
+
 ## [0.5.0] - 2026-10-16
 
 ### Adicionado
