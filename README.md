@@ -142,13 +142,22 @@ pip install -r requirements.txt
 Abra a aplicação desktop:
 
 ```bash
+python app.py --janela
+```
+
+Para testar só as telas no navegador durante o desenvolvimento (o Flask em `http://127.0.0.1:5000`):
+
+```bash
 python app.py
 ```
 
-Para testar só as telas no navegador durante o desenvolvimento:
+## Instalando
+
+Com o PKGBUILD da pasta `pkg/`, o Mosaic vira um pacote do sistema, com o comando `mosaic-store` e o atalho no menu:
 
 ```bash
-flask --app app:app run
+cd pkg
+makepkg -si
 ```
 
 ## Tema com o Matugen
@@ -165,6 +174,14 @@ output_path = "~/.config/mosaic-store/colors.css"
 ```
 
 O template é um bloco `:root` com as variáveis de cor do app. A lista completa, com os valores padrão, está em [`mosaic-ui/css/tokens.css`](mosaic-ui/css/tokens.css), a camada de tokens da Mosaic UI, que todo app do ecossistema usa. Sem o arquivo, o Mosaic usa esses valores padrão.
+
+## Versões
+
+O que mudou em cada versão está no [CHANGELOG.md](CHANGELOG.md). Como os commits são escritos e como lançar uma versão nova, no [VERSIONAMENTO.md](VERSIONAMENTO.md).
+
+## Licença
+
+[GPL-3.0-or-later](LICENSE).
 
 ## Créditos
 
