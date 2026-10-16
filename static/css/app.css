@@ -765,80 +765,18 @@ mark {
   padding: 24px 26px 22px;
   flex: none;
 }
+/* O número, a faixa e a legenda são da Mosaic UI (.mo-numero,
+   .mo-proporcao, .mo-legenda); aqui só o lugar de cada um na grade. */
 .resumo-total {
   grid-area: total;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.resumo-total strong {
-  font-family: var(--mo-fonte);
-  font-size: 44px;
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.03em;
-  font-variant-numeric: tabular-nums;
-}
-.resumo-total span {
-  font-size: 13px;
-  color: var(--mo-texto-2);
-}
-.resumo-total em {
-  font-style: normal;
-  font-family: var(--mo-fonte-mono);
-  font-size: 12px;
-  color: var(--mo-texto-3);
 }
 .mosaico-fontes {
   grid-area: mosaico;
-  display: flex;
-  gap: 4px;
-  height: 14px;
   align-self: end;
-}
-.mosaico-fontes i {
-  flex: 1 1 0;
-  min-width: 8px;
-  border-radius: 4px;
-  background: var(--mo-tom);
-  /* Cada bloco também é uma tecla: a borda de baixo mais escura. */
-  box-shadow: 0 2px 0 color-mix(in oklab, var(--mo-tom) 45%, black);
-  transform-origin: left center;
-  animation: crescer-bloco 0.5s var(--mo-ease-saida) backwards;
-}
-.mosaico-fontes i:nth-child(2) { animation-delay: 60ms; }
-.mosaico-fontes i:nth-child(3) { animation-delay: 120ms; }
-@keyframes crescer-bloco {
-  from { transform: scaleX(0.04); }
 }
 .legenda-fontes {
   grid-area: legenda;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px 18px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  font-size: 12px;
-  color: var(--mo-texto-2);
   align-self: start;
-}
-.legenda-fontes li {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-}
-.legenda-fontes li > i {
-  width: 9px;
-  height: 9px;
-  border-radius: 2px;
-  background: var(--mo-tom);
-}
-.legenda-fontes li > span {
-  font-family: var(--mo-fonte-mono);
-  font-size: 11.5px;
-  color: var(--mo-texto-3);
 }
 .legenda-atualizar {
   margin-left: auto;
@@ -1293,7 +1231,7 @@ mark {
   font-size: 12.5px;
   color: var(--mo-texto-2);
 }
-.sobre .lista-dados a.valor {
+.sobre .mo-dados a.valor {
   color: var(--mo-destaque);
 }
 
@@ -1652,25 +1590,6 @@ mark {
   font-size: 10px;
   letter-spacing: 0.1em;
   color: var(--mo-destaque);
-}
-.lista-dados {
-  display: flex;
-  flex-direction: column;
-  gap: 11px;
-}
-.lista-dados > div {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  font-size: 12.5px;
-}
-.lista-dados .chave {
-  color: var(--mo-texto-2);
-}
-.lista-dados .valor {
-  margin: 0;
-  font-family: var(--mo-fonte-mono);
-  text-align: right;
 }
 .nuvem-deps {
   display: flex;

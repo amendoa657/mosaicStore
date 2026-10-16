@@ -491,22 +491,30 @@ button.mo-item {
   color: var(--mo-texto-2);
 }
 
-/* ---------- Dados (chave e valor) ---------- */
+/* ---------- Dados (chave e valor) ----------
+   <div class="mo-dados">
+     <div><span>Versão</span><span>2.0.4-1</span></div>
+     <div><span>Licença</span><a href="…">GPL-3.0</a></div>
+   </div>
+   A chave à esquerda, o valor em mono encostado na direita. */
 .mo-dados {
-  display: grid;
-  grid-template-columns: max-content minmax(0, 1fr);
-  gap: 9px 22px;
-  margin: 0;
-  font-size: var(--mo-tamanho-p);
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
 }
-.mo-dados dt {
-  color: var(--mo-texto-3);
+.mo-dados > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 12.5px;
 }
-.mo-dados dd {
+.mo-dados > div > :first-child {
+  color: var(--mo-texto-2);
+}
+.mo-dados > div > :last-child {
   margin: 0;
   font-family: var(--mo-fonte-mono);
-  color: var(--mo-texto);
-  overflow-wrap: anywhere;
+  text-align: right;
 }
 
 /* ---------- Aviso (faixa no meio da página) ----------
@@ -554,7 +562,8 @@ button.mo-item {
   --mo-aviso-cor: var(--mo-destaque);
 }
 
-/* ---------- Número grande ---------- */
+/* ---------- Número grande ----------
+   <div class="mo-numero"><strong>842</strong><span>pacotes<em> · 3,1 GiB</em></span></div> */
 .mo-numero {
   display: flex;
   flex-direction: column;
@@ -562,6 +571,7 @@ button.mo-item {
   min-width: 0;
 }
 .mo-numero > strong {
+  font-family: var(--mo-fonte);
   font-size: var(--mo-tamanho-numero);
   font-weight: 700;
   line-height: 1;
@@ -572,10 +582,10 @@ button.mo-item {
   font-size: 13px;
   color: var(--mo-texto-2);
 }
-.mo-numero > em {
+.mo-numero em {
   font-style: normal;
   font-family: var(--mo-fonte-mono);
-  font-size: var(--mo-tamanho-p);
+  font-size: 12px;
   color: var(--mo-texto-3);
 }
 .mo-numero--p > strong {
@@ -615,7 +625,7 @@ button.mo-item {
   margin: 0;
   padding: 0;
   list-style: none;
-  font-size: var(--mo-tamanho-p);
+  font-size: 12px;
   color: var(--mo-texto-2);
 }
 .mo-legenda > li {
@@ -623,7 +633,9 @@ button.mo-item {
   align-items: center;
   gap: 7px;
 }
-.mo-legenda > li::before {
+/* Quem tem tom ganha o quadradinho da cor; um item sem tom (um link no
+   fim, por exemplo) fica só com o texto. */
+.mo-legenda > li:where([class*="mo-tom-"])::before {
   content: "";
   width: 9px;
   height: 9px;

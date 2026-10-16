@@ -58,20 +58,20 @@
   {% if pacotes %}
 
     <section class="resumo-pacotes com-acoes">
-      <div class="resumo-total">
+      <div class="mo-numero resumo-total">
         <strong>{{ pacotes | length }}</strong>
         <span>{{ "atualizações disponíveis" if pacotes | length > 1 else "atualização disponível" }}{% if total_download %}<em> · {{ total_download }} para baixar</em>{% endif %}</span>
       </div>
 
-      <div class="mosaico-fontes" role="img"
+      <div class="mo-proporcao mosaico-fontes" role="img"
            aria-label="Oficiais: {{ oficiais | length }}, AUR: {{ aur | length }}">
         {% if oficiais %}<i class="mo-tom-2" style="flex-grow: {{ oficiais | length }}"></i>{% endif %}
         {% if aur %}<i class="mo-tom-1" style="flex-grow: {{ aur | length }}"></i>{% endif %}
       </div>
 
-      <ul class="legenda-fontes">
-        {% if oficiais %}<li class="mo-tom-2"><i aria-hidden="true"></i>Oficiais<span>{{ oficiais | length }}</span></li>{% endif %}
-        {% if aur %}<li class="mo-tom-1"><i aria-hidden="true"></i>AUR<span>{{ aur | length }}</span></li>{% endif %}
+      <ul class="mo-legenda legenda-fontes">
+        {% if oficiais %}<li class="mo-tom-2">Oficiais<span>{{ oficiais | length }}</span></li>{% endif %}
+        {% if aur %}<li class="mo-tom-1">AUR<span>{{ aur | length }}</span></li>{% endif %}
       </ul>
 
       <div class="resumo-acoes">

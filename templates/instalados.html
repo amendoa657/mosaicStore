@@ -46,21 +46,21 @@
      é o próprio mosaico: cada fonte ocupa a largura da sua parte. #}
   {% if pacotes %}
     <section class="resumo-pacotes">
-      <div class="resumo-total">
+      <div class="mo-numero resumo-total">
         <strong>{{ "{:,}".format(pacotes | length).replace(",", ".") }}</strong>
         <span>pacotes instalados{% if espaco %}<em> · {{ espaco }} em disco</em>{% endif %}</span>
       </div>
 
-      <div class="mosaico-fontes" role="img"
+      <div class="mo-proporcao mosaico-fontes" role="img"
            aria-label="{% for id, rotulo, grupo, tom in grupos if grupo %}{{ rotulo }}: {{ grupo | length }}{{ ', ' if not loop.last }}{% endfor %}">
         {% for id, rotulo, grupo, tom in grupos if grupo %}
           <i class="mo-tom-{{ tom }}" style="flex-grow: {{ grupo | length }}"></i>
         {% endfor %}
       </div>
 
-      <ul class="legenda-fontes">
+      <ul class="mo-legenda legenda-fontes">
         {% for id, rotulo, grupo, tom in grupos if grupo %}
-          <li class="mo-tom-{{ tom }}"><i aria-hidden="true"></i>{{ rotulo }}<span>{{ grupo | length }}</span></li>
+          <li class="mo-tom-{{ tom }}">{{ rotulo }}<span>{{ grupo | length }}</span></li>
         {% endfor %}
         {% if atualizaveis %}
           <li class="legenda-atualizar"><a href="/atualizacoes">{{ atualizaveis | length }} com atualização →</a></li>
