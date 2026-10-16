@@ -1,6 +1,24 @@
 /* Só a vitrine (index.html). Fora de camada: vence a biblioteca, que é
    exatamente o que um app faria. */
 
+/* A tipografia de títulos e parágrafos dos exemplos fica na camada de base
+   da biblioteca, por baixo dos componentes: assim um <h3> solto ganha
+   tamanho, mas o <h3> de um cartão ou de um aviso continua o dele. */
+@layer mosaic.base {
+  .vitrine-palco :is(h1, h2, h3, h4),
+  .vitrine-heroi h1 {
+    margin: 0;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+  .vitrine-palco h1 { font-size: 26px; letter-spacing: -0.02em; }
+  .vitrine-palco h2 { font-size: 18px; }
+  .vitrine-palco h3 { font-size: 15px; font-weight: 600; }
+  .vitrine-palco p { margin: 0; }
+}
+
 .vitrine-texto {
   max-width: 680px;
   font-size: 13px;

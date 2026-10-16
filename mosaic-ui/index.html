@@ -219,7 +219,7 @@
   <button class="mo-tecla mo-tecla--icone" aria-label="Buscar" data-mo-dica="Buscar"><mo-simbolo nome="busca"></mo-simbolo></button>
   <button class="mo-tecla mo-tecla--icone mo-tecla--g" aria-label="Configurações" data-mo-dica="Configurações"><mo-simbolo nome="config"></mo-simbolo></button>
   <button class="mo-tecla" aria-pressed="false" data-alternar>Alterna</button>
-  <button class="mo-tecla mo-tecla--destaque" data-ocupar>Verificar</button>
+  <button class="mo-tecla" data-ocupar><i class="mo-marca"></i>Verificar</button>
   <button class="mo-tecla mo-tecla--sutil">Atualizações <span class="mo-contagem">7</span></button>
 </div>
         </template>
@@ -315,7 +315,7 @@
         </template>
         <template class="vitrine-modelo" data-titulo="Cartões">
 <div class="mo-grade mo-cascata">
-  <a class="mo-cartao" href="#cartoes">
+  <a class="mo-cartao mo-cartao--app" href="#cartoes">
     <div class="mo-cartao-topo">
       <mo-icone-app nome="firefox"></mo-icone-app>
       <div><h3>firefox</h3><span class="mo-meta">131.0-1</span></div>
@@ -326,7 +326,7 @@
       <span class="mo-tecla mo-tecla--destaque mo-tecla--p">Instalar</span>
     </div>
   </a>
-  <a class="mo-cartao" href="#cartoes">
+  <a class="mo-cartao mo-cartao--app" href="#cartoes">
     <div class="mo-cartao-topo">
       <mo-icone-app nome="visual-studio-code-bin"></mo-icone-app>
       <div><h3>visual-studio-code-bin</h3><span class="mo-meta">1.94.2-1</span></div>
@@ -337,7 +337,7 @@
       <span class="mo-tecla mo-tecla--p">Instalado</span>
     </div>
   </a>
-  <a class="mo-cartao" href="#cartoes">
+  <a class="mo-cartao mo-cartao--app" href="#cartoes">
     <div class="mo-cartao-topo">
       <mo-icone-app nome="obs-studio"></mo-icone-app>
       <div><h3>obs-studio</h3><span class="mo-meta">30.2.3-2</span></div>
@@ -445,20 +445,23 @@
       <!-- ================================================================ -->
       <section class="mo-secao vitrine-secao" id="estados">
         <div class="mo-secao-titulo"><h2>Avisos e estados</h2><span class="mo-meta">css/conteudo.css</span></div>
-        <template class="vitrine-modelo" data-titulo="Aviso no meio da página">
-<div class="mo-pilha">
-  <div class="mo-aviso mo-tom-1">
-    <i></i>
-    <div><strong>Pacotes da AUR são da comunidade</strong><p>Leia o PKGBUILD antes de instalar: ninguém revisa o que está lá.</p></div>
-    <button class="mo-tecla mo-tecla--p">Ver PKGBUILD</button>
+        <template class="vitrine-modelo" data-titulo="Aviso no meio da página: caixa e faixa">
+<div class="mo-pilha" style="--mo-gap: 14px">
+  <section class="mo-aviso">
+    <div class="mo-aviso-icone" aria-hidden="true">!</div>
+    <div>
+      <h3>Pacote da AUR — enviado por usuários</h3>
+      <p>Não é revisado pelos mantenedores do Arch. O PKGBUILD roda na sua máquina durante a compilação.</p>
+      <div class="mo-aviso-acoes"><button class="mo-tecla mo-tecla--perigo">Ver PKGBUILD</button></div>
+    </div>
+  </section>
+  <div class="mo-aviso mo-aviso--faixa">
+    <i class="mo-aviso-icone" aria-hidden="true">!</i>
+    <p><strong>2 pacotes da AUR vão ser compilados na sua máquina.</strong> Abra o pacote para revisar o script antes.</p>
   </div>
-  <div class="mo-aviso mo-aviso--destaque">
-    <i></i>
-    <div><strong>7 atualizações</strong><p>linux, mesa e mais 5 pacotes têm versão nova.</p></div>
-  </div>
-  <div class="mo-aviso mo-aviso--perigo">
-    <i></i>
-    <div><strong>O pacman está travado</strong><p>Outro programa está usando o banco: /var/lib/pacman/db.lck</p></div>
+  <div class="mo-aviso mo-aviso--faixa mo-aviso--destaque">
+    <i class="mo-aviso-icone" aria-hidden="true">i</i>
+    <p><strong>7 atualizações.</strong> linux, mesa e mais 5 pacotes têm versão nova.</p>
   </div>
 </div>
         </template>
@@ -537,7 +540,7 @@
 <dialog class="mo-dialogo" id="dialogo-demo" data-mo-fechar-fora>
   <header>
     <h2>Detalhes do pacote</h2>
-    <button class="mo-tecla mo-tecla--sutil mo-tecla--icone" data-mo-fechar aria-label="Fechar"><mo-simbolo nome="fechar"></mo-simbolo></button>
+    <button class="mo-tecla mo-tecla--icone mo-dialogo-fechar" data-mo-fechar aria-label="Fechar">✕</button>
   </header>
   <div class="mo-dialogo-corpo">
     <div class="mo-dados">
@@ -566,7 +569,7 @@
 <dialog class="mo-painel" id="painel-demo" data-mo-fechar-fora>
   <header>
     <h2>Fila</h2>
-    <button class="mo-tecla mo-tecla--sutil mo-tecla--icone" data-mo-fechar aria-label="Fechar"><mo-simbolo nome="fechar"></mo-simbolo></button>
+    <button class="mo-tecla mo-tecla--icone mo-dialogo-fechar" data-mo-fechar aria-label="Fechar">✕</button>
   </header>
   <div class="mo-dialogo-corpo mo-pilha">
     <div class="mo-barra mo-barra--indeterminada"><i></i></div>
@@ -625,15 +628,17 @@
       <section class="mo-secao vitrine-secao" id="terminal">
         <div class="mo-secao-titulo"><h2>Terminal</h2><span class="mo-meta">css/terminal.css · terminal()</span></div>
         <template class="vitrine-modelo" data-titulo="Saída ao vivo">
-<div class="mo-terminal" style="--mo-terminal-altura: 220px">
-  <header>
+<section class="mo-terminal">
+  <div class="mo-terminal-cabecalho">
     <span class="mo-terminal-rotulo">SAÍDA</span>
     <span class="mo-terminal-alvo">sudo pacman -Syu</span>
-    <button class="mo-tecla" data-rodar-terminal>Rodar</button>
-    <button class="mo-tecla" data-mo-copiar="#saida-demo">Copiar</button>
-  </header>
-  <pre class="mo-terminal-saida" id="saida-demo"><div class="fraco">pronto para rodar</div><i class="mo-caret"></i></pre>
-</div>
+    <div class="mo-terminal-acoes">
+      <button class="mo-tecla" data-rodar-terminal>Rodar</button>
+      <button class="mo-tecla" data-mo-copiar="#saida-demo">Copiar</button>
+    </div>
+  </div>
+  <div class="mo-terminal-saida" id="saida-demo" style="height: 220px; flex: none"><div class="mo-terminal-ocioso">pronto para rodar</div><i class="mo-caret"></i></div>
+</section>
         </template>
       </section>
 
