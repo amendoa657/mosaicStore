@@ -7,7 +7,7 @@ pkgrel=1
 pkgdesc="Loja de pacotes do Arch Linux (repositórios oficiais e AUR) com a cara do seu wallpaper"
 arch=('any')
 url="https://github.com/amendoa657/mosaicStore"
-license=('GPL-3.0-or-later' 'OFL-1.1') # 'unknown' até o repositório ter um LICENSE; OFL-1.1 é das fontes
+license=('GPL-3.0-or-later' 'OFL-1.1') # OFL-1.1 é das fontes
 depends=(
   'python'
   'python-flask'
