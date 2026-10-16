@@ -377,6 +377,7 @@
 .vitrine-calc .mo-teclado .mo-tecla {
   --mo-tecla-altura: 48px;
   font-size: 17px;
+  user-select: none;
 }
 
 .vitrine-sem-resultado {

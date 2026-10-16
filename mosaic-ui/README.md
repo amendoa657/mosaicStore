@@ -65,10 +65,13 @@ só ali dentro):
 | Grupo | Tokens |
 | --- | --- |
 | Acentos | `--mo-destaque` `--mo-destaque-fundo` `--mo-sobre-destaque` `--mo-secundaria(-fundo, -texto)` `--mo-terciaria(-fundo, -texto)` `--mo-perigo(-fundo, -texto)` |
-| Superfícies | `--mo-fundo` `--mo-janela` `--mo-lateral-2` `--mo-cabecalho` `--mo-lateral` `--mo-cartao` `--mo-dialogo` `--mo-elevada` |
-| Texto | `--mo-texto` `--mo-texto-2` `--mo-texto-3` `--mo-linha` `--mo-borda` `--mo-decorativa` |
-| Tons | `--mo-tom-0…3` e `--mo-tom` (classes `mo-tom-0…3`) |
-| Forma | `--mo-raio-p/m/g/xg` `--mo-profundidade` `--mo-tecla-sombra` |
+| Estado | `--mo-sucesso(-fundo, -texto)` `--mo-perigo-suave` |
+| Superfícies | `--mo-fundo` `--mo-janela` `--mo-lateral-2` `--mo-cabecalho` `--mo-lateral` `--mo-cartao` `--mo-cartao-hover` `--mo-dialogo` `--mo-elevada` |
+| Texto | `--mo-texto` `--mo-texto-2` `--mo-texto-3` `--mo-linha` `--mo-borda` `--mo-decorativa`, e o texto de cada superfície: `--mo-texto-cabecalho/lateral/conteudo/cartao/dialogo/elevada` |
+| Tons | `--mo-tom-0…3` (classes `mo-tom-0…3`). `--mo-tom` não existe no `:root`: só dentro de quem tem uma classe `mo-tom-N`, e os componentes caem na terciária sem ele |
+| Forma | `--mo-raio-p/m/g/xg` `--mo-profundidade` `--mo-tecla-sombra` `--mo-sombra-cartao(-hover)` |
+| Escala | `--mo-escala`: o zoom da interface inteira (a loja usa `1.1`). Os pixels e a onda compensam sozinhos |
+| Camadas | `--mo-z-cortina` `--mo-z-menu` `--mo-z-avisos` |
 | Espaço | `--mo-espaco-1…8` (4 a 52 px) e `--mo-gap` nos layouts |
 | Movimento | `--mo-ease-saida/meio/gaveta` `--mo-dur-toque/curta/media/longa` |
 
@@ -79,14 +82,14 @@ As cores leem as variáveis do template do Matugen (`--corDestaque`,
 
 | Peça | Classe / elemento | Arquivo |
 | --- | --- | --- |
-| Janela de app | `mo-app` `mo-cabecalho` `mo-corpo` `mo-lateral` `mo-nav-item` `mo-conteudo` `mo-rodape` `mo-barra-fixa` `mo-logotipo` | `css/app.css` |
-| Tecla | `mo-tecla` (`--destaque --secundaria --terciaria --tom --perigo --sutil --icone --mono --p --g`), `mo-segmentos`, `mo-teclado`, `mo-atalho` | `css/tecla.css` |
+| Janela de app | `mo-app` `mo-cabecalho` `mo-corpo` `mo-lateral` `mo-nav-item` (`mo-pilula` `mo-ponto` `mo-nav-texto` `mo-contagem` `mo-nav-selo`) `mo-lateral-rotulo` `mo-conteudo` `mo-rodape` `mo-barra-fixa` `mo-logotipo` `mo-controles-janela` `mo-alternar-lateral` | `css/app.css` |
+| Tecla | `mo-tecla` (`--destaque --secundaria --terciaria --tom --sucesso --perigo --sutil --icone --mono --p --g`, ocupada com `aria-busy` e uma `mo-marca` dentro), `mo-segmentos`, `mo-teclado`, `mo-atalho` | `css/tecla.css` |
 | Marca | `mo-marca` (`--girando --assentar --apagada --fraca --viva`, `--mo-marca-1…4`) | `css/marca.css` |
-| Campos | `mo-campo` `mo-rotulo` `mo-busca` `mo-interruptor` `mo-caixa` `mo-opcoes` `mo-deslizante` `mo-linha-opcao` | `css/campos.css` |
-| Conteúdo | `mo-cartao` `mo-reticula` `mo-icone-app` `mo-chip` `mo-selo` `mo-pulso` `mo-lista` `mo-item` `mo-tabela` `mo-dados` `mo-aviso` `mo-numero` `mo-proporcao` `mo-legenda` `mo-etapas` `mo-abas` `mo-vazio` | `css/conteudo.css` |
+| Campos | `mo-campo` `mo-rotulo` `mo-busca` (`--grande --filtro`, com `mo-lupa`) `mo-interruptor` `mo-caixa` `mo-opcoes` `mo-deslizante` `mo-linha-opcao` `mo-linha-opcao-texto` | `css/campos.css` |
+| Conteúdo | `mo-cartao` (`--app --destaque --linha`, `mo-cartao-topo` `mo-cartao-rodape` `mo-resumo`) `mo-reticula` `mo-icone-app` (`--p --m --g --xg --tecla`) `mo-chip` `mo-selo` (`--sucesso --perigo --neutro`) `mo-pulso` `mo-lista` `mo-item` `mo-tabela` `mo-dados` `mo-aviso` (`--faixa --destaque --tom`) `mo-rotulo-grupo` `mo-numero` `mo-proporcao` `mo-legenda` `mo-etapas` `mo-abas` `mo-vazio` (`--marca`) | `css/conteudo.css` |
 | Progresso | `mo-barra` (`--indeterminada`, `<progress>`), `mo-blocos` | `css/progresso.css` |
-| Sobreposições | `mo-dialogo` `mo-painel` `mo-menu` `data-mo-dica` `mo-avisos` | `css/sobreposicoes.css` |
-| Terminal | `mo-terminal` `mo-terminal-saida` `mo-caret` | `css/terminal.css` |
+| Sobreposições | `mo-dialogo` (`mo-dialogo-fechar` `mo-dialogo-corpo`) `mo-painel` `mo-menu` `data-mo-dica` `mo-avisos` `mo-aviso-flutuante` (`--sozinho`, `data-tipo`) | `css/sobreposicoes.css` |
+| Terminal | `mo-terminal` `mo-terminal-cabecalho` `mo-terminal-rotulo` `mo-terminal-alvo` `mo-terminal-acoes` `mo-terminal-saida` (linhas `.seta .ok .erro .aviso .fraco .recuo`) `mo-terminal-ocioso` `mo-caret` | `css/terminal.css` |
 | Símbolos | `<mo-simbolo nome>`: 43 ícones numa grade de 9 × 9 pixels | `js/simbolos.js` |
 | Pixels | `<mo-pixels passo lente velocidade opacidade cores estatico>` | `js/pixels.js` |
 | Layout | `mo-pilha` `mo-linha` `mo-grade` `mo-centro` `mo-secao` `mo-separador` | `css/layout.css` |
@@ -94,12 +97,22 @@ As cores leem as variáveis do template do Matugen (`--corDestaque`,
 
 Cada arquivo começa com um comentário mostrando o HTML de cada peça.
 
+Avisos sem JavaScript: um `<div class="mo-avisos">` com
+`<div class="mo-aviso-flutuante mo-aviso-flutuante--sozinho" data-tipo="ok|alerta|erro">`
+dentro aparece e some sozinho em 4,5 s (é assim que a loja mostra os `flash()` do Flask).
+
+Telas: abaixo de 900 px a lateral vira um trilho de 64 px só com os pontos; abaixo
+de 760 px vira gaveta (`data-mo-gaveta`); abaixo de 520 px o cabeçalho esconde o
+nome e os controles da janela.
+
 ## Comportamentos sem JavaScript seu
 
 | Atributo | Efeito |
 | --- | --- |
 | `data-mo-abrir="#id"` | abre o `<dialog>` (diálogo ou painel) ou o popover |
-| `data-mo-fechar` | fecha o diálogo, painel ou menu em que está (com animação de saída) |
+| `data-mo-fechar` | fecha na hora o diálogo, painel ou menu em que está |
+| `data-mo-fechar-fora` | no `<dialog>`: clicar no fundo escurecido fecha (sem ele, só o Esc e o `data-mo-fechar`) |
+| `data-mo-fixo` | no `<dialog>`: nem o Esc fecha |
 | `data-mo-gaveta` | abre e fecha a lateral em telas estreitas |
 | `data-mo-menu="#id"` | abre o menu embaixo do botão; setas, Home, End e Esc funcionam |
 | `role="tablist"` | abas com clique e setas; o painel vem de `aria-controls` |
