@@ -1,33 +1,37 @@
 /* ==========================================================================
    Terminal: a saída de um comando, ao vivo.
 
-   <div class="mo-terminal">
-     <header><span class="mo-terminal-rotulo">SAÍDA</span>
-             <span class="mo-terminal-alvo">pacman -Syu</span> …teclas…</header>
-     <pre class="mo-terminal-saida">…linhas…<i class="mo-caret"></i></pre>
-   </div>
+   <section class="mo-terminal">
+     <div class="mo-terminal-cabecalho">
+       <span class="mo-terminal-rotulo">SAÍDA</span>
+       <span class="mo-terminal-alvo">pacman -Syu</span>
+       <div class="mo-terminal-acoes">…teclas…</div>
+     </div>
+     <div class="mo-terminal-saida">…uma <div> por linha…<i class="mo-caret"></i></div>
+   </section>
 
-   Linhas podem ter classe: .ok, .erro, .aviso, .fraco, .seta (o "::" do
-   pacman). mosaic.terminal(el).escrever("texto") acrescenta e rola sozinho,
-   só se a pessoa já estava no fim.
+   A altura é de quem usa: a saída ocupa o que sobrar (flex: 1), ou dê
+   height a ela. mosaic.terminal(el).escrever("texto") acrescenta e rola
+   sozinho, só se a pessoa já estava no fim.
    ========================================================================== */
 
 .mo-terminal {
-  --mo-terminal-altura: 300px;
+  flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  min-width: 0;
-  border: 1px solid var(--mo-borda);
   border-radius: var(--mo-raio-g);
   background: var(--mo-fundo);
+  border: 1px solid var(--mo-borda);
+  box-shadow: var(--mo-sombra-cartao);
   overflow: hidden;
 }
+.mo-terminal-cabecalho,
 .mo-terminal > header {
   display: flex;
   align-items: center;
   gap: 10px;
-  min-height: 40px;
-  padding: 7px 10px 7px 15px;
+  padding: 11px 15px;
   background: var(--mo-lateral-2);
   flex: none;
 }
@@ -37,51 +41,57 @@
   font-size: 11px;
   letter-spacing: 0.1em;
   color: var(--mo-texto-2);
-  flex: none;
 }
 .mo-terminal-alvo {
   font-family: var(--mo-fonte-mono);
   font-size: 11px;
   color: var(--mo-texto-3);
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  min-width: 0;
-  flex: 1;
+  white-space: nowrap;
 }
-.mo-terminal > header > .mo-tecla {
-  --mo-tecla-altura: 24px;
-  --mo-tecla-pad: 10px;
+.mo-terminal-acoes {
+  margin-left: auto;
+  display: flex;
+  gap: 7px;
+}
+:is(.mo-terminal-cabecalho, .mo-terminal > header) .mo-tecla {
+  height: 24px;
+  padding: 0 10px;
   font-family: var(--mo-fonte-mono);
   font-weight: 500;
   font-size: 11px;
 }
 .mo-terminal-saida {
-  height: var(--mo-terminal-altura);
+  flex: 1;
+  min-height: 0;
   margin: 0;
-  padding: 14px 16px;
   overflow-y: auto;
+  padding: 14px 16px;
   font-family: var(--mo-fonte-mono);
   font-size: 11.5px;
   line-height: 1.85;
   color: var(--mo-texto-2);
-  white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
-.mo-terminal-saida > div {
-  min-height: 1lh;
-}
+/* Linhas: .seta (o "::" do pacman, o "==>" do makepkg), .ok, .erro,
+   .aviso, .fraco e .recuo (a linha de detalhe, mais para dentro). */
 .mo-terminal-saida .seta { color: var(--mo-destaque); }
-.mo-terminal-saida .ok { color: var(--mo-destaque); }
+.mo-terminal-saida .ok { color: var(--mo-sucesso); }
 .mo-terminal-saida .erro { color: var(--mo-perigo); }
 .mo-terminal-saida .aviso { color: var(--mo-secundaria); }
 .mo-terminal-saida .fraco { color: var(--mo-texto-3); }
+.mo-terminal-saida .recuo {
+  padding-left: 18px;
+  color: var(--mo-texto-3);
+}
 .mo-terminal-saida .nova {
   animation: mo-entrar-linha var(--mo-dur-media) var(--mo-ease-saida);
 }
-.mo-terminal--solto {
-  border: 0;
-  border-radius: 0;
+/* Nada rodando: o aviso em itálico no lugar da saída. */
+.mo-terminal-ocioso {
+  color: var(--mo-texto-3);
+  font-style: italic;
 }
 
 /* O cursor que pisca no fim da saída. */

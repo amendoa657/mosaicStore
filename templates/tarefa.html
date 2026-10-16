@@ -83,7 +83,7 @@
 
     {% if tarefa %}
       {% set pct = tarefa.progresso if tarefa.progresso is not none else none %}
-      <div class="tarefa-barra {{ 'indeterminada' if pct is none and situacao == 'rodando' }}" data-barra
+      <div class="mo-barra {{ 'mo-barra--indeterminada' if pct is none and situacao == 'rodando' }}" data-barra
            role="progressbar" aria-valuemin="0" aria-valuemax="100" {% if pct is not none %}aria-valuenow="{{ pct }}"{% endif %}>
         <i style="width: {{ pct if pct is not none else (100 if situacao != 'rodando' else 0) }}%"></i>
       </div>
@@ -94,10 +94,9 @@
          ([{"nome": "AUR", "estado": "esperando"}, {"nome": "core", "estado": "esperando"}, {"nome": "extra", "estado": "esperando"}]
           if tarefa and nome == "bancos" else []) %}
     {% if etapas %}
-      <ol class="tarefa-passos" data-passos>
+      <ol class="mo-etapas tarefa-passos" data-passos>
         {% for passo in etapas %}
-          <li class="estado-{{ passo.estado }} mo-tom-{{ [1, 0, 2][loop.index0 % 3] }}">
-            <i aria-hidden="true"></i>
+          <li class="mo-tom-{{ [1, 0, 2][loop.index0 % 3] }}" data-estado="{{ passo.estado }}">
             <span>{{ passo.nome }}</span>
             <em>{{ {"esperando": "na fila", "rodando": "baixando", "pronto": "pronto"}[passo.estado] }}</em>
           </li>
@@ -106,16 +105,16 @@
     {% endif %}
 
     {% if tarefa %}
-      <section class="terminal tarefa-terminal">
-        <div class="terminal-cabecalho">
-          <span class="rotulo">SAÍDA</span>
-          <span class="alvo">{{ textos.comando }}</span>
+      <section class="mo-terminal tarefa-terminal">
+        <div class="mo-terminal-cabecalho">
+          <span class="mo-terminal-rotulo">SAÍDA</span>
+          <span class="mo-terminal-alvo">{{ textos.comando }}</span>
         </div>
-        <div class="terminal-saida" data-saida data-total="{{ tarefa.total }}">
+        <div class="mo-terminal-saida" data-saida data-total="{{ tarefa.total }}">
           {% for linha in tarefa.linhas %}
-            <div class="{{ 'indent' if not linha.startswith(('::', '==>')) }}">{{ linha }}</div>
+            <div class="{{ 'recuo' if not linha.startswith(('::', '==>')) }}">{{ linha }}</div>
           {% else %}
-            <div class="terminal-ocioso">Esperando a primeira linha...</div>
+            <div class="mo-terminal-ocioso">Esperando a primeira linha...</div>
           {% endfor %}
           {% if situacao == "rodando" %}<div class="linha-cursor"><i class="mo-caret" aria-hidden="true"></i></div>{% endif %}
         </div>

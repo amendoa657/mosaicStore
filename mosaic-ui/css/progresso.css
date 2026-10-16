@@ -41,7 +41,7 @@
   transition: width 0.5s var(--mo-ease-saida);
 }
 .mo-barra--indeterminada > i {
-  width: 22%;
+  width: 22% !important; /* vale mesmo com a largura no style do bloco */
   animation: mo-bloco-correndo 1.3s var(--mo-ease-meio) infinite alternate;
   animation-delay: var(--mo-atraso);
 }

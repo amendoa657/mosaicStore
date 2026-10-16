@@ -964,88 +964,16 @@ mark {
   color: var(--mo-texto);
 }
 
-/* A barra: uma tecla comprida. Com progresso conhecido ela enche; sem,
-   um bloco corre de um lado para o outro. */
-.tarefa-barra {
-  height: 12px;
-  border-radius: 6px;
-  background: var(--mo-elevada);
-  box-shadow: inset 0 -2px 0 color-mix(in oklab, var(--mo-elevada) 60%, black);
-  overflow: hidden;
-  position: relative;
-}
-.tarefa-barra > i {
-  display: block;
-  height: 100%;
-  border-radius: inherit;
-  background: var(--mo-destaque);
-  box-shadow: inset 0 -2px 0 color-mix(in oklab, var(--mo-destaque) 55%, black);
-  transition: width 0.5s var(--mo-ease-saida);
-}
-.tarefa-erro .tarefa-barra > i {
+/* A barra, as etapas e o terminal são da Mosaic UI (.mo-barra,
+   .mo-etapas, .mo-terminal); aqui só o que muda nesta tela. */
+.tarefa-erro .mo-barra > i {
   background: var(--mo-perigo);
   box-shadow: none;
 }
-.tarefa-barra.indeterminada > i {
-  width: 22% !important;
-  animation: bloco-correndo 1.3s var(--mo-ease-meio) infinite alternate;
-}
-@keyframes bloco-correndo {
-  from { transform: translateX(0); }
-  to { transform: translateX(355%); }
-}
-
-/* Etapas (bancos): o bloquinho no tom da fonte acende quando ela termina. */
 .tarefa-passos {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
 }
-.tarefa-passos li {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 11px 14px;
-  border-radius: var(--mo-raio-m);
-  background: var(--mo-cartao);
-  border: 1px solid var(--mo-borda);
-  font-family: var(--mo-fonte-mono);
-  font-size: 12.5px;
-}
-.tarefa-passos li > i {
-  width: 12px;
-  height: 12px;
-  border-radius: 3px;
-  flex: none;
-  box-shadow: inset 0 0 0 1.5px var(--mo-tom);
-  transition: background var(--mo-dur-media) ease;
-}
-.tarefa-passos li em {
-  margin-left: auto;
-  font-style: normal;
-  font-size: 11px;
-  color: var(--mo-texto-3);
-}
-.tarefa-passos .estado-rodando > i {
-  animation: piscar-bloco 0.9s ease-in-out infinite alternate;
-}
-.tarefa-passos .estado-rodando em {
-  color: var(--mo-texto);
-}
-.tarefa-passos .estado-pronto > i {
-  background: var(--mo-tom);
-}
-.tarefa-passos .estado-pronto em {
-  color: var(--mo-destaque);
-}
-@keyframes piscar-bloco {
-  to { background: var(--mo-tom); }
-}
-
-.tarefa-terminal .terminal-saida {
+.tarefa-terminal .mo-terminal-saida {
   height: 300px;
   flex: none;
 }
@@ -1749,7 +1677,7 @@ button.dep {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.item-agora .tarefa-barra {
+.item-agora .mo-barra {
   height: 10px;
 }
 
@@ -1874,86 +1802,6 @@ button.dep {
   padding: 20px 20px 20px 0;
   display: flex;
   min-height: 0;
-}
-.terminal {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  border-radius: var(--mo-raio-g);
-  background: var(--mo-fundo);
-  border: 1px solid var(--mo-borda);
-  box-shadow: var(--mo-sombra-cartao);
-  overflow: hidden;
-}
-.terminal-cabecalho {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 11px 15px;
-  background: var(--mo-lateral-2);
-  flex: none;
-}
-.terminal-cabecalho .rotulo {
-  font-family: var(--mo-fonte-mono);
-  font-weight: 600;
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  color: var(--mo-texto-2);
-}
-.terminal-cabecalho .alvo {
-  font-family: var(--mo-fonte-mono);
-  font-size: 11px;
-  color: var(--mo-texto-3);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.terminal-cabecalho .acoes {
-  margin-left: auto;
-  display: flex;
-  gap: 7px;
-}
-.terminal-cabecalho .mo-tecla {
-  height: 24px;
-  padding: 0 10px;
-  font-family: var(--mo-fonte-mono);
-  font-weight: 500;
-  font-size: 11px;
-}
-.terminal-saida {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  padding: 14px 16px;
-  font-family: var(--mo-fonte-mono);
-  font-size: 11.5px;
-  line-height: 1.85;
-  color: var(--mo-texto-2);
-  overflow-wrap: anywhere;
-}
-.terminal-saida .seta {
-  color: var(--mo-destaque);
-}
-.terminal-saida .seta.ok {
-  color: var(--mo-sucesso);
-}
-.terminal-saida .linha-ok {
-  color: var(--mo-sucesso);
-}
-.terminal-saida .indent {
-  padding-left: 18px;
-  color: var(--mo-texto-3);
-}
-.terminal-saida .ignorado {
-  color: var(--mo-perigo);
-}
-.terminal-ocioso {
-  color: var(--mo-texto-3);
-  font-style: italic;
-}
-.linha-nova {
-  animation: entrar-linha var(--mo-dur-media) var(--mo-ease-saida);
 }
 
 .progresso-simples {
@@ -2501,10 +2349,10 @@ button.dep {
     padding: 0 20px 20px;
     min-height: 360px;
   }
-  .terminal {
+  .mo-terminal {
     min-height: 320px;
   }
-  .terminal-saida {
+  .mo-terminal-saida {
     max-height: 420px;
   }
   .linha-pacote {

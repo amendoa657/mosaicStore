@@ -47,22 +47,16 @@ document.querySelectorAll("[data-sincronizar]").forEach((formulario) => {
   });
 });
 
-/* Barras animadas que são recriadas a cada atualização da fila: o atraso
-   negativo põe a animação no ponto em que ela estaria pelo relógio, então
-   o bloco continua correndo em vez de voltar ao começo a cada 2 s. */
-const sincronizarBarras = () => {
-  document.querySelectorAll(".barra-viva > i").forEach((barra) => {
-    barra.style.animationDelay = `-${Math.round(performance.now() % 2600)}ms`;
-  });
-};
-sincronizarBarras();
+/* As barras animadas que a fila recria a cada atualização continuam no
+   mesmo compasso sozinhas: a Mosaic UI acerta o atraso de cada
+   .mo-barra--indeterminada que entra na página. */
 
 /* 8. Fila ao vivo. Enquanto algo instala, busca esta mesma página a cada 2 s
       e troca só o que muda (lista, alvo, contagem e saída do terminal), em
       vez de recarregar a janela inteira. A saída só desce sozinha se você
       já estava lá embaixo. Quando a instalação acaba, para. */
 if (document.querySelector("[data-fila-ao-vivo]")) {
-  const PARTES = [".coluna-fila", ".terminal-cabecalho .alvo", ".meta-cabecalho"];
+  const PARTES = [".coluna-fila", ".mo-terminal-alvo", ".mo-cabecalho-meta"];
 
   const atualizarFila = async () => {
     let novo;
@@ -83,10 +77,9 @@ if (document.querySelector("[data-fila-ao-vivo]")) {
       if (atual && vindo && atual.innerHTML !== vindo.innerHTML) atual.innerHTML = vindo.innerHTML;
     }
 
-    sincronizarBarras();
 
-    const saida = document.querySelector(".terminal-saida");
-    const saidaNova = novo.querySelector(".terminal-saida");
+    const saida = document.querySelector(".mo-terminal-saida");
+    const saidaNova = novo.querySelector(".mo-terminal-saida");
     if (saida && saidaNova && saida.innerHTML !== saidaNova.innerHTML) {
       const noFim = saida.scrollHeight - saida.scrollTop - saida.clientHeight < 40;
       saida.innerHTML = saidaNova.innerHTML;
@@ -187,7 +180,7 @@ if (telaTarefa) {
     saida.replaceChildren(
       ...linhas.map((linha) => {
         const div = document.createElement("div");
-        if (!/^(::|==>)/.test(linha)) div.className = "indent";
+        if (!/^(::|==>)/.test(linha)) div.className = "recuo";
         div.textContent = linha;
         return div;
       }),
@@ -218,7 +211,7 @@ if (telaTarefa) {
     if (passo) passo.textContent = estado.passo;
     if (barra) {
       const conhecido = estado.progresso !== null;
-      barra.classList.toggle("indeterminada", !conhecido);
+      barra.classList.toggle("mo-barra--indeterminada", !conhecido);
       barra.firstElementChild.style.width = conhecido ? `${estado.progresso}%` : "";
       if (conhecido) barra.setAttribute("aria-valuenow", estado.progresso);
     }
@@ -227,7 +220,7 @@ if (telaTarefa) {
       [...passos.children].forEach((item, i) => {
         const p = estado.passos[i];
         if (!p) return;
-        item.className = item.className.replace(/estado-\S+/, `estado-${p.estado}`);
+        item.dataset.estado = p.estado;
         item.querySelector("em").textContent = rotulos[p.estado];
       });
     }
@@ -260,7 +253,7 @@ if (formConfig) {
 }
 
 /* A saída do build começa rolada até o fim, que é onde está o que interessa. */
-const terminal = document.querySelector(".terminal-saida");
+const terminal = document.querySelector(".mo-terminal-saida");
 if (terminal) {
   terminal.scrollTop = terminal.scrollHeight;
 }

@@ -650,9 +650,9 @@ button.mo-item {
 
 /* ---------- Etapas ----------
    <ol class="mo-etapas">
-     <li class="mo-tom-0" data-estado="pronto">core <em>feito</em></li>
-     <li class="mo-tom-1" data-estado="rodando">extra <em>baixando</em></li>
-     <li class="mo-tom-2">aur <em>na fila</em></li>
+     <li class="mo-tom-0" data-estado="pronto"><span>core</span> <em>feito</em></li>
+     <li class="mo-tom-1" data-estado="rodando"><span>extra</span> <em>baixando</em></li>
+     <li class="mo-tom-2"><span>aur</span> <em>na fila</em></li>
    </ol>
    O bloquinho pisca enquanto roda e acende quando termina. */
 .mo-etapas {
@@ -667,11 +667,10 @@ button.mo-item {
   display: flex;
   align-items: center;
   gap: 10px;
-  min-width: 0;
   padding: 11px 14px;
-  border: 1px solid var(--mo-borda);
   border-radius: var(--mo-raio-m);
   background: var(--mo-cartao);
+  border: 1px solid var(--mo-borda);
   font-family: var(--mo-fonte-mono);
   font-size: 12.5px;
 }
@@ -689,7 +688,6 @@ button.mo-item {
   font-style: normal;
   font-size: 11px;
   color: var(--mo-texto-3);
-  white-space: nowrap;
 }
 .mo-etapas > [data-estado="rodando"]::before {
   animation: mo-piscar-bloco 0.9s ease-in-out infinite alternate;

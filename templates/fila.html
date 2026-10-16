@@ -67,7 +67,7 @@
               <span class="passo-atual">{{ item.passo or "Preparando..." }}</span>
             </a>
           </div>
-          <div class="tarefa-barra indeterminada barra-viva" role="progressbar" aria-label="Instalando {{ item.nome }}"><i></i></div>
+          <div class="mo-barra mo-barra--indeterminada" role="progressbar" aria-label="Instalando {{ item.nome }}"><i></i></div>
         </article>
       {% endfor %}
 
@@ -137,26 +137,26 @@
   </div>
 
   <div class="coluna-terminal" {{ "data-fila-ao-vivo" if instalando }}>
-    <section class="terminal">
-      <div class="terminal-cabecalho">
-        <span class="rotulo">SAÍDA DO BUILD</span>
-        <span class="alvo">
+    <section class="mo-terminal">
+      <div class="mo-terminal-cabecalho">
+        <span class="mo-terminal-rotulo">SAÍDA DO BUILD</span>
+        <span class="mo-terminal-alvo">
           {{ (instalando | map(attribute="nome") | first) or "ocioso" }}
         </span>
       </div>
 
-      {# A saída rola sozinha até o fim: veja .terminal-saida no CSS. #}
-      <div class="terminal-saida">
+      {# A saída rola sozinha até o fim (app.js). #}
+      <div class="mo-terminal-saida">
         {# Só as últimas 400 linhas: o resto já rolou para cima e desenhar
            um build inteiro (dezenas de milhares de linhas) trava a janela. #}
         {% for linha in (saida | list)[-400:] %}
           {% if linha.startswith("==>") %}
             <div><span class="seta">==&gt;</span>{{ linha[3:] }}</div>
           {% else %}
-            <div class="indent">{{ linha }}</div>
+            <div class="recuo">{{ linha }}</div>
           {% endif %}
         {% else %}
-          <div class="terminal-ocioso">Sem build em andamento.</div>
+          <div class="mo-terminal-ocioso">Sem build em andamento.</div>
         {% endfor %}
 
         {% if instalando %}<div class="linha-cursor"><i class="mo-caret" aria-hidden="true"></i></div>{% endif %}
