@@ -7,7 +7,7 @@ pkgrel=1
 pkgdesc="Loja de pacotes do Arch Linux (repositórios oficiais e AUR) com a cara do seu wallpaper"
 arch=('any')
 url="https://github.com/amendoa657/mosaicStore"
-license=('unknown' 'OFL-1.1')  # 'unknown' até o repositório ter um LICENSE; OFL-1.1 é das fontes
+license=('GPL-3.0-or-later' 'OFL-1.1') # 'unknown' até o repositório ter um LICENSE; OFL-1.1 é das fontes
 depends=(
   'python'
   'python-flask'
@@ -16,10 +16,10 @@ depends=(
   'python-qtpy'
   'pyside6'
   'qt6-webengine'
-  'paru'            # instala os pacotes da AUR
-  'pacman-contrib'  # checkupdates, na tela de Atualizações
-  'polkit'          # pkexec
-  'seahorse'        # /usr/lib/seahorse/ssh-askpass, a janela da senha
+  'paru'           # instala os pacotes da AUR
+  'pacman-contrib' # checkupdates, na tela de Atualizações
+  'polkit'         # pkexec
+  'seahorse'       # /usr/lib/seahorse/ssh-askpass, a janela da senha
 )
 makedepends=('git')
 optdepends=('matugen: tema a partir do wallpaper')
@@ -27,11 +27,11 @@ provides=("$_pkgname")
 conflicts=("$_pkgname")
 # Enquanto o mosaic-ui não entrar na main, o pacote sai dele.
 source=("$_pkgname::git+https://github.com/amendoa657/mosaicStore.git#branch=mosaic-ui"
-        "mosaic-store.sh"
-        "mosaic-store.desktop")
+  "mosaic-store.sh"
+  "mosaic-store.desktop")
 sha256sums=('SKIP'
-            '646f7116417c2eb8a41334aebd30cee9d8736cfeafcbb71377a64f481d48f6d4'
-            'fa9555071f808b314a92befe9e5215b0d28d1ddcbadad69aee7ec354a0d1f0b8')
+  '646f7116417c2eb8a41334aebd30cee9d8736cfeafcbb71377a64f481d48f6d4'
+  'fa9555071f808b314a92befe9e5215b0d28d1ddcbadad69aee7ec354a0d1f0b8')
 
 pkgver() {
   cd "$_pkgname"
@@ -46,7 +46,7 @@ package() {
   # ~/.config/mosaic-store.
   install -d "$pkgdir/usr/share/$_pkgname"
   cp -a app.py config controllers database models repositories services system \
-        templates static mosaic-ui "$pkgdir/usr/share/$_pkgname/"
+    templates static mosaic-ui "$pkgdir/usr/share/$_pkgname/"
   find "$pkgdir/usr/share/$_pkgname" -name __pycache__ -prune -exec rm -rf {} +
   python -m compileall -q -d "/usr/share/$_pkgname" "$pkgdir/usr/share/$_pkgname"
 
