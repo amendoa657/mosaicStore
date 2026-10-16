@@ -152,16 +152,16 @@
   </aside>
 
   {% if pacote.pkgBuild %}
-    <dialog class="dialogo" id="pkgbuild">
-      <header class="dialogo-cabecalho">
+    <dialog class="mo-dialogo" id="pkgbuild">
+      <header>
         <h2>PKGBUILD</h2>
         <span class="mo-meta">{{ pacote.Name }} {{ pacote.Version }}</span>
-        <button class="mo-tecla mo-tecla--icone btn-fechar" data-mo-fechar aria-label="Fechar">✕</button>
+        <button class="mo-tecla mo-tecla--icone mo-dialogo-fechar" data-mo-fechar aria-label="Fechar">✕</button>
       </header>
-      <div class="dialogo-corpo">
+      <div class="mo-dialogo-corpo">
         <pre class="pkgbuild pkgbuild-cheio">{{ pacote.pkgBuild }}</pre>
       </div>
-      <footer class="dialogo-rodape">
+      <footer>
         <button class="mo-tecla mo-tecla--destaque" data-mo-fechar>Fechar</button>
       </footer>
     </dialog>

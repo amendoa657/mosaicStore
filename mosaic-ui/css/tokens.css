@@ -134,8 +134,9 @@
   /* ---------- Camadas ---------- */
   --mo-z-fixo: 3;
   --mo-z-gaveta: 25;
-  --mo-z-avisos: 60;
-  --mo-z-cortina: 80;
+  --mo-z-cortina: 50; /* a onda cobre a página, mas não os avisos */
+  --mo-z-menu: 70;
+  --mo-z-avisos: 80;
 }
 
 /* Os tons como classes: põe a cor do tom em --mo-tom, que os componentes

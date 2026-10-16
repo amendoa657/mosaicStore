@@ -88,6 +88,32 @@
 @keyframes mo-aviso-sair {
   to { opacity: 0; transform: translateY(8px) scale(0.98); }
 }
+@keyframes mo-aparecer-sumir {
+  0% {
+    opacity: 0;
+    transform: translateY(100%) scale(0.96);
+    animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  5.4% {
+    opacity: 1;
+    transform: none;
+  }
+  95.5% {
+    opacity: 1;
+    transform: none;
+    animation-timing-function: ease-out;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+    visibility: hidden;
+  }
+}
+@keyframes mo-aparecer-sumir-suave {
+  0% { opacity: 0; }
+  5%, 95% { opacity: 1; }
+  100% { opacity: 0; visibility: hidden; }
+}
 /* A marca gira um quarto de volta por vez, com pausa entre os quartos. */
 @keyframes mo-blocos-girando {
   0% { transform: rotate(0deg); animation-timing-function: var(--mo-ease-meio); }
@@ -127,7 +153,6 @@
   .mo-entra,
   .mo-cascata > *,
   .mo-dialogo[open],
-  .mo-aviso-flutuante,
   .mo-menu:popover-open,
   .mo-menu.mo-aberto {
     animation: mo-so-aparecer 0.2s ease backwards;
@@ -138,6 +163,12 @@
   .mo-pulso,
   .mo-caret {
     animation: none;
+  }
+  .mo-aviso-flutuante {
+    animation: mo-so-aparecer 0.2s ease backwards;
+  }
+  .mo-aviso-flutuante--sozinho {
+    animation: mo-aparecer-sumir-suave 4.5s linear forwards;
   }
   .mo-marca--girando,
   .mo-tecla[aria-busy="true"]::after {

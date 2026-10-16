@@ -166,14 +166,13 @@
 {#
   Avisos vindos do Flask. No Python:  flash("Blender instalado", "ok")
   As categorias viram a cor da bolinha: "ok", "alerta" ou nada.
-  Somem sozinhos por animação do CSS — não precisa de JavaScript.
+  Somem sozinhos por animação do CSS (Mosaic UI) — não precisa de JavaScript.
 #}
 {% with mensagens = get_flashed_messages(with_categories=true) %}
   {% if mensagens %}
-    <div class="pilha-avisos" role="status" aria-live="polite">
+    <div class="mo-avisos" role="status" aria-live="polite">
       {% for categoria, mensagem in mensagens %}
-        <div class="aviso-flutuante aviso-{{ categoria or 'info' }}">
-          <i class="marcador" aria-hidden="true"></i>
+        <div class="mo-aviso-flutuante mo-aviso-flutuante--sozinho" data-tipo="{{ categoria or 'info' }}">
           <span>{{ mensagem }}</span>
         </div>
       {% endfor %}

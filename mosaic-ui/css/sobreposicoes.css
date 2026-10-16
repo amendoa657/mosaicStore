@@ -2,7 +2,7 @@
    Sobreposições: o que aparece por cima da tela.
 
    Diálogo   <dialog class="mo-dialogo" id="d">
-               <header>…<button class="mo-tecla mo-tecla--sutil mo-tecla--icone" data-mo-fechar>×</button></header>
+               <header><h2>…</h2> <button class="mo-tecla mo-tecla--icone mo-dialogo-fechar" data-mo-fechar>✕</button></header>
                <div class="mo-dialogo-corpo">…</div>
                <footer>…</footer>
              </dialog>
@@ -25,7 +25,7 @@
   border: 0;
   border-radius: var(--mo-raio-g);
   background: var(--mo-dialogo);
-  color: var(--mo-texto);
+  color: var(--mo-texto-dialogo);
   box-shadow:
     0 28px 80px rgba(0, 0, 0, 0.6),
     0 0 0 1px var(--mo-borda);
@@ -45,22 +45,31 @@
 .mo-dialogo--estreito { --mo-dialogo-largura: 420px; }
 .mo-dialogo--largo { --mo-dialogo-largura: 920px; }
 
+.mo-dialogo-cabecalho,
 .mo-dialogo > header,
 .mo-painel > header {
   display: flex;
   align-items: center;
   gap: 12px;
-  min-height: 56px;
-  padding: 12px 12px 12px 18px;
+  padding: 16px 18px;
   border-bottom: 1px solid var(--mo-linha);
   flex: none;
 }
-.mo-dialogo > header h2,
-.mo-painel > header h2 {
-  font-size: var(--mo-tamanho-g);
+:is(.mo-dialogo-cabecalho, .mo-dialogo > header, .mo-painel > header) h2 {
+  margin: 0;
+  font-size: 15px;
   font-weight: 600;
-  flex: 1;
-  min-width: 0;
+}
+/* O X do cabeçalho: tecla sem corpo, encostada na direita. */
+.mo-dialogo-fechar {
+  margin-left: auto;
+  width: 30px;
+  height: 30px;
+  font-size: 13px;
+  background: transparent;
+}
+.mo-dialogo-fechar:hover {
+  background: var(--mo-elevada);
 }
 .mo-dialogo-corpo {
   padding: 18px;
@@ -70,11 +79,11 @@
   color: var(--mo-texto-2);
   line-height: 1.6;
 }
+.mo-dialogo-rodape,
 .mo-dialogo > footer,
 .mo-painel > footer {
   display: flex;
   justify-content: flex-end;
-  align-items: center;
   gap: 9px;
   padding: 14px 18px;
   border-top: 1px solid var(--mo-linha);
@@ -139,7 +148,7 @@
   background: var(--mo-elevada);
   color: var(--mo-texto);
   box-shadow: 0 18px 44px rgba(0, 0, 0, 0.55);
-  z-index: var(--mo-z-avisos);
+  z-index: var(--mo-z-menu);
   overflow: visible;
 }
 .mo-menu:popover-open,
@@ -261,7 +270,14 @@
   transition-delay: 0s;
 }
 
-/* ---------- Avisos flutuantes ---------- */
+/* ---------- Avisos flutuantes ----------
+   Pelo JS: mosaic.avisar("…") (some sozinho, para no hover, fecha no clique).
+   Vindo pronto do servidor, só com CSS (entra, fica 4 s e some):
+   <div class="mo-avisos" role="status" aria-live="polite">
+     <div class="mo-aviso-flutuante mo-aviso-flutuante--sozinho" data-tipo="ok"><span>…</span></div>
+   </div>
+   data-tipo: ok (sucesso), alerta ou erro (perigo), trabalhando; sem ele,
+   o destaque. */
 .mo-avisos {
   position: fixed;
   right: 18px;
@@ -269,8 +285,8 @@
   z-index: var(--mo-z-avisos);
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
   gap: 8px;
+  align-items: flex-end;
   pointer-events: none;
 }
 .mo-aviso-flutuante {
@@ -278,36 +294,49 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  max-width: min(360px, calc(100vw - 36px));
-  padding: 11px 15px;
-  border: 1px solid var(--mo-borda);
-  border-radius: var(--mo-raio-m);
-  background: var(--mo-elevada);
-  color: var(--mo-texto);
-  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.55);
-  font-size: 12.5px;
   pointer-events: auto;
   cursor: pointer;
+  padding: 11px 15px;
+  border-radius: var(--mo-raio-m);
+  max-width: min(360px, calc(100vw - 36px));
+  background: var(--mo-elevada);
+  color: var(--mo-texto-elevada);
+  border: 1px solid var(--mo-borda);
+  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.55);
+  font-size: 12.5px;
   animation: mo-aviso-entrar var(--mo-dur-media) var(--mo-ease-saida);
 }
 .mo-aviso-flutuante.mo-saindo {
   animation: mo-aviso-sair var(--mo-dur-curta) ease-in forwards;
 }
-/* O marcador é um bloquinho de tecla no tom do aviso. */
+/* Entra rápido (240 ms), fica, e sai mais rápido ainda. */
+.mo-aviso-flutuante--sozinho {
+  animation: mo-aparecer-sumir 4.5s linear forwards;
+}
+/* O marcador: um pontinho na cor do aviso. */
 .mo-aviso-flutuante::before {
   content: "";
-  width: 8px;
-  height: 8px;
-  border-radius: 2px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
   background: var(--mo-aviso-cor);
-  box-shadow: 0 1.5px 0 color-mix(in oklab, var(--mo-aviso-cor) 45%, black);
   flex: none;
 }
-.mo-aviso-flutuante[data-tipo="erro"] { --mo-aviso-cor: var(--mo-perigo); }
-.mo-aviso-flutuante[data-tipo="info"] { --mo-aviso-cor: var(--mo-terciaria); }
+.mo-aviso-flutuante[data-tipo="ok"] { --mo-aviso-cor: var(--mo-sucesso); }
+.mo-aviso-flutuante:is([data-tipo="alerta"], [data-tipo="erro"]) { --mo-aviso-cor: var(--mo-perigo); }
 .mo-aviso-flutuante[data-tipo="trabalhando"]::before {
-  animation: mo-blocos-girando 1.6s infinite;
+  animation: mo-respirar 1.3s ease-in-out infinite;
 }
 .mo-aviso-flutuante > .mo-tecla {
   margin-left: 6px;
+}
+@media (max-width: 520px) {
+  .mo-avisos {
+    left: 14px;
+    right: 14px;
+    align-items: stretch;
+  }
+  .mo-aviso-flutuante {
+    max-width: none;
+  }
 }
