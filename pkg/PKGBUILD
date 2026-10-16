@@ -16,6 +16,7 @@ depends=(
   'python-qtpy'
   'pyside6'
   'qt6-webengine'
+  'qt6-svg'        # o ícone da janela, que é SVG
   'paru'           # instala os pacotes da AUR
   'pacman-contrib' # checkupdates, na tela de Atualizações
   'polkit'         # pkexec
@@ -52,10 +53,8 @@ package() {
 
   install -Dm755 "$srcdir/mosaic-store.sh" "$pkgdir/usr/bin/mosaic-store"
   install -Dm644 "$srcdir/mosaic-store.desktop" -t "$pkgdir/usr/share/applications/"
+  # Só o SVG: o app grava o ícone nas cores do tema em ~/.local/share/icons,
+  # que ganha deste. Um PNG de tamanho fixo aqui ganharia do SVG do usuário.
   install -Dm644 static/icone.svg "$pkgdir/usr/share/icons/hicolor/scalable/apps/mosaic-store.svg"
-  for lado in 16 24 32 48 64 128 256 512; do
-    install -Dm644 "static/icones/mosaic-store-$lado.png" \
-      "$pkgdir/usr/share/icons/hicolor/${lado}x${lado}/apps/mosaic-store.png"
-  done
   install -Dm644 mosaic-ui/fontes/LICENSE-* -t "$pkgdir/usr/share/licenses/$pkgname/"
 }
