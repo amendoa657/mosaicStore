@@ -209,27 +209,6 @@ mark {
   display: flex;
   flex-direction: column;
 }
-.secao {
-  padding: 26px;
-}
-.secao + .secao {
-  padding-top: 0;
-}
-.titulo-secao {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 13px;
-}
-.titulo-secao h2 {
-  margin: 0;
-  font-size: 15px;
-  font-weight: 600;
-}
-.titulo-secao a {
-  font-size: 12px;
-}
 
 /* ---------- Teclas ----------
    A tecla é a .mo-tecla da Mosaic UI; aqui só os estados da loja. */
@@ -673,7 +652,7 @@ mark {
   --topo-filtros: 115px;
   --altura-filtros: 41px;
 }
-.pilha .barra-filtros {
+.pilha .mo-barra-fixa {
   top: var(--topo-filtros);
 }
 .cabecalho-tabela {
@@ -683,19 +662,6 @@ mark {
 }
 
 /* ---------- Filtros ---------- */
-.barra-filtros {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  padding: 11px 18px;
-  background: var(--mo-lateral-2);
-  border-block: 1px solid var(--mo-borda);
-  position: sticky;
-  top: 0;
-  z-index: 3;
-  flex: none;
-}
 .contagem-resultados {
   font-family: var(--mo-fonte-mono);
   font-size: 12px;
@@ -1041,43 +1007,6 @@ mark {
   text-overflow: ellipsis;
 }
 
-/* Tudo em dia: a marca grande no meio da página, que gira no hover. */
-.em-dia {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin: auto;
-  padding: 56px 26px;
-  text-align: center;
-}
-.glifo-em-dia {
-  width: 76px;
-  height: 76px;
-  margin-bottom: 10px;
-  border-radius: 6px;
-  animation: assentar-marca 0.6s var(--mo-ease-saida) backwards;
-}
-.em-dia:hover .glifo-em-dia {
-  transform: rotate(90deg);
-}
-@keyframes assentar-marca {
-  from { transform: scale(0.6) rotate(-90deg); opacity: 0; }
-}
-.em-dia h2 {
-  margin: 0;
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-}
-.em-dia p {
-  margin: 0 0 8px;
-  color: var(--mo-texto-2);
-  max-width: 340px;
-  text-wrap: pretty;
-}
-
 /* ---------- Tarefas longas (atualizar o sistema, sincronizar bancos) ---------- */
 .tarefa {
   width: min(760px, 100% - 52px);
@@ -1103,7 +1032,7 @@ mark {
   animation: mo-blocos-girando 1.6s infinite;
 }
 .tarefa-concluida .glifo-tarefa {
-  animation: assentar-marca 0.6s var(--mo-ease-saida) backwards;
+  animation: mo-assentar 0.6s var(--mo-ease-saida) backwards;
 }
 .tarefa-erro .glifo-tarefa {
   filter: grayscale(1) brightness(0.6);
@@ -2290,33 +2219,6 @@ button.dep {
 }
 
 /* ---------- Estado vazio ---------- */
-.estado-vazio {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 56px 26px;
-  text-align: center;
-  margin: auto;
-}
-.glifo-vazio {
-  width: 46px;
-  height: 46px;
-  border-radius: var(--mo-raio-g);
-  border: 2px dashed var(--mo-decorativa);
-}
-.estado-vazio h3 {
-  margin: 0;
-  font-size: 15px;
-  font-weight: 600;
-}
-.estado-vazio p {
-  margin: 0;
-  color: var(--mo-texto-2);
-  max-width: 360px;
-  text-wrap: pretty;
-}
 
 /* ---------- Avisos flutuantes ---------- */
 .pilha-avisos {
@@ -2776,7 +2678,7 @@ button.dep {
 .linha-pacote:not(.cabecalho-tabela),
 .destaque,
 .faixa-atualizacoes,
-.secao > .mo-cartao {
+.mo-secao > .mo-cartao {
   animation: entrar 0.42s var(--mo-ease-saida) backwards;
   animation-delay: calc(var(--ordem, 0) * 45ms);
 }
@@ -2800,7 +2702,7 @@ button.dep {
 .linha-pacote:nth-child(n + 8) { --ordem: 6; }
 
 /* A segunda grade da home começa depois da primeira, como uma onda só. */
-.secao + .secao + .secao .grade-cartoes > * {
+.mo-secao + .mo-secao + .mo-secao .grade-cartoes > * {
   animation-delay: calc(120ms + var(--ordem, 0) * 45ms);
 }
 
@@ -2833,13 +2735,13 @@ button.dep {
 .mo-repeticao .linha-pacote,
 .mo-repeticao .destaque,
 .mo-repeticao .faixa-atualizacoes,
-.mo-repeticao .secao > .mo-cartao,
+.mo-repeticao .mo-secao > .mo-cartao,
 .mo-via-pixels .grade-cartoes > *,
 .mo-via-pixels .item-fila,
 .mo-via-pixels .linha-pacote,
 .mo-via-pixels .destaque,
 .mo-via-pixels .faixa-atualizacoes,
-.mo-via-pixels .secao > .mo-cartao {
+.mo-via-pixels .mo-secao > .mo-cartao {
   animation: none;
 }
 
@@ -2855,7 +2757,7 @@ button.dep {
   .linha-pacote:not(.cabecalho-tabela),
   .destaque,
   .faixa-atualizacoes,
-  .secao > .mo-cartao,
+  .mo-secao > .mo-cartao,
   .dialogo[open] {
     animation: so-aparecer 0.2s ease backwards;
   }
@@ -3003,9 +2905,6 @@ button.dep {
   }
   .detalhe {
     display: block;
-  }
-  .secao {
-    padding: 20px 16px;
   }
 }
 @media (max-width: 720px) {

@@ -127,8 +127,8 @@
 
 {# Tela sem nada: usada quando uma busca não acha nada, a fila está vazia etc. #}
 {% macro vazio(titulo, descricao, botao_html="") %}
-  <div class="estado-vazio">
-    <div class="glifo-vazio" aria-hidden="true"></div>
+  <div class="mo-vazio">
+    <div class="mo-vazio-glifo" aria-hidden="true"></div>
     <h3>{{ titulo }}</h3>
     <p>{{ descricao }}</p>
     {{ botao_html | safe }}

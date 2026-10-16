@@ -764,8 +764,11 @@ button.mo-item {
 
 /* ---------- Estado vazio ----------
    <div class="mo-vazio">
-     <i class="mo-marca mo-marca--xg"></i> (ou <i class="mo-vazio-glifo"></i>)
-     <h3>Nada aqui</h3> <p>…</p> <button class="mo-tecla">…</button>
+     <i class="mo-vazio-glifo"></i> <h3>Nada aqui</h3> <p>…</p> <a class="mo-tecla">…</a>
+   </div>
+   Com a marca grande (tudo em dia, fila vazia), que gira no hover:
+   <div class="mo-vazio mo-vazio--marca">
+     <i class="mo-marca"></i> <h2>Tudo em dia</h2> <p>…</p>
    </div> */
 .mo-vazio {
   display: flex;
@@ -777,29 +780,40 @@ button.mo-item {
   padding: 56px 26px;
   text-align: center;
 }
-.mo-vazio > .mo-marca {
-  margin-bottom: 10px;
-  animation: mo-assentar 0.6s var(--mo-ease-saida) backwards;
-}
-.mo-vazio:hover > .mo-marca {
-  transform: rotate(90deg);
-}
 .mo-vazio-glifo {
   width: 46px;
   height: 46px;
-  border: 2px dashed var(--mo-decorativa);
   border-radius: var(--mo-raio-g);
+  border: 2px dashed var(--mo-decorativa);
 }
-.mo-vazio > h2,
 .mo-vazio > h3 {
-  font-size: var(--mo-tamanho-g);
+  margin: 0;
+  font-size: 15px;
   font-weight: 600;
 }
-.mo-vazio > h2 {
+.mo-vazio > p {
+  margin: 0;
+  color: var(--mo-texto-2);
+  max-width: 360px;
+  text-wrap: pretty;
+}
+.mo-vazio--marca > .mo-marca {
+  --mo-marca-tamanho: 76px;
+  --mo-marca-raio: 6px;
+  --mo-marca-vao: 10%;
+  margin-bottom: 10px;
+  animation: mo-assentar 0.6s var(--mo-ease-saida) backwards;
+}
+.mo-vazio--marca:hover > .mo-marca {
+  transform: rotate(90deg);
+}
+.mo-vazio--marca > h2 {
+  margin: 0;
   font-size: 22px;
   font-weight: 700;
+  letter-spacing: -0.01em;
 }
-.mo-vazio > p {
-  max-width: 360px;
-  color: var(--mo-texto-2);
+.mo-vazio--marca > p {
+  margin: 0 0 8px;
+  max-width: 340px;
 }

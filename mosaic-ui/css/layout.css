@@ -42,10 +42,15 @@
 
 /* Seção: o bloco padrão de uma tela, com o respiro da identidade. */
 .mo-secao {
-  padding: var(--mo-espaco-6);
+  padding: 26px;
 }
 .mo-secao + .mo-secao {
   padding-top: 0;
+}
+@media (max-width: 760px) {
+  .mo-secao {
+    padding: 20px 16px;
+  }
 }
 
 /* Título de seção: título à esquerda, ação (link, tecla) à direita. */
@@ -53,17 +58,17 @@
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: var(--mo-espaco-3);
-  margin-bottom: var(--mo-espaco-3);
+  gap: 12px;
+  margin-bottom: 13px;
 }
 .mo-secao-titulo h2,
 .mo-secao-titulo h3 {
-  font-size: var(--mo-tamanho-g);
+  margin: 0;
+  font-size: 15px;
   font-weight: 600;
-  letter-spacing: 0;
 }
 .mo-secao-titulo a {
-  font-size: var(--mo-tamanho-p);
+  font-size: 12px;
 }
 
 /* Separador. */

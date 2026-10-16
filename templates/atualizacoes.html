@@ -95,7 +95,7 @@
       </div>
     {% endif %}
 
-    <div class="barra-filtros">
+    <div class="mo-barra-fixa">
       {% for id, rotulo, n in [("", "Todas", pacotes | length), ("oficiais", "Oficiais", oficiais | length), ("aur", "AUR", aur | length)] if n or not id or fonte == id %}
         <a class="mo-chip {{ 'ativo' if fonte == id }}" href="/atualizacoes{{ '?fonte=' ~ id if id }}"
            {{ 'aria-current=page' if fonte == id }}>{{ rotulo }}<span class="mo-contagem">{{ n }}</span></a>
@@ -135,8 +135,8 @@
           </div>
         {% endfor %}
       {% else %}
-        <div class="estado-vazio">
-          <div class="glifo-vazio" aria-hidden="true"></div>
+        <div class="mo-vazio">
+          <div class="mo-vazio-glifo" aria-hidden="true"></div>
           <h3>Nada nesta fonte</h3>
           <p>As atualizações pendentes são de outra fonte.</p>
           <a class="mo-tecla" href="/atualizacoes">Ver todas</a>
@@ -147,8 +147,8 @@
   {% else %}
 
     {# Tudo em dia: a marca grande, que gira um quarto de volta no hover. #}
-    <div class="em-dia">
-      <div class="mo-marca glifo-grande glifo-em-dia" aria-hidden="true"></div>
+    <div class="mo-vazio mo-vazio--marca">
+      <div class="mo-marca" aria-hidden="true"></div>
       <h2>Tudo em dia</h2>
       <p>Nenhuma atualização pendente nos repositórios oficiais nem na AUR.</p>
       <a class="mo-tecla mo-tecla--g btn-verificar" href="/atualizacoes" data-verificar>

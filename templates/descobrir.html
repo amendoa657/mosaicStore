@@ -14,7 +14,7 @@
 {% block conteudo %}
 
   {% if destaque %}
-    <section class="secao">
+    <section class="mo-secao">
       <article class="destaque">
         {{ icone(destaque, "xg") }}
         <div class="destaque-texto">
@@ -33,7 +33,7 @@
   {% endif %}
 
   {% if contagens.atualizacoes %}
-    <section class="secao">
+    <section class="mo-secao">
       <div class="faixa-atualizacoes">
         <div class="faixa-texto">
           <strong>
@@ -51,8 +51,8 @@
     </section>
   {% endif %}
 
-  <section class="secao">
-    <div class="titulo-secao">
+  <section class="mo-secao">
+    <div class="mo-secao-titulo">
       <h2>Populares esta semana</h2>
       <a href="/buscar">Ver tudo</a>
     </div>
@@ -66,8 +66,8 @@
     </div>
   </section>
 
-  <section class="secao">
-    <div class="titulo-secao">
+  <section class="mo-secao">
+    <div class="mo-secao-titulo">
       <h2>Os mais votados</h2>
       <a href="/buscar">Ver tudo</a>
     </div>
@@ -82,8 +82,8 @@
   </section>
 
   {% if categorias %}
-    <section class="secao">
-      <div class="titulo-secao"><h2>Categorias</h2></div>
+    <section class="mo-secao">
+      <div class="mo-secao-titulo"><h2>Categorias</h2></div>
 
       <div class="grade-cartoes">
         {% for categoria in categorias %}
