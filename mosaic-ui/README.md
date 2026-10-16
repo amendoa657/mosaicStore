@@ -87,7 +87,7 @@ As cores leem as variáveis do template do Matugen (`--corDestaque`,
 | Marca | `mo-marca` (`--girando --assentar --apagada --fraca --viva`, `--mo-marca-1…4`) | `css/marca.css` |
 | Campos | `mo-campo` `mo-rotulo` `mo-busca` (`--grande --filtro`, com `mo-lupa`) `mo-interruptor` `mo-caixa` `mo-opcoes` `mo-deslizante` `mo-linha-opcao` `mo-linha-opcao-texto` | `css/campos.css` |
 | Conteúdo | `mo-cartao` (`--app --destaque --linha`, `mo-cartao-topo` `mo-cartao-rodape` `mo-resumo`) `mo-reticula` `mo-icone-app` (`--p --m --g --xg --tecla`) `mo-chip` `mo-selo` (`--sucesso --perigo --neutro`) `mo-pulso` `mo-lista` `mo-item` `mo-tabela` `mo-dados` `mo-aviso` (`--faixa --destaque --tom`) `mo-rotulo-grupo` `mo-numero` `mo-proporcao` `mo-legenda` `mo-etapas` `mo-abas` `mo-vazio` (`--marca`) | `css/conteudo.css` |
-| Progresso | `mo-barra` (`--indeterminada`, `<progress>`), `mo-blocos` | `css/progresso.css` |
+| Progresso | `mo-barra` (`--indeterminada`, `<progress>`), `mo-blocos`, `mo-carregando` (a espera de uma área; quem monta é o JS) | `css/progresso.css` |
 | Sobreposições | `mo-dialogo` (`mo-dialogo-fechar` `mo-dialogo-corpo`) `mo-painel` `mo-menu` `data-mo-dica` `mo-avisos` `mo-aviso-flutuante` (`--sozinho`, `data-tipo`) | `css/sobreposicoes.css` |
 | Terminal | `mo-terminal` `mo-terminal-cabecalho` `mo-terminal-rotulo` `mo-terminal-alvo` `mo-terminal-acoes` `mo-terminal-saida` (linhas `.seta .ok .erro .aviso .fraco .recuo`) `mo-terminal-ocioso` `mo-caret` | `css/terminal.css` |
 | Símbolos | `<mo-simbolo nome>`: 43 ícones numa grade de 9 × 9 pixels | `js/simbolos.js` |
@@ -122,13 +122,37 @@ nome e os controles da janela.
 | `data-mo-ocupado` | no `<form>`: a tecla que enviou fica ocupada (a marca gira) |
 | `data-mo-atalho="k"` | a tecla do teclado aperta o botão (ele afunda de verdade) ou foca o campo. Aceita várias (`"enter ="`) e `ctrl+k` |
 | `data-mo-cortina` | a área que a onda de pixels revela na troca de página (padrão: `.mo-conteudo`) |
+| `data-mo-carregando="texto"` | o nome do destino na espera da troca de página (num link, botão ou formulário); de um item da lateral, vem o nome dele |
+| `data-mo-carregando-detalhe="…"` | a linha de baixo da espera ("lendo a lista do pacman") |
+| `data-mo-sem-carregando` | a navegação espera sem tela (para quem já mostra a espera do seu jeito); no `<html>`, vale para todas |
 
 Tudo é delegado no `document`: funciona também no HTML que chegar depois.
+
+### Troca de página
+
+Indo de uma página do app para outra, sem você escrever nada:
+
+1. se a próxima demora mais de 180 ms, a área de conteúdo é coberta numa onda de
+   pixels a partir do clique e mostra a marca girando, o nome do destino e uma linha
+   de detalhe. O item da lateral para onde se vai já acende, com a pílula deslizando.
+   Esc desiste (menos de formulário enviado: o servidor já recebeu);
+2. a página nova nasce coberta e se revela em onda: do meio da espera, se ela
+   apareceu, ou do clique.
+
+O app pode escrever o texto da espera pelo endereço, ou desistir dela:
+
+```js
+document.addEventListener("mo-carregando", (e) => {
+  const { url, metodo, dados, gatilho } = e.detail;   // dados: o FormData de um POST
+  if (url.pathname === "/instalados") e.detail.detalhe = "lendo a lista do pacman";
+  // e.preventDefault() navega sem a espera
+});
+```
 
 ## API
 
 ```js
-import { avisar, tema, revelar, terminal, abrir, fechar, tom } from "./mosaic-ui/mosaic.js";
+import { avisar, tema, revelar, cobrir, carregando, terminal, abrir, fechar, tom } from "./mosaic-ui/mosaic.js";
 
 avisar("Pacote instalado");
 const a = avisar("Sincronizando…", { tipo: "trabalhando", duracao: 0 });
@@ -141,6 +165,10 @@ await tema.carregar("/colors.css");       // o arquivo do Matugen
 tema.aplicar(null);                       // volta para o CSS
 
 await revelar(painel, { x, y, trocar: () => render() });   // onda de pixels
+const capa = cobrir(painel, { x, y });                      // o contrário: cobre e fica
+await capa.pronto; capa.remover();
+const espera = carregando(painel, { texto: "Instalados", detalhe: "lendo o pacman" });
+espera.atualizar({ detalhe: "quase lá" }); espera.parar();  // espera.centro: o meio, para revelar dali
 terminal("#saida").escrever(":: Sincronizando", "seta");
 abrir("#dialogo"); fechar("#dialogo");
 tom("firefox");                           // 0 a 3: o mesmo nome, o mesmo tom, sempre
@@ -153,7 +181,9 @@ Com `data-mo-manual` no `<html>`, nada é ligado sozinho: chame `iniciar()`.
 Um Web Worker só desenha todos os campos e cortinas da página
 (`transferControlToOffscreen`). Três ondas lentas, uma por cor do tema, passam pela
 grade; em cada ponto vence a mais forte e a força vira o tamanho do quadradinho.
-A trigonometria é feita por linha e por coluna (soma de arcos), só as células que
+A cortina usa a mesma grade: na revelação cada célula vira um quadradinho na cor da
+onda que encolhe até sumir, a partir da origem; na cobertura (`cobrir`, a espera), o
+contrário. A trigonometria é feita por linha e por coluna (soma de arcos), só as células que
 mudaram são redesenhadas, o campo para fora da tela, com a janela sem foco ou com
 movimento reduzido. Sem `OffscreenCanvas`, fica só a cor de fundo.
 

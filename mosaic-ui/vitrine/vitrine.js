@@ -5,6 +5,7 @@ import {
   avisar,
   tema,
   revelar,
+  carregando,
   terminal,
   nomesSimbolos,
   pixelsSuportados,
@@ -258,6 +259,38 @@ painelRevelar?.addEventListener("click", (e) => {
         </div>`;
     },
   });
+});
+
+/* ---------- Carregando ---------- */
+const NOTICIAS = [
+  ["noticias", "buscando as manchetes", "Manchetes do dia, sem rolagem infinita."],
+  ["galeria", "lendo 2.140 fotos", "Fotos por dia, por lugar, por cor."],
+  ["email", "baixando a caixa de entrada", "Caixa de entrada: 3 novas."],
+];
+let noticiaAtual = 0;
+let carregandoDemo = false;
+const painelCarregar = $("#carregando-demo");
+painelCarregar?.addEventListener("click", async (e) => {
+  if (carregandoDemo) return;
+  carregandoDemo = true;
+  noticiaAtual = (noticiaAtual + 1) % NOTICIAS.length;
+  const [nome, detalhe, texto] = NOTICIAS[noticiaAtual];
+  const espera = carregando(painelCarregar, { texto: nome, detalhe, x: e.clientX, y: e.clientY });
+  await esperar(2000);
+  await revelar(painelCarregar, {
+    x: espera.centro.x,
+    y: espera.centro.y,
+    trocar: () => {
+      espera.parar();
+      painelCarregar.innerHTML = `
+        <div class="mo-vazio">
+          <mo-icone-app nome="${nome}" tamanho="78" tecla></mo-icone-app>
+          <h3>${nome}</h3>
+          <p>${texto}</p>
+        </div>`;
+    },
+  });
+  carregandoDemo = false;
 });
 
 /* ---------- Símbolos ---------- */

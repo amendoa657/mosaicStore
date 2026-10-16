@@ -103,3 +103,65 @@ progress.mo-barra:indeterminate {
   mask: linear-gradient(90deg, #000 var(--mo-blocos-tamanho), transparent 0) 0 0 / var(--mo-blocos-celula) 100% repeat-x;
   transition: background-size 0.4s var(--mo-ease-saida);
 }
+
+/* Carregando: a espera de uma área inteira (a troca de página que demora).
+   Quem monta é o JS (carregando() em js/carregando.js, e a transição entre
+   páginas): um bloco fixo por cima da área, já coberta pela onda de
+   pixels, com a marca girando, o que está vindo e uma linha de detalhe.
+
+   <div class="mo-carregando mo-pronto" role="status">
+     <i class="mo-marca mo-marca--girando"></i>
+     <strong>Instalados</strong>
+     <span>lendo a lista do pacman</span>
+   </div>
+
+   Sem a onda (movimento reduzido), --chapado cobre com o fundo. */
+.mo-carregando {
+  position: fixed;
+  z-index: calc(var(--mo-z-cortina) + 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  /* Um pouco acima do meio, que é onde o olho acha o meio. */
+  padding: 24px 24px 56px;
+  text-align: center;
+  cursor: progress;
+}
+.mo-carregando > .mo-marca {
+  --mo-marca-tamanho: 34px;
+  margin-bottom: 16px;
+}
+.mo-carregando > strong {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--mo-texto-conteudo);
+}
+.mo-carregando > span {
+  font-family: var(--mo-fonte-mono);
+  font-size: 11px;
+  color: var(--mo-texto-3);
+}
+/* A marca e o texto só aparecem quando a onda fecha, um depois do outro. */
+.mo-carregando > * {
+  opacity: 0;
+  translate: 0 6px;
+  transition:
+    opacity var(--mo-dur-media) var(--mo-ease-saida),
+    translate var(--mo-dur-media) var(--mo-ease-saida);
+}
+.mo-carregando > :nth-child(2) { transition-delay: 40ms; }
+.mo-carregando > :nth-child(3) { transition-delay: 80ms; }
+.mo-carregando.mo-pronto > * {
+  opacity: 1;
+  translate: none;
+}
+.mo-carregando--chapado {
+  background: var(--mo-fundo);
+  animation: mo-so-aparecer var(--mo-dur-curta) ease-out;
+}

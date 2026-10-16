@@ -223,6 +223,50 @@ export class MoPixels extends HTMLElement {
    Cortina
    ====================================================================== */
 
+/* A parte visível de uma área e um <canvas> fixo em cima dela. As medidas
+   são da tela; com zoom no <html> (--mo-escala), o canvas fixo é escalado
+   junto, então o CSS dele vai dividido pelo zoom. */
+function cortinaSobre(alvo) {
+  const caixa = alvo.getBoundingClientRect();
+  const esquerda = Math.max(0, caixa.left);
+  const topo = Math.max(0, caixa.top);
+  const largura = Math.min(innerWidth, caixa.right) - esquerda;
+  const altura = Math.min(innerHeight, caixa.bottom) - topo;
+  if (largura < 1 || altura < 1) return null;
+
+  const canvas = document.createElement("canvas");
+  canvas.className = "mo-cortina";
+  canvas.style.cssText = "left:0;top:0;width:100px;height:100px";
+  document.body.appendChild(canvas);
+  const zoom = canvas.getBoundingClientRect().width / 100 || 1;
+  canvas.style.cssText =
+    `left:${esquerda / zoom}px;top:${topo / zoom}px;width:${largura / zoom}px;height:${altura / zoom}px`;
+  return { canvas, esquerda, topo, largura, altura };
+}
+
+/* A cor que cobre: a do fundo da área, se ela tiver um; senão, a da janela. */
+function corDaCortina(alvo, cor) {
+  if (cor) return rgb(cor, alvo);
+  const fundo = getComputedStyle(alvo).backgroundColor;
+  return fundo && !/rgba\(.*,\s*0\)$|transparent/.test(fundo) ? rgb(fundo) : rgb("var(--mo-fundo)", alvo);
+}
+
+function mensagemCortina(tipo, id, area, alvo, { x, y, passo, cor }) {
+  return {
+    tipo,
+    id,
+    canvas: area.canvas.transferControlToOffscreen(),
+    largura: area.largura,
+    altura: area.altura,
+    escala: escala(),
+    passo,
+    ox: typeof x === "number" ? x - area.esquerda : area.largura / 2,
+    oy: typeof y === "number" ? y - area.topo : area.altura / 2,
+    corCortina: corDaCortina(alvo, cor),
+    cores: [rgb("var(--mo-destaque)", alvo), rgb("var(--mo-secundaria)", alvo), rgb("var(--mo-terciaria)", alvo)],
+  };
+}
+
 /* Revela uma área em onda de pixels a partir de um ponto.
 
      await revelar(painel, { x, y, trocar: () => mostrarOutraCoisa() })
@@ -239,35 +283,13 @@ export async function revelar(alvo, { x, y, trocar, passo = PADRAO.passo, cor } 
   }
 
   /* Só a parte visível da área: o resto não precisa de onda. */
-  const caixa = alvo.getBoundingClientRect();
-  const esquerda = Math.max(0, caixa.left);
-  const topo = Math.max(0, caixa.top);
-  const largura = Math.min(innerWidth, caixa.right) - esquerda;
-  const altura = Math.min(innerHeight, caixa.bottom) - topo;
-  if (largura < 1 || altura < 1) {
+  const area = cortinaSobre(alvo);
+  if (!area) {
     await trocar?.();
     return;
   }
 
-  /* As medidas acima são da tela. Com zoom no <html> (--mo-escala), o
-     canvas fixo é escalado junto: o CSS dele vai dividido pelo zoom. */
-  const canvas = document.createElement("canvas");
-  canvas.className = "mo-cortina";
-  canvas.style.cssText = "left:0;top:0;width:100px;height:100px";
-  document.body.appendChild(canvas);
-  const zoom = canvas.getBoundingClientRect().width / 100 || 1;
-  canvas.style.cssText =
-    `left:${esquerda / zoom}px;top:${topo / zoom}px;width:${largura / zoom}px;height:${altura / zoom}px`;
-
-  const fundoAlvo = getComputedStyle(alvo).backgroundColor;
-  const corCortina = cor
-    ? rgb(cor, alvo)
-    : fundoAlvo && !/rgba\(.*,\s*0\)$|transparent/.test(fundoAlvo)
-      ? rgb(fundoAlvo)
-      : rgb("var(--mo-fundo)", alvo);
-
   const id = `cortina-${proximoId++}`;
-  const tela = canvas.transferControlToOffscreen();
   const pronto = new Promise((resolver) => {
     esperandoCortina.set(id, async (tipo) => {
       if (tipo === "coberto") {
@@ -278,30 +300,57 @@ export async function revelar(alvo, { x, y, trocar, passo = PADRAO.passo, cor } 
         }
       } else if (tipo === "revelado") {
         esperandoCortina.delete(id);
-        canvas.remove();
+        area.canvas.remove();
         resolver();
       }
     });
   });
 
-  w.postMessage(
-    {
-      tipo: "revelar",
-      id,
-      canvas: tela,
-      largura,
-      altura,
-      escala: escala(),
-      passo,
-      esperar: true,
-      ox: typeof x === "number" ? x - esquerda : largura / 2,
-      oy: typeof y === "number" ? y - topo : altura / 2,
-      corCortina,
-      cores: [rgb("var(--mo-destaque)", alvo), rgb("var(--mo-secundaria)", alvo), rgb("var(--mo-terciaria)", alvo)],
-    },
-    [tela],
-  );
+  const msg = mensagemCortina("revelar", id, area, alvo, { x, y, passo, cor });
+  msg.esperar = true;
+  w.postMessage(msg, [msg.canvas]);
   return pronto;
+}
+
+/* O contrário de revelar: cobre a parte visível da área numa onda de
+   pixels que sai de (x, y), e a cobertura fica ali até você tirar.
+
+     const capa = cobrir(painel, { x, y });
+     await capa.pronto;     // tudo coberto
+     capa.remover();        // tira a cobertura (some na hora)
+
+   Devolve null sem suporte ou com movimento reduzido: aí cubra você mesmo
+   (o .mo-carregando faz isso com um fundo chapado). */
+export function cobrir(alvo, { x, y, passo = PADRAO.passo, cor } = {}) {
+  const w = obterTrabalhador();
+  if (!alvo || !w || semMovimento()) return null;
+  const area = cortinaSobre(alvo);
+  if (!area) return null;
+
+  const id = `cortina-${proximoId++}`;
+  let removida = false;
+  const pronto = new Promise((resolver) => {
+    esperandoCortina.set(id, (tipo) => {
+      if (tipo === "coberto") {
+        esperandoCortina.delete(id);
+        resolver();
+      }
+    });
+  });
+  const msg = mensagemCortina("cobrir", id, area, alvo, { x, y, passo, cor });
+  w.postMessage(msg, [msg.canvas]);
+
+  return {
+    pronto,
+    canvas: area.canvas,
+    remover() {
+      if (removida) return;
+      removida = true;
+      esperandoCortina.delete(id);
+      w.postMessage({ tipo: "cancelar", id });
+      area.canvas.remove();
+    },
+  };
 }
 
 if (!customElements.get("mo-pixels")) customElements.define("mo-pixels", MoPixels);

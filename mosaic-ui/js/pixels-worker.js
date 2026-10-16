@@ -244,15 +244,20 @@ function acordar() {
 }
 
 /* ======================================================================
-   Cortina: a onda de pixels que revela uma área
+   Cortina: a onda de pixels que revela uma área (ou que cobre)
    ====================================================================== */
 const ESPALHAR_MS = 300; // tempo para a onda atravessar a área
 const ENCOLHER_MS = 190; // tempo de cada célula sumir
 const ESPERA_MAX_MS = 120; // se a página demorar a liberar, começa assim mesmo
+const COBRIR_ESPALHAR_MS = 260; // cobrir é um pouco mais rápido que revelar:
+const CRESCER_MS = 170; //         quem espera não quer esperar a onda
 
 const cortinas = new Map();
 
-function prepararCortina(d) {
+/* Prepara o canvas e calcula, uma vez só, o atraso e a cor de cada célula:
+   durante a onda, cada quadro é só aritmética. A cor é a da onda do fundo
+   naquele ponto; o atraso cresce com a distância até a origem (ox, oy). */
+function montarCortina(d, espalhar) {
   const { id, largura, altura, escala, ox, oy } = d;
   const passo = d.passo;
   const ctx = d.canvas.getContext("2d");
@@ -271,8 +276,6 @@ function prepararCortina(d) {
   );
   const t = relogio(1);
 
-  /* Atraso e cor de cada célula saem uma vez só: durante a onda, cada
-     quadro é só aritmética. A cor é a da onda do fundo naquele ponto. */
   const total = colunas * linhas;
   const celulas = new Float32Array(total * 4);
   let n = 0;
@@ -294,7 +297,7 @@ function prepararCortina(d) {
       }
       celulas[n * 4] = i * passo;
       celulas[n * 4 + 1] = j * passo;
-      celulas[n * 4 + 2] = (Math.hypot(cx - ox, cy - oy) / alcance) * ESPALHAR_MS;
+      celulas[n * 4 + 2] = (Math.hypot(cx - ox, cy - oy) / alcance) * espalhar;
       celulas[n * 4 + 3] = melhor;
       n += 1;
     }
@@ -310,16 +313,29 @@ function prepararCortina(d) {
     inicio: 0,
     iniciada: false,
     cores: d.cores.map((cor) => rgba(cor, 1)),
+    corCortina: rgba(d.corCortina, 1),
   };
   cortinas.set(id, c);
   cortinasAtivas += 1;
+  return c;
+}
+
+function encerrarCortina(c) {
+  if (!cortinas.delete(c.id)) return;
+  cortinasAtivas -= 1;
+  acordar();
+}
+
+/* Revelar: a área nasce coberta e a onda a abre a partir da origem. */
+function prepararCortina(d) {
+  const c = montarCortina(d, ESPALHAR_MS);
 
   /* Primeiro quadro: tudo coberto. Avisa a página, que pode tirar a
      cobertura do CSS e trocar o conteúdo por baixo. */
-  ctx.fillStyle = rgba(d.corCortina, 1);
-  ctx.fillRect(0, 0, largura, altura);
-  postMessage({ tipo: "coberto", id });
-  setTimeout(() => iniciarCortina(id), d.esperar ? 4000 : ESPERA_MAX_MS);
+  c.ctx.fillStyle = c.corCortina;
+  c.ctx.fillRect(0, 0, d.largura, d.altura);
+  postMessage({ tipo: "coberto", id: c.id });
+  setTimeout(() => iniciarCortina(c.id), d.esperar ? 4000 : ESPERA_MAX_MS);
 }
 
 function iniciarCortina(id) {
@@ -331,6 +347,7 @@ function iniciarCortina(id) {
 }
 
 function quadroCortina(c, agora) {
+  if (!cortinas.has(c.id)) return;
   const ctx = c.ctx;
   const passo = c.passo;
   const decorrido = agora - c.inicio;
@@ -370,10 +387,67 @@ function quadroCortina(c, agora) {
     return;
   }
 
-  cortinas.delete(c.id);
-  cortinasAtivas -= 1;
-  acordar();
+  encerrarCortina(c);
   postMessage({ tipo: "revelado", id: c.id });
+}
+
+/* Cobrir: o contrário de revelar. A área começa à mostra e, a partir da
+   origem, cada célula vira um quadradinho na cor da onda que cresce até
+   fechar na cor da cortina. Quando a última fecha, avisa "coberto"; o
+   desenho fica parado ali até a página tirar o canvas. */
+function prepararCobertura(d) {
+  const c = montarCortina(d, COBRIR_ESPALHAR_MS);
+  c.iniciada = true;
+  c.inicio = performance.now();
+  requestAnimationFrame((agora) => quadroCobertura(c, agora));
+}
+
+function quadroCobertura(c, agora) {
+  if (!cortinas.has(c.id)) return;
+  const ctx = c.ctx;
+  const passo = c.passo;
+  const decorrido = agora - c.inicio;
+  const cel = c.celulas;
+  let restantes = 0;
+  let estiloAtual = -1;
+
+  for (let n = 0; n < c.total; n += 1) {
+    if (c.feitas[n]) continue;
+    const p = (decorrido - cel[n * 4 + 2]) / CRESCER_MS;
+    if (p <= 0) {
+      restantes += 1;
+      continue; // a onda ainda não chegou aqui
+    }
+
+    const x = cel[n * 4];
+    const y = cel[n * 4 + 1];
+    if (p >= 1) {
+      c.feitas[n] = 1;
+      ctx.fillStyle = c.corCortina;
+      estiloAtual = -1;
+      ctx.fillRect(x, y, passo, passo);
+      continue;
+    }
+
+    /* Cresce sobre o quadro anterior, então não precisa apagar. */
+    restantes += 1;
+    const saida = 1 - (1 - p) ** 3;
+    const lado = (passo - 2) * saida;
+    const cor = cel[n * 4 + 3];
+    if (cor !== estiloAtual) {
+      ctx.fillStyle = c.cores[cor];
+      estiloAtual = cor;
+    }
+    ctx.fillRect(x + (passo - lado) / 2, y + (passo - lado) / 2, lado, lado);
+  }
+
+  if (restantes > 0) {
+    requestAnimationFrame((t) => quadroCobertura(c, t));
+    return;
+  }
+
+  encerrarCortina(c);
+  postMessage({ tipo: "coberto", id: c.id });
 }
 
 /* ======================================================================
@@ -433,5 +507,13 @@ onmessage = ({ data: d }) => {
     case "iniciar":
       iniciarCortina(d.id);
       break;
+    case "cobrir":
+      prepararCobertura(d);
+      break;
+    case "cancelar": {
+      const c = cortinas.get(d.id);
+      if (c) encerrarCortina(c);
+      break;
+    }
   }
 };

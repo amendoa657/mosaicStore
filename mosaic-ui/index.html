@@ -525,6 +525,16 @@
   <div><button class="mo-tecla mo-tecla--p" data-simular-etapas>Simular</button></div>
 </div>
         </template>
+        <template class="vitrine-modelo" data-titulo="carregando(): a espera de uma área (clique no painel)">
+<div class="vitrine-revelar" id="carregando-demo" tabindex="0">
+  <div class="mo-vazio">
+    <mo-icone-app nome="noticias" tamanho="78" tecla></mo-icone-app>
+    <h3>noticias</h3>
+    <p>Clique: a onda cobre a partir do clique, a espera dura 2 s e o novo conteúdo se abre de onde estava a marca.</p>
+  </div>
+</div>
+        </template>
+        <p class="mo-resumo vitrine-texto">Entre páginas é automático: se a próxima demora mais de 180 ms, a área de conteúdo mostra essa espera com o nome do destino (um item da lateral já acende na hora), e a página nova se abre do meio dela. Texto com <code>data-mo-carregando</code> e <code>data-mo-carregando-detalhe</code>; sem espera com <code>data-mo-sem-carregando</code>; Esc desiste.</p>
       </section>
 
       <!-- ================================================================ -->
@@ -751,7 +761,7 @@
       <!-- ================================================================ -->
       <section class="mo-secao vitrine-secao" id="js">
         <div class="mo-secao-titulo"><h2>API JavaScript</h2><span class="mo-meta">mosaic.js</span></div>
-        <pre class="vitrine-codigo"><code>import { avisar, tema, revelar, terminal, abrir, tom } from "./mosaic-ui/mosaic.js";
+        <pre class="vitrine-codigo"><code>import { avisar, tema, revelar, carregando, terminal, abrir, tom } from "./mosaic-ui/mosaic.js";
 
 avisar("Pacote instalado");                          // aviso no canto
 const a = avisar("Sincronizando…", { tipo: "trabalhando", duracao: 0 });
@@ -763,6 +773,8 @@ await tema.carregar("/colors.css");                  // o arquivo do Matugen
 tema.aplicar(null);                                  // volta para o CSS
 
 await revelar(painel, { x, y, trocar: () =&gt; render() }); // onda de pixels
+const espera = carregando(painel, { texto: "Instalados" }); // a espera
+espera.parar();
 terminal("#saida").escrever(":: Sincronizando", "seta");
 abrir("#dialogo");                                   // ou data-mo-abrir
 tom("firefox");                                      // 0 a 3, sempre o mesmo</code></pre>

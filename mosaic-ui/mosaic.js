@@ -5,7 +5,8 @@
    Só de carregar, ele:
      - registra os elementos <mo-pixels>, <mo-simbolo> e <mo-icone-app>;
      - liga os comportamentos data-mo-* (diálogos, menus, abas, atalhos…);
-     - faz a onda de pixels na troca de página (com o mosaic-inicio.js).
+     - na troca de página, mostra a espera se a próxima demorar e faz a
+       onda de pixels quando ela chega (com o mosaic-inicio.js).
 
    Para controlar quando isso acontece, ponha data-mo-manual no <html> e
    chame iniciar() você mesmo.
@@ -23,7 +24,8 @@ import * as tema from "./js/tema.js";
 
 export { tema };
 export { avisar } from "./js/avisos.js";
-export { revelar, suportado as pixelsSuportados } from "./js/pixels.js";
+export { revelar, cobrir, suportado as pixelsSuportados } from "./js/pixels.js";
+export { carregando } from "./js/carregando.js";
 export { simbolo, registrarSimbolo, nomesSimbolos } from "./js/simbolos.js";
 export {
   abrir,
