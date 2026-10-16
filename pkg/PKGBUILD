@@ -30,7 +30,7 @@ source=("$_pkgname::git+https://github.com/amendoa657/mosaicStore.git"
   "mosaic-store.desktop")
 sha256sums=('SKIP'
   '646f7116417c2eb8a41334aebd30cee9d8736cfeafcbb71377a64f481d48f6d4'
-  'fa9555071f808b314a92befe9e5215b0d28d1ddcbadad69aee7ec354a0d1f0b8')
+  '878385ae438568e35e25e583622c0b22a9353165f18648621a54b184fceb43de')
 
 # A versão sai da última tag: v0.6.0 com 3 commits depois vira 0.6.0.r3.gabc1234.
 pkgver() {
@@ -52,6 +52,10 @@ package() {
 
   install -Dm755 "$srcdir/mosaic-store.sh" "$pkgdir/usr/bin/mosaic-store"
   install -Dm644 "$srcdir/mosaic-store.desktop" -t "$pkgdir/usr/share/applications/"
-  install -Dm644 assetsReadme/mosaic-marca.svg "$pkgdir/usr/share/icons/hicolor/scalable/apps/mosaic-store.svg"
+  install -Dm644 static/icone.svg "$pkgdir/usr/share/icons/hicolor/scalable/apps/mosaic-store.svg"
+  for lado in 16 24 32 48 64 128 256 512; do
+    install -Dm644 "static/icones/mosaic-store-$lado.png" \
+      "$pkgdir/usr/share/icons/hicolor/${lado}x${lado}/apps/mosaic-store.png"
+  done
   install -Dm644 mosaic-ui/fontes/LICENSE-* -t "$pkgdir/usr/share/licenses/$pkgname/"
 }

@@ -1,10 +1,11 @@
 [Desktop Entry]
 Type=Application
-Name=Mosaic
+Name=Mosaic Store
 GenericName=Loja de pacotes
 Comment=Pacotes do Arch e da AUR com a cara do seu wallpaper
 Exec=mosaic-store
 Icon=mosaic-store
 Terminal=false
 Categories=System;PackageManager;
+StartupWMClass=mosaic-store
 Keywords=pacman;paru;aur;pacotes;loja;
