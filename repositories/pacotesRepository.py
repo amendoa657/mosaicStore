@@ -63,7 +63,13 @@ def buscarPacote(nome):
         LIMIT 1;
     ''', ('nvim-lazy',))
 
-    pacote = Pacote.fromColuna(cursor.fetchall()[0])
+    pacotes = cursor.fetchall()
+
+    # Banco vazio (primeira vez, enquanto baixa a AUR): sem destaque.
+    if not pacotes:
+        return None
+
+    pacote = Pacote.fromColuna(pacotes[0])
 
     return pacote
 
