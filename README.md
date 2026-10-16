@@ -13,6 +13,8 @@
 <p>
   <a href="#o-que-é">O que é</a> ·
   <a href="#telas">Telas</a> ·
+  <a href="#novidades">Novidades</a> ·
+  <a href="#o-que-ainda-falta">O que falta</a> ·
   <a href="#rodando-localmente">Rodando localmente</a> ·
   <a href="#tema-com-o-matugen">Tema</a>
 </p>
@@ -52,65 +54,114 @@ O Mosaic coloca o `paru` atrás de uma interface calma, rápida e legível. Busc
   <tr>
     <td width="50%">
       <strong>Descobrir</strong><br>
-      <sub>O ponto de entrada: destaque, populares e mais votados.</sub><br><br>
+      <sub>Destaque, populares e mais votados da AUR, e um aviso quando tem atualização.</sub><br><br>
       <img src="assetsReadme/mosaic-home.png" alt="Tela Descobrir do Mosaic" width="100%">
     </td>
     <td width="50%">
       <strong>Buscar</strong><br>
-      <sub>A tela vazia, com a marca, antes da primeira busca.</sub><br><br>
+      <sub>A tela vazia, antes da primeira busca. A tecla <kbd>/</kbd> traz para cá de qualquer lugar.</sub><br><br>
       <img src="assetsReadme/mosaic-busca-inicio.png" alt="Tela de busca do Mosaic antes de buscar" width="100%">
     </td>
   </tr>
   <tr>
     <td>
       <strong>Resultados</strong><br>
-      <sub>Versão, votos e fonte de cada pacote, com a AUR sinalizada.</sub><br><br>
-      <img src="assetsReadme/mosaic-busca.png" alt="Resultados de busca no Mosaic" width="100%">
+      <sub>Versão, votos e de onde vem cada pacote. O que é da AUR fica marcado.</sub><br><br>
+      <img src="assetsReadme/mosaic-busca.png" alt="Resultados da busca por fire no Mosaic" width="100%">
     </td>
     <td>
-      <strong>Detalhes do pacote</strong><br>
-      <sub>Aviso da AUR, dependências e o PKGBUILD à mão antes de instalar.</sub><br><br>
-      <img src="assetsReadme/mosaic-pacote.png" alt="Detalhes do pacote paru no Mosaic" width="100%">
+      <strong>Pacote</strong><br>
+      <sub>O aviso da AUR, as dependências e o PKGBUILD antes de instalar.</sub><br><br>
+      <img src="assetsReadme/mosaic-pacote.png" alt="Página do visual-studio-code-bin no Mosaic" width="100%">
     </td>
   </tr>
   <tr>
     <td>
-      <strong>Fila de instalação</strong><br>
-      <sub>Progresso de cada pacote e a saída do build em tempo real.</sub><br><br>
-      <img src="assetsReadme/mosaic-fila.png" alt="Fila de instalação do Mosaic" width="100%">
+      <strong>Instalados</strong><br>
+      <sub>Tudo que o pacman tem instalado, com versão e tamanho. Dá para filtrar por fonte ou por nome.</sub><br><br>
+      <img src="assetsReadme/mosaic-instalados.png" alt="Tela de pacotes instalados do Mosaic" width="100%">
     </td>
     <td>
       <strong>Atualizações</strong><br>
-      <sub>Versão atual, a nova e o tamanho do download.</sub><br><br>
+      <sub>O que o <code>checkupdates</code> e o <code>paru -Qua</code> acharam, separado entre oficiais e AUR.</sub><br><br>
       <img src="assetsReadme/mosaic-atualizacoes.png" alt="Tela de atualizações do Mosaic" width="100%">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <strong>Atualizando o sistema</strong><br>
+      <sub>O <code>pacman -Syu</code> rodando, com as etapas e a saída ao vivo. Dá para sair da tela e voltar depois.</sub><br><br>
+      <img src="assetsReadme/mosaic-sistema.png" alt="Tela de atualização do sistema rodando o pacman -Syu" width="100%">
+    </td>
+    <td>
+      <strong>Fila</strong><br>
+      <sub>Um pacote por vez, com a saída do build ao lado.</sub><br><br>
+      <img src="assetsReadme/mosaic-fila.png" alt="Fila de instalação do Mosaic" width="100%">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <strong>Configurações</strong><br>
+      <sub>As cores que vieram do Matugen e as opções da loja.</sub><br><br>
+      <img src="assetsReadme/mosaic-configuracoes.png" alt="Tela de configurações do Mosaic" width="100%">
+    </td>
+    <td>
+      <strong>Esperando uma tela</strong><br>
+      <sub>Quando a próxima tela demora, o conteúdo é coberto e mostra o que está carregando.</sub><br><br>
+      <img src="assetsReadme/mosaic-espera.png" alt="Tela de espera do Mosaic abrindo o firefox" width="100%">
     </td>
   </tr>
 </table>
 
-<sub>As telas da fila, das atualizações e do PKGBUILD foram capturadas com dados de exemplo.</sub>
-
+<sub>As capturas usam dados de exemplo. Os números da barra lateral (instalados, atualizações, fila) ainda não vêm do sistema, veja <a href="#o-que-ainda-falta">o que ainda falta</a>.</sub>
 
 ### Leve de propósito
 
 O fundo e a transição são desenhados num Web Worker com `OffscreenCanvas`, fora da thread que carrega as páginas e responde aos cliques. A animação não disputa tempo com a interface, só redesenha os pixels que mudaram e para por completo quando a janela perde o foco. As fontes são servidas pelo próprio app, e listas longas só montam o que está na tela.
 
+## Novidades
+
+As últimas versões mexeram mais no app em volta da loja do que na loja em si:
+
+- **Instalados e Atualizações funcionam de verdade.** A lista vem do pacman, e as atualizações do `checkupdates` e do `paru -Qua`. "Atualizar tudo" roda o `pacman -Syu` numa tela própria, e "Sincronizar mirrors" também.
+- **Tela de espera.** Antes, clicar numa tela lenta (Instalados lendo o pacman, por exemplo) deixava a janela parada. Agora o conteúdo é coberto na hora e diz o que está vindo. <kbd>Esc</kbd> desiste.
+- **Abertura.** A janela já abre na cor do tema, com a marca girando, em vez de um retângulo branco até a loja carregar.
+- **Mosaic UI.** O visual saiu da loja e virou uma biblioteca em [`mosaic-ui/`](mosaic-ui/), para servir a outros apps.
+- **Pacote para o Arch.** Tem PKGBUILD em `pkg/`, comando `mosaic-store`, ícone e atalho no menu.
+- **Versões.** O app agora tem número de versão, CHANGELOG e um script para lançar versão nova.
+
+A lista completa está no [CHANGELOG.md](CHANGELOG.md).
+
 ## Funcionalidades
 
 - Busca local em SQLite com full-text na AUR, core e extra, ordenada por correspondência e popularidade.
 - Página do pacote com dependências, votos, mantenedor, link do projeto e PKGBUILD da AUR.
-- Instalação em fila com o `paru`, um pacote por vez, e a saída do build ao vivo.
+- Instalação em fila com o `paru`, um pacote por vez, e a saída do build ao vivo, sem recarregar a página.
+- Lista de instalados com versão e tamanho.
+- Atualizações dos repositórios oficiais e da AUR, e atualização completa do sistema com o `pacman -Syu`.
+- Sincronização dos bancos do pacman.
 - Tema gerado a partir do wallpaper pelo Matugen.
 - Atalho <kbd>/</kbd> para ir direto à busca.
 - Movimento reduzido respeitado: as animações viram fades curtos e o fundo fica parado.
 
-### Em desenvolvimento
+## O que ainda falta
 
-- Cancelar uma instalação em andamento.
-- Telas de Instalados e Configurações (salvar preferências).
-- Atualizações e contagens lidas do sistema.
-- Ligar e desligar fontes de pacote pela barra lateral.
-- Rota de sincronização dos bancos (`/syncDb`) ligada à tecla "Sincronizar mirrors".
+Os botões abaixo já estão na tela, mas ainda não fazem nada:
+
+- Remover um pacote, na tela de Instalados.
+- Atualizar um pacote só. Por enquanto, só o "Atualizar tudo" funciona.
+- Cancelar um pacote da fila, ou a fila inteira.
+- Salvar as Configurações.
+- Ligar e desligar as fontes (aur, core, extra) pela barra lateral.
+
+E o que ainda não existe:
+
+- Contagens reais na barra lateral e no rodapé.
+- Categorias no Descobrir. A tela já tem o espaço, falta de onde tirar os dados.
+- Um destaque que mude. Hoje é sempre o mesmo pacote.
+- O repositório multilib no banco local.
 - Builds com limite de CPU e memória, para um build pesado não travar a máquina.
+- Publicar na AUR. O cadastro de contas está fechado no momento, então por enquanto a instalação é pelo PKGBUILD daqui.
 
 ## Stack
 
@@ -118,10 +169,11 @@ O fundo e a transição são desenhados num Web Worker com `OffscreenCanvas`, fo
 | --- | --- |
 | Backend | Python + Flask |
 | Interface desktop | pywebview (Qt WebEngine) |
-| Pacotes | paru, AUR e repositórios oficiais |
+| Pacotes | paru, pacman, AUR e repositórios oficiais |
 | Dados | SQLite + busca full-text (FTS5) |
-| Interface | HTML, CSS e JavaScript, sem framework; canvas num Web Worker |
+| Interface | HTML, CSS e JavaScript, sem framework, com a [Mosaic UI](mosaic-ui/); canvas num Web Worker |
 | Fontes | Space Grotesk e JetBrains Mono, servidas localmente |
+| Empacotamento | PKGBUILD (`pkg/`) |
 
 ## Rodando localmente
 
@@ -159,6 +211,8 @@ Com o PKGBUILD da pasta `pkg/`, o Mosaic vira um pacote do sistema, com o comand
 cd pkg
 makepkg -si
 ```
+
+O banco de pacotes e os downloads ficam em `~/.cache/mosaic-store`. Na primeira vez que abre, o app baixa a lista da AUR e dos repositórios, e o Descobrir fica vazio até terminar.
 
 ## Tema com o Matugen
 
