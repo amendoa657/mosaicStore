@@ -55,14 +55,14 @@
     </div>
 
     {% if pacote.repositorio == "aur" %}
-      <section class="aviso">
-        <div class="aviso-icone" aria-hidden="true">!</div>
+      <section class="mo-aviso">
+        <div class="mo-aviso-icone" aria-hidden="true">!</div>
         <div>
           <h3>Pacote da AUR — enviado por usuários</h3>
           <p>Não é revisado pelos mantenedores do Arch. O PKGBUILD roda na sua máquina
              durante a compilação. Revise o script antes de continuar.</p>
           {% if pacote.pkgBuild %}
-            <div class="acoes">
+            <div class="mo-aviso-acoes">
               <button class="mo-tecla mo-tecla--perigo" data-mo-abrir="#pkgbuild">Ver PKGBUILD</button>
             </div>
           {% endif %}

@@ -86,8 +86,8 @@
 
     {# Pacote da AUR é compilado na máquina: o aviso aparece antes de atualizar. #}
     {% if aur %}
-      <div class="aviso-aur-faixa">
-        <i aria-hidden="true">!</i>
+      <div class="mo-aviso mo-aviso--faixa aviso-aur-faixa">
+        <i class="mo-aviso-icone" aria-hidden="true">!</i>
         <p>
           <strong>{{ aur | length }} {{ "pacotes da AUR vão" if aur | length > 1 else "pacote da AUR vai" }} ser {{ "compilados" if aur | length > 1 else "compilado" }} na sua máquina.</strong>
           Os PKGBUILDs são enviados por usuários; abra o pacote para revisar o script antes.

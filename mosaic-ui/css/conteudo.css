@@ -517,49 +517,99 @@ button.mo-item {
   text-align: right;
 }
 
-/* ---------- Aviso (faixa no meio da página) ----------
-   <div class="mo-aviso mo-tom-1"><i></i><div><strong>…</strong><p>…</p></div></div>
-   O bloquinho da frente é uma tecla no tom. --perigo para erros. */
+/* ---------- Aviso (no meio da página) ----------
+   Caixa, para o que precisa de atenção antes de seguir:
+   <section class="mo-aviso">
+     <div class="mo-aviso-icone">!</div>
+     <div><h3>Pacote da AUR</h3><p>…</p><div class="mo-aviso-acoes">…teclas…</div></div>
+   </section>
+   Faixa, uma linha só:
+   <div class="mo-aviso mo-aviso--faixa"><i class="mo-aviso-icone">!</i><p><strong>…</strong> …</p></div>
+   O padrão é o perigo; --destaque e --tom (no tom do elemento) mudam a cor. */
 .mo-aviso {
-  --mo-aviso-cor: var(--mo-tom, var(--mo-terciaria));
+  --mo-aviso-cor: var(--mo-perigo);
+  --mo-aviso-fundo: var(--mo-perigo-suave);
+  --mo-aviso-texto: var(--mo-perigo-texto);
   display: flex;
+  gap: 15px;
+  padding: 16px 18px;
+  border-radius: var(--mo-raio-g);
+  background: var(--mo-aviso-fundo);
+}
+.mo-aviso-icone {
+  width: 22px;
+  height: 22px;
+  flex: none;
+  border-radius: 50%;
+  border: 1.5px solid var(--mo-aviso-cor);
+  color: var(--mo-aviso-cor);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 13px;
+}
+.mo-aviso h3 {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--mo-aviso-cor);
+}
+.mo-aviso p {
+  margin: 9px 0 0;
+  max-width: 580px;
+  color: var(--mo-aviso-texto);
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+.mo-aviso-acoes {
+  display: flex;
+  gap: 9px;
+  margin-top: 11px;
+  flex-wrap: wrap;
+}
+/* Dentro do aviso, a tecla de perigo fica cheia: é a ação do aviso. */
+.mo-aviso .mo-tecla--perigo {
+  background: var(--mo-perigo);
+  color: var(--mo-perigo-fundo);
+}
+.mo-aviso .mo-tecla--perigo:hover {
+  background: color-mix(in srgb, var(--mo-perigo-texto) 40%, var(--mo-perigo));
+}
+.mo-aviso--faixa {
   align-items: flex-start;
   gap: 12px;
-  padding: 13px 16px;
-  border: 1px solid color-mix(in oklab, var(--mo-aviso-cor) 28%, transparent);
-  border-radius: var(--mo-raio-g);
-  background: color-mix(in oklab, var(--mo-aviso-cor) 9%, var(--mo-cartao));
-  font-size: var(--mo-tamanho-p);
-  color: var(--mo-texto-2);
+  padding: 12px 16px;
+  border-radius: var(--mo-raio-m);
+  color: var(--mo-aviso-texto);
 }
-.mo-aviso > i:first-child {
-  width: 10px;
-  height: 10px;
-  margin-top: 4px;
-  border-radius: 2.5px;
-  background: var(--mo-aviso-cor);
-  box-shadow: 0 2px 0 color-mix(in oklab, var(--mo-aviso-cor) 45%, black);
-  flex: none;
+.mo-aviso--faixa > .mo-aviso-icone {
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  display: grid;
+  place-items: center;
+  margin-top: 1px;
 }
-.mo-aviso > div {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  flex: 1;
-  min-width: 0;
+.mo-aviso--faixa p {
+  margin: 0;
+  max-width: none;
+  font-size: 12.5px;
 }
-.mo-aviso strong {
+.mo-aviso--faixa strong {
   color: var(--mo-aviso-cor);
-  font-size: var(--mo-tamanho-m);
-}
-.mo-aviso > .mo-tecla {
-  align-self: center;
-}
-.mo-aviso--perigo {
-  --mo-aviso-cor: var(--mo-perigo);
+  font-weight: 600;
 }
 .mo-aviso--destaque {
   --mo-aviso-cor: var(--mo-destaque);
+  --mo-aviso-fundo: var(--mo-destaque-suave);
+  --mo-aviso-texto: var(--mo-texto-2);
+}
+.mo-aviso--tom {
+  --mo-aviso-cor: var(--mo-tom, var(--mo-terciaria));
+  --mo-aviso-fundo: color-mix(in srgb, var(--mo-tom, var(--mo-terciaria)) 16%, transparent);
+  --mo-aviso-texto: var(--mo-texto-2);
 }
 
 /* ---------- Número grande ----------
