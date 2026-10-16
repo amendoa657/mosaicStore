@@ -9,6 +9,39 @@
 /* Gaveta do menu, diálogos e a tecla "/" da busca são da Mosaic UI
    (data-mo-gaveta, data-mo-abrir / data-mo-fechar, data-mo-atalho). */
 
+/* 1. A espera entre telas. Quando a próxima tela demora (a do pacote vai à
+      AUR, a de atualizações roda o checkupdates), a Mosaic UI cobre o
+      conteúdo e mostra a marca girando; aqui só se diz o que está vindo e
+      o que está sendo feito, pelo endereço. */
+const TELAS = {
+  "/": ["Descobrir", "populares e mais votados"],
+  "/buscar": ["Buscar", ""],
+  "/instalados": ["Instalados", "lendo a lista do pacman"],
+  "/atualizacoes": ["Atualizações", "procurando versões novas"],
+  "/fila": ["Fila", "lendo a fila de instalação"],
+  "/configuracoes": ["Configurações", ""],
+  "/aur/instalar": ["Instalar", "entrando na fila"],
+  "/atualizar-tudo": ["Atualizar o sistema", "preparando o pacman -Syu"],
+  "/syncDb": ["Sincronizar mirrors", "preparando os bancos"],
+};
+document.addEventListener("mo-carregando", (evento) => {
+  const espera = evento.detail;
+  const { pathname: caminho, searchParams: busca } = espera.url;
+  const pacote = caminho.match(/^\/buscar\/([^/]+)/);
+
+  if (pacote) {
+    espera.texto = decodeURIComponent(pacote[1]);
+    espera.detalhe = "buscando na AUR";
+  } else if (caminho === "/buscar" && busca.get("q")) {
+    espera.texto = `“${busca.get("q")}”`;
+    espera.detalhe = busca.get("modo") === "pacman" ? "buscando nos repositórios" : "buscando na AUR";
+  } else if (TELAS[caminho]) {
+    const [nome, detalhe] = TELAS[caminho];
+    espera.texto = caminho === "/aur/instalar" ? espera.dados?.get("pacote") || nome : nome;
+    espera.detalhe = detalhe;
+  }
+});
+
 /* 4. O <select> de ordenação envia o formulário ao mudar, para não precisar de
       um botão "aplicar" do lado. Sem JavaScript, o <noscript> do template
       mostra esse botão. */
