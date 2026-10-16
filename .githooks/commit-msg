@@ -1,0 +1,29 @@
+#!/bin/sh
+# Confere se a mensagem do commit segue o padrão do projeto (VERSIONAMENTO.md):
+#   tipo(área): o que mudou
+# Ative uma vez em cada clone:  git config core.hooksPath .githooks
+mensagem=$(head -n 1 "$1")
+
+case "$mensagem" in
+  Merge\ * | Revert\ * | fixup!\ * | squash!\ * | amend!\ *) exit 0 ;;
+esac
+
+if printf '%s' "$mensagem" | grep -Eq '^(feat|fix|perf|refactor|docs|style|test|build|ci|chore|revert)(\([a-z0-9-]+\))?!?: .+'; then
+  exit 0
+fi
+
+cat >&2 <<'AVISO'
+Mensagem fora do padrão. Use:  tipo(área): o que mudou
+
+  feat      coisa nova                 feat(busca): busca por categoria
+  fix       correção                   fix: Descobrir com o banco vazio
+  perf      desempenho                 perf(banco): índice na coluna nome
+  refactor  reorganiza sem mudar nada  refactor(janela): janela.py mais simples
+  docs      README, CHANGELOG...       docs: telas novas no README
+  build     pacote, PKGBUILD           build(pkg): depende do pacman-contrib
+  chore     manutenção                 chore: ignora a pasta dist
+
+A área entre parênteses é opcional. Um ! antes dos dois pontos (feat!: ...)
+marca uma mudança que quebra algo. Mais no VERSIONAMENTO.md.
+AVISO
+exit 1
