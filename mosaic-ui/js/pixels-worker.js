@@ -334,7 +334,9 @@ function prepararCortina(d) {
      cobertura do CSS e trocar o conteúdo por baixo. */
   c.ctx.fillStyle = c.corCortina;
   c.ctx.fillRect(0, 0, d.largura, d.altura);
-  postMessage({ tipo: "coberto", id: c.id });
+  /* Avisa no quadro seguinte, com a cobertura já na tela: avisar antes
+     deixaria a página tirar a cobertura do CSS com o canvas ainda vazio. */
+  requestAnimationFrame(() => postMessage({ tipo: "coberto", id: c.id }));
   setTimeout(() => iniciarCortina(c.id), d.esperar ? 4000 : ESPERA_MAX_MS);
 }
 

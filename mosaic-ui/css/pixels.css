@@ -42,6 +42,40 @@ mo-pixels.mo-fundo {
 .mo-revelando :is(.mo-conteudo, [data-mo-cortina]) > * {
   visibility: hidden;
 }
+/* Abrindo o app (#mo-abrir, depois de uma tela de abertura): a janela
+   inteira nasce coberta, não só o conteúdo, com a marca girando no meio, no
+   tamanho e no lugar da abertura (--mo-abertura-marca, sem a escala da
+   interface) e continuando a volta dela (o mosaic-inicio.js acerta o
+   ponto). A onda sai dela. */
+.mo-abrindo body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: var(--mo-z-cortina);
+  background: var(--mo-fundo);
+}
+.mo-abrindo body::before {
+  --t: calc(var(--mo-abertura-marca, 46px) / var(--mo-escala, 1));
+  --b: 45%;
+  content: "";
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  z-index: calc(var(--mo-z-cortina) + 1);
+  width: var(--t);
+  height: var(--t);
+  margin: calc(var(--t) / -2) 0 0 calc(var(--t) / -2);
+  background:
+    linear-gradient(var(--mo-destaque) 0 0) 0 0 / var(--b) var(--b),
+    linear-gradient(var(--mo-secundaria) 0 0) 100% 0 / var(--b) var(--b),
+    linear-gradient(var(--mo-terciaria) 0 0) 0 100% / var(--b) var(--b),
+    linear-gradient(var(--mo-texto) 0 0) 100% 100% / var(--b) var(--b);
+  background-repeat: no-repeat;
+  animation: mo-blocos-girando 1.6s infinite;
+}
+.mo-abrindo:not(.mo-abrindo-no-compasso) body::before {
+  opacity: 0;
+}
 .mo-cortina {
   position: fixed;
   z-index: var(--mo-z-cortina);

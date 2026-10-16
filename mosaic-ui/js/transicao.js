@@ -276,11 +276,10 @@ export function ligarTransicao() {
   const raiz = document.documentElement;
   if (!raiz.classList.contains("mo-revelando")) return;
 
-  const alvo = areaDaCortina();
+  /* Abrindo o app, a onda revela a janela inteira; trocando de página,
+     só a área de conteúdo. */
+  const alvo = raiz.classList.contains("mo-abrindo") ? raiz : areaDaCortina();
   const origem = window.__moOrigem || {};
-  revelar(alvo, {
-    x: origem.x,
-    y: origem.y,
-    trocar: () => raiz.classList.remove("mo-revelando"),
-  }).finally(() => raiz.classList.remove("mo-revelando"));
+  const descobrir = () => raiz.classList.remove("mo-revelando", "mo-abrindo", "mo-abrindo-no-compasso");
+  revelar(alvo, { x: origem.x, y: origem.y, trocar: descobrir }).finally(descobrir);
 }

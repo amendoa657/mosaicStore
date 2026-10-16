@@ -294,6 +294,9 @@ export async function revelar(alvo, { x, y, trocar, passo = PADRAO.passo, cor } 
     esperandoCortina.set(id, async (tipo) => {
       if (tipo === "coberto") {
         try {
+          /* Mais um quadro aqui: o canvas do worker e o DOM da página chegam
+             à tela por caminhos diferentes. */
+          await new Promise((pronto) => requestAnimationFrame(() => requestAnimationFrame(pronto)));
           await trocar?.();
         } finally {
           w.postMessage({ tipo: "iniciar", id });

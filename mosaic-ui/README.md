@@ -139,6 +139,17 @@ Indo de uma página do app para outra, sem você escrever nada:
 2. a página nova nasce coberta e se revela em onda: do meio da espera, se ela
    apareceu, ou do clique.
 
+### Abertura
+
+Um app de janela (pywebview, Tauri…) pode abrir numa tela leve, servida pela
+mesma origem, enquanto o resto sobe, e daí ir para a primeira página com
+`#mo-abrir` no endereço (`location.replace("/#mo-abrir")`). A página nasce com a
+janela inteira coberta e a marca girando no meio (46 px, ou `--mo-abertura-marca`),
+e se revela numa onda que sai dela; o `#mo-abrir` some do endereço. Para a marca
+não dar salto na troca, a abertura guarda em que ponto da volta a dela estava, ao
+sair (`sessionStorage["mo:abertura-fase"]`, o `currentTime` da animação), e a da
+página continua dali. A loja faz isso em `config/janela.py`.
+
 O app pode escrever o texto da espera pelo endereço, ou desistir dela:
 
 ```js
