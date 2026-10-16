@@ -68,13 +68,6 @@ mark {
 }
 
 /* ---------- Busca ---------- */
-.lupa {
-  width: 11px;
-  height: 11px;
-  border: 1.5px solid currentColor;
-  border-radius: 50%;
-  flex: none;
-}
 
 /* ---------- Barra lateral ---------- */
 /* O fundo do item ativo tem nome próprio na view transition: ao trocar de
@@ -539,66 +532,13 @@ mark {
   font-size: 12.5px;
 }
 
-.campo-central-envolucro {
-  display: flex;
-  align-items: center;
-  gap: 13px;
-  width: 100%;
-  max-width: 560px;
-  height: 50px;
-  padding: 0 20px;
-  background: var(--mo-cartao);
-  border: 1.5px solid var(--mo-borda);
-  border-radius: 26px;
-  color: var(--mo-texto-3);
-  box-shadow: 0 3px 0 color-mix(in oklab, var(--mo-janela) 70%, transparent);
-  transition:
-    border-color var(--mo-dur-curta) ease,
-    box-shadow var(--mo-dur-media) ease,
-    background var(--mo-dur-curta) ease;
-}
-.campo-central-envolucro:hover {
-  background: var(--mo-cartao-hover);
-}
-.campo-central-envolucro:focus-within {
-  border-color: var(--mo-destaque);
-  color: var(--mo-texto);
-  box-shadow:
-    0 0 0 3px color-mix(in oklab, var(--mo-destaque) 20%, transparent),
-    0 3px 0 color-mix(in oklab, var(--mo-janela) 70%, transparent);
-}
-.busca-central.compacta .campo-central-envolucro {
+.busca-central.compacta .mo-busca--grande {
   height: 42px;
   max-width: 620px;
   border-radius: 21px;
 }
-.campo-central {
-  flex: 1;
-  min-width: 0;
-  height: 100%;
-  border: 0;
-  padding: 0;
-  background: none;
-  color: var(--mo-texto);
-  font-family: var(--mo-fonte-mono);
-  font-size: 14px;
-}
-.busca-central.compacta .campo-central {
+.busca-central.compacta .mo-busca--grande > input {
   font-size: 13px;
-}
-.campo-central::placeholder {
-  color: var(--mo-texto-3);
-}
-.campo-central:focus {
-  outline: none;
-}
-.campo-central::-webkit-search-cancel-button {
-  -webkit-appearance: none;
-}
-.campo-central-envolucro .lupa {
-  width: 13px;
-  height: 13px;
-  border-width: 2px;
 }
 .btn-limpar {
   display: flex;
@@ -1326,53 +1266,6 @@ mark {
 /* Núcleos: teclas de escolha única, a escolhida fica afundada e acesa. */
 .linha-nucleos {
   flex-wrap: wrap;
-  cursor: default;
-}
-.teclas-nucleos {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-.tecla-opcao {
-  position: relative;
-  cursor: pointer;
-}
-.tecla-opcao input {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-}
-.tecla-opcao span {
-  display: grid;
-  place-items: center;
-  min-width: 38px;
-  height: 30px;
-  padding: 0 9px;
-  border-radius: var(--mo-raio-p);
-  background: var(--mo-elevada);
-  box-shadow: 0 2px 0 color-mix(in oklab, var(--mo-elevada) 45%, black);
-  font-family: var(--mo-fonte-mono);
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--mo-texto-2);
-  transition:
-    background var(--mo-dur-curta) ease,
-    color var(--mo-dur-curta) ease,
-    transform 90ms ease-out,
-    box-shadow 90ms ease-out;
-}
-.tecla-opcao:hover span {
-  color: var(--mo-texto);
-}
-.tecla-opcao input:checked + span {
-  background: var(--mo-destaque-fundo);
-  color: var(--mo-sobre-destaque);
-  transform: translateY(2px);
-  box-shadow: 0 0 0 transparent;
-}
-.tecla-opcao input:focus-visible + span {
-  outline: 2px solid var(--mo-foco);
-  outline-offset: 2px;
 }
 
 .sobre {
@@ -1461,47 +1354,6 @@ mark {
 /* O campo que filtra a lista na hora, no fim da barra de filtros. */
 .filtro-lista {
   margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 210px;
-  height: 29px;
-  padding: 0 11px;
-  border-radius: var(--mo-raio-p);
-  background: var(--mo-elevada);
-  color: var(--mo-texto-3);
-  border: 1px solid transparent;
-  cursor: text;
-  transition:
-    border-color var(--mo-dur-curta) ease,
-    width var(--mo-dur-media) var(--mo-ease-saida);
-}
-.filtro-lista:focus-within {
-  border-color: var(--mo-destaque);
-  color: var(--mo-texto);
-  width: 260px;
-}
-.filtro-lista:focus-within .lupa {
-  border-color: var(--mo-destaque);
-}
-.filtro-lista input {
-  flex: 1;
-  min-width: 0;
-  border: 0;
-  padding: 0;
-  background: none;
-  color: var(--mo-texto);
-  font-family: var(--mo-fonte-mono);
-  font-size: 12px;
-}
-.filtro-lista input:focus {
-  outline: none;
-}
-.filtro-lista input::placeholder {
-  color: var(--mo-texto-3);
-}
-.filtro-lista input::-webkit-search-cancel-button {
-  -webkit-appearance: none;
 }
 
 /* A linha: ícone no tom do pacote, nome e descrição ao lado. */
@@ -2414,92 +2266,6 @@ button.dep {
 }
 .bloco-config > .mo-resumo {
   padding: 12px 0 4px;
-}
-.linha-config {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  padding: 13px 0;
-  border-bottom: 1px solid var(--mo-linha);
-  cursor: pointer;
-}
-.linha-config:last-child {
-  border-bottom: 0;
-}
-.linha-config-texto {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  flex: 1;
-  min-width: 0;
-}
-.linha-config-texto strong {
-  font-size: 13px;
-  font-weight: 600;
-}
-.linha-config-texto span {
-  font-size: 12px;
-  color: var(--mo-texto-2);
-  text-wrap: pretty;
-}
-
-/* O interruptor é uma tecla que desliza num trilho: quadradinha, com a
-   borda de baixo mais escura, como os botões. Ligado, o trilho acende. */
-.interruptor {
-  position: relative;
-  width: 46px;
-  height: 26px;
-  flex: none;
-}
-.interruptor-entrada {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  margin: 0;
-  cursor: pointer;
-  z-index: 1;
-}
-.interruptor i {
-  position: absolute;
-  inset: 0;
-  border-radius: 8px;
-  background: var(--mo-elevada);
-  box-shadow: inset 0 2px 0 color-mix(in oklab, black 30%, transparent);
-  transition: background var(--mo-dur-media) ease;
-}
-.interruptor i::after {
-  content: "";
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 20px;
-  height: 18px;
-  border-radius: 5px;
-  background: var(--mo-texto-3);
-  box-shadow: 0 2px 0 color-mix(in oklab, var(--mo-texto-3) 45%, black);
-  transition:
-    transform var(--mo-dur-media) var(--mo-ease-saida),
-    background var(--mo-dur-media) ease,
-    box-shadow var(--mo-dur-media) ease;
-}
-.interruptor-entrada:active + i::after {
-  transform: translateY(1px);
-  box-shadow: 0 1px 0 color-mix(in oklab, var(--mo-texto-3) 45%, black);
-}
-.interruptor-entrada:checked + i {
-  background: var(--mo-destaque-fundo);
-}
-.interruptor-entrada:checked + i::after {
-  transform: translateX(20px);
-  background: var(--mo-sobre-destaque);
-  box-shadow: 0 2px 0 color-mix(in oklab, var(--mo-sobre-destaque) 60%, black);
-}
-.interruptor-entrada:checked:active + i::after {
-  transform: translate(20px, 1px);
-}
-.interruptor-entrada:focus-visible + i {
-  outline: 2px solid var(--mo-foco);
-  outline-offset: 2px;
 }
 
 .campo-paleta {

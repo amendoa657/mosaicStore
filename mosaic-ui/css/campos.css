@@ -10,6 +10,7 @@
                   <i class="mo-lupa"></i> <input type="search">
                   <kbd class="mo-atalho">/</kbd>
                 </label>
+                (--grande no meio da tela, --filtro numa barra de filtros)
    Interruptor  <label class="mo-interruptor"><input type="checkbox"><i></i></label>
    Caixa        <label class="mo-caixa"><input type="checkbox"><i></i> Texto</label>
    Opções       <div class="mo-opcoes">
@@ -17,7 +18,7 @@
                 </div>
    Deslizante   <input type="range" class="mo-deslizante">
    Linha        <label class="mo-linha-opcao">
-                  <span><strong>Título</strong><small>explicação</small></span>
+                  <div class="mo-linha-opcao-texto"><strong>Título</strong><span>explicação</span></div>
                   …controle…
                 </label>
 
@@ -188,6 +189,69 @@ select.mo-campo option {
     display: none;
   }
 }
+/* Grande: a busca no meio de uma tela vazia (a tela de Buscar da loja).
+   Pílula de 50 px, no fundo do cartão, com a borda de baixo de objeto. */
+.mo-busca--grande {
+  flex: none;
+  gap: 13px;
+  width: 100%;
+  max-width: 560px;
+  height: 50px;
+  padding: 0 20px;
+  background: var(--mo-cartao);
+  border-radius: 26px;
+  box-shadow: 0 3px 0 color-mix(in oklab, var(--mo-janela) 70%, transparent);
+  transition:
+    border-color var(--mo-dur-curta) ease,
+    box-shadow var(--mo-dur-media) ease,
+    background var(--mo-dur-curta) ease;
+}
+.mo-busca--grande:hover {
+  background: var(--mo-cartao-hover);
+}
+.mo-busca--grande:focus-within {
+  box-shadow:
+    0 0 0 3px color-mix(in oklab, var(--mo-destaque) 20%, transparent),
+    0 3px 0 color-mix(in oklab, var(--mo-janela) 70%, transparent);
+}
+.mo-busca--grande > input {
+  font-size: 14px;
+}
+.mo-busca--grande > .mo-lupa {
+  width: 13px;
+  height: 13px;
+  border-width: 2px;
+}
+/* Na grande, a lupa acompanha a cor do texto (clareia no foco). */
+.mo-busca--grande:focus-within > .mo-lupa {
+  border-color: currentColor;
+}
+
+/* Filtro: o campo pequeno que filtra uma lista na hora, numa barra de
+   filtros. Discreto até ganhar o foco, quando cresce um pouco. */
+.mo-busca--filtro {
+  flex: none;
+  gap: 8px;
+  width: 210px;
+  max-width: none;
+  height: 29px;
+  padding: 0 11px;
+  border: 1px solid transparent;
+  border-radius: var(--mo-raio-p);
+  background: var(--mo-elevada);
+  cursor: text;
+  transition:
+    border-color var(--mo-dur-curta) ease,
+    width var(--mo-dur-media) var(--mo-ease-saida);
+}
+.mo-busca--filtro:focus-within {
+  box-shadow: none;
+  width: 260px;
+}
+.mo-busca--filtro > input {
+  font-size: 12px;
+}
+
 /* A lupa: só um círculo, na cor do texto. */
 .mo-lupa {
   width: 11px;
@@ -370,7 +434,7 @@ select.mo-campo option {
   place-items: center;
   min-width: 38px;
   height: 30px;
-  padding: 0 10px;
+  padding: 0 9px;
   border-radius: var(--mo-raio-p);
   background: var(--mo-elevada);
   box-shadow: 0 2px 0 color-mix(in oklab, var(--mo-elevada) 45%, black);
@@ -378,7 +442,6 @@ select.mo-campo option {
   font-size: 12px;
   font-weight: 600;
   color: var(--mo-texto-2);
-  white-space: nowrap;
   transition:
     background var(--mo-dur-curta) ease,
     color var(--mo-dur-curta) ease,
@@ -474,38 +537,36 @@ select.mo-campo option {
   outline-offset: 2px;
 }
 
-/* ---------- Linha de opção (configurações) ---------- */
+/* ---------- Linha de opção (configurações) ----------
+   <label class="mo-linha-opcao">
+     <div class="mo-linha-opcao-texto"><strong>Título</strong><span>explicação</span></div>
+     …controle (interruptor, opções)…
+   </label> */
 .mo-linha-opcao {
   display: flex;
   align-items: center;
   gap: 18px;
   padding: 13px 0;
   border-bottom: 1px solid var(--mo-linha);
-}
-label.mo-linha-opcao {
   cursor: pointer;
 }
 .mo-linha-opcao:last-child {
   border-bottom: 0;
 }
-.mo-linha-opcao > span:first-child {
+.mo-linha-opcao-texto {
   display: flex;
   flex-direction: column;
   gap: 2px;
   flex: 1;
   min-width: 0;
 }
-.mo-linha-opcao > span:first-child > strong {
+.mo-linha-opcao-texto strong {
   font-size: 13px;
   font-weight: 600;
 }
-.mo-linha-opcao > span:first-child > small {
+.mo-linha-opcao-texto span,
+.mo-linha-opcao-texto small {
   font-size: 12px;
   color: var(--mo-texto-2);
   text-wrap: pretty;
-}
-@media (max-width: 560px) {
-  .mo-linha-opcao:has(> .mo-opcoes) {
-    flex-wrap: wrap;
-  }
 }

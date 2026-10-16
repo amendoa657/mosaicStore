@@ -26,13 +26,13 @@
 
 {% macro interruptor(chave, rotulo, descricao, padrao=true) %}
   {% set ligado = prefs[chave] if chave in prefs else padrao %}
-  <label class="linha-config">
-    <div class="linha-config-texto">
+  <label class="mo-linha-opcao">
+    <div class="mo-linha-opcao-texto">
       <strong>{{ rotulo }}</strong>
       <span>{{ descricao }}</span>
     </div>
-    <span class="interruptor">
-      <input type="checkbox" class="interruptor-entrada" name="{{ chave }}" {{ "checked" if ligado }}>
+    <span class="mo-interruptor">
+      <input type="checkbox" name="{{ chave }}" {{ "checked" if ligado }}>
       <i aria-hidden="true"></i>
     </span>
   </label>
@@ -107,14 +107,14 @@
         <p>Para um build pesado da AUR não travar a máquina.</p>
       </div>
       <div class="mo-cartao config-cartao">
-        <div class="linha-config linha-nucleos">
-          <div class="linha-config-texto">
+        <div class="mo-linha-opcao linha-nucleos">
+          <div class="mo-linha-opcao-texto">
             <strong>Núcleos usados no build</strong>
             <span>Quantos núcleos o make pode usar ao mesmo tempo. Deixar um livre mantém o sistema respondendo.</span>
           </div>
-          <div class="teclas-nucleos" role="radiogroup" aria-label="Núcleos usados no build">
+          <div class="mo-opcoes" role="radiogroup" aria-label="Núcleos usados no build">
             {% for n in opcoes_nucleos %}
-              <label class="tecla-opcao">
+              <label>
                 <input type="radio" name="nucleos" value="{{ n }}" {{ "checked" if n == nucleos }}>
                 <span>{{ "todos" if n == nucleos_max else n }}</span>
               </label>

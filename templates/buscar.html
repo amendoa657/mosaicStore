@@ -56,10 +56,10 @@
         {# Formulário GET: apertar Enter leva para /buscar?q=o-que-foi-digitado
        O modo vai junto num campo escondido, senão buscar de novo voltaria
        sempre para a AUR. #}
-        <form class="campo-central-envolucro" action="/buscar" method="get" role="search">
-            <i class="lupa" aria-hidden="true"></i>
+        <form class="mo-busca mo-busca--grande" action="/buscar" method="get" role="search">
+            <i class="mo-lupa" aria-hidden="true"></i>
             <input type="hidden" name="modo" value="{{ modo }}">
-            <input class="campo-central" type="search" name="q" value="{{ termo or '' }}" data-mo-atalho="/"
+            <input type="search" name="q" value="{{ termo or '' }}" data-mo-atalho="/"
                    placeholder="Buscar pacotes" aria-label="Buscar pacotes"
                    autocomplete="off" spellcheck="false" autofocus>
             {# O `q=` vazio é o que faz o Flask esquecer a última pesquisa: sem ele
