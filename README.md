@@ -231,6 +231,17 @@ O template é um bloco `:root` com as variáveis de cor do app. A lista completa
 
 O ícone do app também segue essas cores. Toda vez que o Mosaic abre (ou carrega o tema de novo), ele monta o ícone em SVG com as cores do `colors.css` e grava em `~/.local/share/icons/hicolor/scalable/apps/mosaic-store.svg`, que tem prioridade sobre o ícone que vem no pacote. Alguns menus e barras de tarefas só mostram o ícone novo quando recarregam os ícones.
 
+Para o ícone trocar junto com o wallpaper, sem precisar abrir o Mosaic, peça para o Matugen refazer o ícone logo depois de gravar as cores:
+
+```toml
+[templates.mosaic]
+input_path = "~/.config/matugen/templates/mosaic.css"
+output_path = "~/.config/mosaic-store/colors.css"
+post_hook = "mosaic-store --icone"
+```
+
+Se a sua barra (Quickshell, por exemplo) recarrega quando o tema muda, ela precisa recarregar depois desse comando, senão continua mostrando o ícone de antes.
+
 ## Versões
 
 O que mudou em cada versão está no [CHANGELOG.md](CHANGELOG.md). Como os commits são escritos e como lançar uma versão nova, no [VERSIONAMENTO.md](VERSIONAMENTO.md).

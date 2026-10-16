@@ -6,6 +6,7 @@ os.environ.setdefault("QT_QPA_PLATFORM", "wayland;xcb")
 
 from flask import Flask
 
+from config.icone import atualizarIcone
 from config.init import init
 from config.janela import abrirJanela
 from config.paru import criarConfigParu
@@ -35,6 +36,13 @@ app.register_blueprint(pacmanBp)
 if __name__ == "__main__":
     if "--versao" in sys.argv:
         print(f"Mosaic {VERSAO}")
+        sys.exit()
+
+    # mosaic-store --icone refaz só o ícone nas cores do tema e sai, sem
+    # abrir a janela. É para o Matugen chamar quando troca as cores.
+    if "--icone" in sys.argv:
+        with app.app_context():
+            atualizarIcone()
         sys.exit()
 
     config_paru = criarConfigParu()
