@@ -22,7 +22,10 @@
 </div>
 
 > [!NOTE]
-> **Sobre o uso de IA.** Grande parte do front-end deste projeto (HTML, CSS e JavaScript) foi escrita com a ajuda de IA. A paleta de cores e o sistema de temas a partir do wallpaper, o layout das telas e o nome são meus, e a identidade visual foi conduzida por mim: a direção de arte, o que entrou, o que saiu e o que precisou ser refeito até ficar com a cara que eu queria.
+> **Sobre o uso de IA.**
+> - **Grande parte do front-end deste projeto (HTML, CSS e JavaScript) foi escrita com a ajuda de IA. A paleta de cores e o sistema de temas a partir do wallpaper, o layout das telas e o nome são meus, e a identidade visual foi conduzida por mim: a direção de arte, o que entrou, o que saiu e o que precisou ser refeito até ficar com a cara que eu queria.**
+> - **Sistema de versionamento, alem do auxilio para criação do [README.md](README.md).**
+> - **Criação dos motions graphics e videos utilizando Claude Opus 5.5**
 
 ## O que é
 
@@ -115,9 +118,6 @@ O Mosaic coloca o `paru` atrás de uma interface calma, rápida e legível. Busc
 
 <sub>As capturas usam dados de exemplo. Os números da barra lateral (instalados, atualizações, fila) ainda não vêm do sistema, veja <a href="#o-que-ainda-falta">o que ainda falta</a>.</sub>
 
-### Leve de propósito
-
-O fundo e a transição são desenhados num Web Worker com `OffscreenCanvas`, fora da thread que carrega as páginas e responde aos cliques. A animação não disputa tempo com a interface, só redesenha os pixels que mudaram e para por completo quando a janela perde o foco. As fontes são servidas pelo próprio app, e listas longas só montam o que está na tela.
 
 ## Novidades
 
@@ -240,5 +240,3 @@ O que mudou em cada versão está no [CHANGELOG.md](CHANGELOG.md). Como os commi
 ## Créditos
 
 Space Grotesk e JetBrains Mono são distribuídas sob a SIL Open Font License 1.1 (licenças em [`mosaic-ui/fontes`](mosaic-ui/fontes)).
-
-O README anterior está preservado em [`README.before-showcase.md`](README.before-showcase.md).
