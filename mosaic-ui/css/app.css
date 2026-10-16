@@ -257,7 +257,9 @@ html {
   color: var(--mo-destaque-fundo);
 }
 
-/* Rótulo de grupo na lateral: mono, pequeno, espaçado. */
+/* Rótulo de grupo: mono, pequeno, espaçado, com algo na direita se
+   precisar (uma contagem, um link). Na lateral ganha o recuo dos itens. */
+.mo-rotulo-grupo,
 .mo-lateral-rotulo {
   display: flex;
   align-items: center;
@@ -267,8 +269,9 @@ html {
   font-weight: 600;
   font-size: 10px;
   letter-spacing: 0.14em;
-  text-transform: uppercase;
   color: var(--mo-texto-3);
+}
+.mo-lateral-rotulo {
   padding: 4px 12px 8px;
 }
 .mo-lateral > .mo-separador {

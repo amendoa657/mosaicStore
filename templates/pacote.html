@@ -101,7 +101,7 @@
   <aside class="painel-lateral">
 
     <section>
-      <div class="rotulo-painel">DETALHES</div>
+      <div class="mo-rotulo-grupo">DETALHES</div>
       <div class="mo-dados" style="margin-top: 11px">
         {% if pacote.numeroVotos is not none %}
           <div><span class="chave">Votos AUR</span><span class="valor">{{ pacote.numeroVotos }}</span></div>
@@ -127,7 +127,7 @@
     {% if pacote.dependencias %}
       <div class="mo-separador" style="margin: 0"></div>
       <section>
-        <div class="rotulo-painel">DEPENDÊNCIAS · {{ pacote.dependencias| length }}</div>
+        <div class="mo-rotulo-grupo">DEPENDÊNCIAS · {{ pacote.dependencias| length }}</div>
         <div class="nuvem-deps" style="margin-top: 9px">
           {#  Aceita tanto uma lista de nomes quanto de dicts com "instalada". #}
           {% for dep in pacote.dependencias %}
@@ -140,7 +140,7 @@
     {% if pacote.pkgBuild %}
       <div class="mo-separador" style="margin: 0"></div>
       <section>
-        <div class="rotulo-painel">
+        <div class="mo-rotulo-grupo">
           <span>PKGBUILD</span>
           <button class="vinculo-painel" data-mo-abrir="#pkgbuild">abrir</button>
         </div>

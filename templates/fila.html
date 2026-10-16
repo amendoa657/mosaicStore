@@ -59,7 +59,7 @@
       {# Agora: o pacote que está sendo instalado. #}
       {% for item in instalando %}
         <article class="mo-cartao item-agora">
-          <div class="rotulo-painel"><span><i class="mo-marca glifo-sync girando" aria-hidden="true"></i> INSTALANDO AGORA</span></div>
+          <div class="mo-rotulo-grupo"><span><i class="mo-marca glifo-sync girando" aria-hidden="true"></i> INSTALANDO AGORA</span></div>
           <div class="linha">
             {{ icone(item, "m") }}
             <a class="info" href="/buscar/{{ item.nome }}">
@@ -74,7 +74,7 @@
       {# Na fila: a ordem em que vão entrar, cada um com a sua posição. #}
       {% if aguardando %}
         <div class="grupo-fila">
-          <div class="rotulo-painel"><span>NA FILA</span><span>{{ aguardando | length }}</span></div>
+          <div class="mo-rotulo-grupo"><span>NA FILA</span><span>{{ aguardando | length }}</span></div>
           {% for item in aguardando %}
             <article class="item-fila">
               <span class="posicao" aria-label="Posição {{ loop.index }}">{{ loop.index }}</span>
@@ -95,7 +95,7 @@
       {# Concluídos (e os que falharam), do mais recente para o mais antigo. #}
       {% if terminados %}
         <div class="grupo-fila">
-          <div class="rotulo-painel"><span>CONCLUÍDOS</span><span>{{ terminados | length }}</span></div>
+          <div class="mo-rotulo-grupo"><span>CONCLUÍDOS</span><span>{{ terminados | length }}</span></div>
           {% for item in terminados | reverse %}
             <article class="item-fila {{ 'falhou' if item.situacao == 'erro' else 'concluido' }}">
               <span class="selo-estado" aria-hidden="true">{{ "✕" if item.situacao == "erro" else "✓" }}</span>
@@ -111,7 +111,7 @@
 
       {% if resumo %}
         <div class="resumo-fila">
-          <div class="rotulo-painel">RESUMO</div>
+          <div class="mo-rotulo-grupo">RESUMO</div>
           <div class="mo-dados">
             {% if resumo.download %}
               <div><span class="chave">Download restante</span><span class="valor">{{ resumo.download }}</span></div>
