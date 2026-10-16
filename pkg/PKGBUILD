@@ -2,7 +2,7 @@
 
 pkgname=mosaic-store-git
 _pkgname=mosaic-store
-pkgver=r0
+pkgver=0.6.0
 pkgrel=1
 pkgdesc="Loja de pacotes do Arch Linux (repositórios oficiais e AUR) com a cara do seu wallpaper"
 arch=('any')
@@ -25,17 +25,17 @@ makedepends=('git')
 optdepends=('matugen: tema a partir do wallpaper')
 provides=("$_pkgname")
 conflicts=("$_pkgname")
-# Enquanto o mosaic-ui não entrar na main, o pacote sai dele.
-source=("$_pkgname::git+https://github.com/amendoa657/mosaicStore.git#branch=mosaic-ui"
+source=("$_pkgname::git+https://github.com/amendoa657/mosaicStore.git"
   "mosaic-store.sh"
   "mosaic-store.desktop")
 sha256sums=('SKIP'
   '646f7116417c2eb8a41334aebd30cee9d8736cfeafcbb71377a64f481d48f6d4'
   'fa9555071f808b314a92befe9e5215b0d28d1ddcbadad69aee7ec354a0d1f0b8')
 
+# A versão sai da última tag: v0.6.0 com 3 commits depois vira 0.6.0.r3.gabc1234.
 pkgver() {
   cd "$_pkgname"
-  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short=7 HEAD)"
+  git describe --long --tags --abbrev=7 | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 package() {
