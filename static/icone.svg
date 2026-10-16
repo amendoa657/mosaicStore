@@ -1,4 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="8" fill="#14121a"/>
-  <rect x="9" y="9" width="14" height="14" rx="4" fill="#86d7ac"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Mosaic Store">
+  <rect width="512" height="512" rx="112.64" fill="#17131f"/>
+  <rect x="87.04" y="87.04" width="154.598" height="154.598" rx="20.2752" fill="#1ed38a"/>
+  <rect x="270.362" y="87.04" width="154.598" height="154.598" rx="20.2752" fill="#ff4fa0"/>
+  <rect x="87.04" y="270.362" width="154.598" height="154.598" rx="20.2752" fill="#4b7bff"/>
+  <rect x="270.362" y="270.362" width="154.598" height="154.598" rx="20.2752" fill="#f6f3fb"/>
 </svg>
