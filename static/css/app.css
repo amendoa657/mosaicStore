@@ -1884,28 +1884,9 @@ button.dep {
   font-size: 14px;
 }
 
-/* ---------- Animações ---------- */
-/* Entrada: sobe pouco e aparece. */
-@keyframes entrar {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-@keyframes entrar-fundo {
-  from {
-    opacity: 0;
-  }
-}
-@keyframes so-aparecer {
-  from {
-    opacity: 0;
-  }
-}
+/* ---------- Animações ----------
+   As entradas usam os quadros-chave da Mosaic UI (mo-entrar,
+   mo-so-aparecer…); aqui ficam só os que são da loja. */
 @keyframes deslizar {
   from {
     opacity: 0;
@@ -1916,50 +1897,9 @@ button.dep {
     transform: none;
   }
 }
-@keyframes surgir {
-  from {
-    opacity: 0;
-    transform: translateY(-6px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-@keyframes entrar-linha {
-  from {
-    opacity: 0;
-    transform: translateX(-5px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
 @keyframes girar {
   to {
     transform: rotate(360deg);
-  }
-}
-@keyframes piscar {
-  0%,
-  49% {
-    opacity: 1;
-  }
-  50%,
-  100% {
-    opacity: 0;
-  }
-}
-@keyframes respirar {
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.45;
-    transform: scale(0.82);
   }
 }
 @keyframes correr {
@@ -1976,7 +1916,7 @@ button.dep {
 .destaque,
 .faixa-atualizacoes,
 .mo-secao > .mo-cartao {
-  animation: entrar 0.42s var(--mo-ease-saida) backwards;
+  animation: mo-entrar 0.42s var(--mo-ease-saida) backwards;
   animation-delay: calc(var(--ordem, 0) * 45ms);
 }
 .grade-cartoes > :nth-child(2),
@@ -2055,7 +1995,7 @@ button.dep {
   .destaque,
   .faixa-atualizacoes,
   .mo-secao > .mo-cartao {
-    animation: so-aparecer 0.2s ease backwards;
+    animation: mo-so-aparecer 0.2s ease backwards;
   }
   .barra-progresso.alta > i,
   .mo-pulso {
