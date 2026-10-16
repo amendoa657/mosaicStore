@@ -1,11 +1,16 @@
+import os
 import threading
+from pathlib import Path
 
 import webview
-from qtpy.QtGui import QColor
+from qtpy.QtGui import QColor, QGuiApplication
 from werkzeug.serving import make_server
 
 from config.qt import silenciarAvisosQt
 from config.tema import getCorFundo
+
+raiz = Path(__file__).resolve().parent.parent
+ICONE = raiz / "static" / "icones" / "mosaic-store-256.png"
 
 
 def subirServidor(app):
@@ -29,9 +34,15 @@ def abrirJanela(app):
     url = subirServidor(app)
     corFundo = getCorFundo()
 
+    # O nome com que o sistema reconhece o app: é por ele que a barra de
+    # tarefas acha o mosaic-store.desktop e mostra o ícone certo.
+    QGuiApplication.setApplicationName("mosaic-store")
+    QGuiApplication.setDesktopFileName("mosaic-store")
+    os.environ.setdefault("RESOURCE_NAME", "mosaic-store")
+
     # A janela abre na tela de abertura, e ela mesma chama a loja.
     janela = webview.create_window(
-        "Mosaic",
+        "Mosaic Store",
         url + "/abertura",
         width=1200,
         height=800,
@@ -42,4 +53,4 @@ def abrirJanela(app):
     janela.events.before_show += lambda: pintarFundo(janela, corFundo)
 
     silenciarAvisosQt()
-    webview.start(debug=False)
+    webview.start(debug=False, icon=str(ICONE))
