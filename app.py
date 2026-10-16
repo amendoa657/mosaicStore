@@ -3,12 +3,11 @@ import os
 os.environ["PYWEBVIEW_GUI"] = "qt"
 os.environ.setdefault("QT_QPA_PLATFORM", "wayland")
 
-import webview
 from flask import Flask
 
 from config.init import init
+from config.janela import abrirJanela
 from config.paru import criarConfigParu
-from config.qt import silenciarAvisosQt
 
 #from config.downloadFromMirrors import downloadAur
 from controllers.aurController import aurBp
@@ -39,14 +38,9 @@ if __name__ == "__main__":
     trabalhador.start()
     insertsThread.start()
 
-    window = webview.create_window(
-        "Mosaic",
-        app,
-        width=1200,
-        height=800,
-        min_size=(900, 600),
-    )
-    silenciarAvisosQt()
-
+    # Navegador (desenvolvimento): o Flask sozinho, em http://127.0.0.1:5000
     app.run(debug=True, use_reloader=False)
-    #webview.start(debug=False)
+
+    # Janela do app: abre na hora com a tela de abertura e carrega a loja
+    # quando o Flask responder (config/janela.py).
+    #abrirJanela(app)
