@@ -1,0 +1,45 @@
+{#
+  Tela de abertura da janela (config/janela.py).
+
+  É a primeira coisa que a janela mostra: a marca girando e o nome, na cor
+  do tema, enquanto o resto sobe. Não passa pelo banco nem carrega a Mosaic
+  UI inteira, só o CSS dela mesma. Assim que pinta, chama a loja; enquanto a
+  loja é montada, a abertura continua na tela.
+
+  A loja chega com #mo-abrir no endereço: a Mosaic UI cobre a janela com a
+  mesma marca, no mesmo lugar, continuando a volta de onde esta parou, e
+  revela a loja numa onda de pixels a partir dela.
+#}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Mosaic</title>
+<link rel="preload" href="{{ url_for('static', filename='mosaic-ui/fontes/space-grotesk.woff2') }}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{{ url_for('static', filename='mosaic-ui/fontes/jetbrains-mono.woff2') }}" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/tema.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/abertura.css') }}">
+</head>
+<body>
+
+<i class="marca" aria-hidden="true"></i>
+<h1>Mosaic</h1>
+<p role="status">abrindo a loja</p>
+
+<script>
+  /* Saindo, guarda em que ponto da volta a marca estava: é esse quadro que
+     fica na tela até a loja pintar, e a marca da loja continua dali. */
+  addEventListener("pagehide", () => {
+    const giro = document.querySelector(".marca").getAnimations()[0];
+    try {
+      if (giro) sessionStorage.setItem("mo:abertura-fase", String(giro.currentTime % 1600));
+    } catch (erro) {}
+  });
+
+  /* Pintou: chama a loja. Ela entra no lugar da abertura no histórico. */
+  addEventListener("load", () =>
+    requestAnimationFrame(() => requestAnimationFrame(() => location.replace("/#mo-abrir"))),
+  );
+</script>
+</body>
+</html>

@@ -38,9 +38,5 @@ if __name__ == "__main__":
     trabalhador.start()
     insertsThread.start()
 
-    # Navegador (desenvolvimento): o Flask sozinho, em http://127.0.0.1:5000
     app.run(debug=True, use_reloader=False)
-
-    # Janela do app: abre na hora com a tela de abertura e carrega a loja
-    # quando o Flask responder (config/janela.py).
     #abrirJanela(app)

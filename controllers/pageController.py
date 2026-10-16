@@ -71,3 +71,8 @@ def getFila():
 @pageBp.route("/tema.css")
 def temaCss():
     return getTema()
+
+
+@pageBp.get("/abertura")
+def getAbertura():
+    return render_template("abertura.html")
