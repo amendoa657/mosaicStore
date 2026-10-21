@@ -23,6 +23,7 @@
 
 > [!NOTE]
 > **Sobre o uso de IA.**
+>
 > - **Grande parte do front-end deste projeto (HTML, CSS e JavaScript) foi escrita com a ajuda de IA. A paleta de cores e o sistema de temas a partir do wallpaper, o layout das telas e o nome são meus, e a identidade visual foi conduzida por mim: a direção de arte, o que entrou, o que saiu e o que precisou ser refeito até ficar com a cara que eu queria.**
 > - **Sistema de versionamento, alem do auxilio para criação do [README.md](README.md).**
 > - **Criação dos motions graphics e videos utilizando Claude Opus 5.5**
@@ -118,7 +119,6 @@ O Mosaic coloca o `paru` atrás de uma interface calma, rápida e legível. Busc
 
 <sub>As capturas usam dados de exemplo. Os números da barra lateral (instalados, atualizações, fila) ainda não vêm do sistema, veja <a href="#o-que-ainda-falta">o que ainda falta</a>.</sub>
 
-
 ## Novidades
 
 As últimas versões mexeram mais no app em volta da loja do que na loja em si:
@@ -149,7 +149,6 @@ A lista completa está no [CHANGELOG.md](CHANGELOG.md).
 Os botões abaixo já estão na tela, mas ainda não fazem nada:
 
 - Remover um pacote, na tela de Instalados.
-- Atualizar um pacote só. Por enquanto, só o "Atualizar tudo" funciona.
 - Cancelar um pacote da fila, ou a fila inteira.
 - Salvar as Configurações.
 - Ligar e desligar as fontes (aur, core, extra) pela barra lateral.
@@ -165,15 +164,15 @@ E o que ainda não existe:
 
 ## Stack
 
-| Camada | Tecnologia |
-| --- | --- |
-| Backend | Python + Flask |
-| Interface desktop | pywebview (Qt WebEngine) |
-| Pacotes | paru, pacman, AUR e repositórios oficiais |
-| Dados | SQLite + busca full-text (FTS5) |
-| Interface | HTML, CSS e JavaScript, sem framework, com a [Mosaic UI](mosaic-ui/); canvas num Web Worker |
-| Fontes | Space Grotesk e JetBrains Mono, servidas localmente |
-| Empacotamento | PKGBUILD (`pkg/`) |
+| Camada            | Tecnologia                                                                                  |
+| ----------------- | ------------------------------------------------------------------------------------------- |
+| Backend           | Python + Flask                                                                              |
+| Interface desktop | pywebview (Qt WebEngine)                                                                    |
+| Pacotes           | paru, pacman, AUR e repositórios oficiais                                                   |
+| Dados             | SQLite + busca full-text (FTS5)                                                             |
+| Interface         | HTML, CSS e JavaScript, sem framework, com a [Mosaic UI](mosaic-ui/); canvas num Web Worker |
+| Fontes            | Space Grotesk e JetBrains Mono, servidas localmente                                         |
+| Empacotamento     | PKGBUILD (`pkg/`)                                                                           |
 
 ## Rodando localmente
 
