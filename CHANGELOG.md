@@ -7,6 +7,27 @@ versão está no [VERSIONAMENTO.md](VERSIONAMENTO.md).
 
 ## [Não lançado]
 
+## [0.7.0] - 2026-10-20
+
+### Adicionado
+- **visual:** ícone novo, com as cores da marca vivas numa placa escura
+- **janela:** ícone em SVG nas cores do tema
+- **janela:** mosaic-store --icone refaz o ícone sem abrir o app
+- **pkg:** Inicio do download de atualizacoes individuais, porem bug atual na mostra da fila de pacotes
+
+### Corrigido
+- **janela:** ícone e nome certos na barra de tarefas
+- **pkg:** bug da fila arrumado! Botao de atualizar aplicativo unico funcionando
+
+### Pacote
+- **pkg:** o que o makepkg gera fica fora do git, menos o .pkg.tar.zst
+- **pkg:** o app instalado se chama Mosaic Store e instala o ícone em todos os tamanhos
+- **pkg:** só o ícone SVG, e o qt6-svg para a janela
+
+### Documentação
+- README com as telas novas, as novidades e o que ainda falta
+- remocao de 'feature faltando' no readme
+
 ## [0.6.0] - 2026-10-16
 
 ### Adicionado
