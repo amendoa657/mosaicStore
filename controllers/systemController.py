@@ -20,6 +20,27 @@ def instalarAur():
         "situacao": "aguardando",
         "progresso": 0,
         "passo": "Na fila de espera...",
+        "modo": "instalar"
+    }
+
+    q.filaDeDownloads.put(pacote)
+
+    return redirect("/fila")
+
+@systemBp.post("/aur/atualizar")
+def atualizarAur():
+    pacote = request.form.get("pacote", "")
+
+    # Com o pacman -Syu rodando, o pacman está travado: mostra a atualização.
+    if tarefas.rodando("sistema"):
+        return redirect("/atualizacoes")
+
+    q.statusDownloads[pacote] = {
+        "nome": pacote,
+        "situacao": "aguardando",
+        "progresso": 0,
+        "passo": "Na fila de espera...",
+        "modo": "atualizar"
     }
 
     q.filaDeDownloads.put(pacote)
@@ -38,7 +59,11 @@ def sincronizarBancos(tarefa):
     # Importados aqui: o módulo do banco abre conexões assim que é carregado.
     from database.connect import getConnection
     from database.createDatabase import insertsThread
-    from database.insertDatabase import insertPacotesAur, insertPacotesCore, insertPacotesExtra
+    from database.insertDatabase import (
+        insertPacotesAur,
+        insertPacotesCore,
+        insertPacotesExtra,
+    )
 
     etapas = [("AUR", insertPacotesAur), ("core", insertPacotesCore), ("extra", insertPacotesExtra)]
     tarefa["passos"] = [{"nome": nome, "estado": "esperando"} for nome, _ in etapas]

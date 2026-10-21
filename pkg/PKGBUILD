@@ -2,7 +2,7 @@
 
 pkgname=mosaic-store-git
 _pkgname=mosaic-store
-pkgver=0.6.0
+pkgver=0.6.0.r9.g7405f92
 pkgrel=1
 pkgdesc="Loja de pacotes do Arch Linux (repositórios oficiais e AUR) com a cara do seu wallpaper"
 arch=('any')

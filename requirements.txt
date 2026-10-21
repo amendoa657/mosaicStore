@@ -11,6 +11,7 @@ packaging==26.3
 proxy_tools==0.1.0
 pywebview==6.2.1
 QtPy==2.4.3
+PySide6==6.11.2
 requests==2.34.2
 shiboken6==6.11.2
 typing_extensions==4.16.0

@@ -2,7 +2,7 @@ import queue
 import threading
 from collections import deque
 
-from system.packageManager import instalarPacoteParu
+from system.packageManager import atualizarPacote, instalarPacoteParu
 
 filaDeDownloads = queue.Queue()
 statusDownloads = {}
@@ -16,18 +16,32 @@ def processarFila():
         pacote = filaDeDownloads.get()
         terminal.clear()
 
-        statusDownloads[pacote]["situacao"] = "instalando"
-        statusDownloads[pacote]["passo"] = "Preparando pacotes..."
+        if statusDownloads[pacote]["modo"]=="instalar":
+
+            statusDownloads[pacote]["situacao"] = "instalando"
+            statusDownloads[pacote]["passo"] = "Preparando pacotes..."
+
+
+            print(f"⏳ Começando a instalar: {pacote}")
+
+            processo = instalarPacoteParu(pacote)
+
+        elif statusDownloads[pacote]["modo"]=="atualizar":
+
+            statusDownloads[pacote]["situacao"] = "atualizando"
+            statusDownloads[pacote]["passo"] = "Preparando pacotes..."
+
+
+            print(f"⏳ Começando a atualizar: {pacote}")
+
+            processo = atualizarPacote(pacote)
+
         statusDownloads[pacote]["progresso"] = 0
-
-        print(f"⏳ Começando a instalar: {pacote}")
-
-        processo = instalarPacoteParu(pacote)
 
         for linha in processo.stdout:
             terminal.append(linha)
             statusDownloads[pacote]["passo"] = linha.strip()
-
+            
             if "Obtendo fontes" in linha:
                 statusDownloads[pacote]["progresso"] = 10
             elif "Iniciando build()" in linha:

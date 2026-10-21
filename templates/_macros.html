@@ -63,7 +63,7 @@
     </button>
 
   {% elif pacote.nova_versao %}
-    <form class="form-acao" method="post" action="/atualizar">
+    <form class="form-acao" method="post" action="/aur/atualizar">
       <input type="hidden" name="pacote" value="{{ pacote.nome }}">
       <button class="mo-tecla mo-tecla--destaque{{ tamanho }}">Atualizar</button>
     </form>

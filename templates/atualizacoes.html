@@ -127,7 +127,7 @@
             <div class="col-fonte">{{ selo(pacote) }}</div>
             {% if com_download %}<div class="col-tamanho">{{ pacote.download or "—" }}</div>{% endif %}
             <div class="col-acao">
-              <form class="form-acao" method="post" action="/atualizar">
+              <form class="form-acao" method="post" action="/aur/atualizar">
                 <input type="hidden" name="pacote" value="{{ pacote.nome }}">
                 <button class="mo-tecla mo-tecla--destaque">Atualizar</button>
               </form>
