@@ -11,6 +11,8 @@ systemBp = Blueprint("systemBp", __name__)
 def instalarAur():
     pacote = request.form.get("pacote", "")
 
+    print("instalar: "+pacote)
+
     # Com o pacman -Syu rodando, o pacman está travado: mostra a atualização.
     if tarefas.rodando("sistema"):
         return redirect("/atualizacoes")
@@ -30,6 +32,9 @@ def instalarAur():
 @systemBp.post("/aur/atualizar")
 def atualizarAur():
     pacote = request.form.get("pacote", "")
+
+    print("atualizar: "+pacote)
+
 
     # Com o pacman -Syu rodando, o pacman está travado: mostra a atualização.
     if tarefas.rodando("sistema"):

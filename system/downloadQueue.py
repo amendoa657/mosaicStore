@@ -28,7 +28,7 @@ def processarFila():
 
         elif statusDownloads[pacote]["modo"]=="atualizar":
 
-            statusDownloads[pacote]["situacao"] = "atualizando"
+            statusDownloads[pacote]["situacao"] = "instalando"
             statusDownloads[pacote]["passo"] = "Preparando pacotes..."
 
 

@@ -59,7 +59,13 @@
       {# Agora: o pacote que está sendo instalado. #}
       {% for item in instalando %}
         <article class="mo-cartao item-agora">
-          <div class="mo-rotulo-grupo"><span><i class="mo-marca glifo-sync girando" aria-hidden="true"></i> INSTALANDO AGORA</span></div>
+          {% if item.modo=="instalar"%}
+            <div class="mo-rotulo-grupo"><span><i class="mo-marca glifo-sync girando" aria-hidden="true"></i> INSTALANDO AGORA</span></div>
+          {% elif item.modo=="atualizar"%}
+            <div class="mo-rotulo-grupo"><span><i class="mo-marca glifo-sync girando" aria-hidden="true"></i> ATUALIZANDO AGORA</span></div>
+          {% else %}
+            <div class="mo-rotulo-grupo"><span><i class="mo-marca glifo-sync girando" aria-hidden="true"></i> SEILA OQUE VC TA FAZENDO</span></div>
+          {% endif%}
           <div class="linha">
             {{ icone(item, "m") }}
             <a class="info" href="/buscar/{{ item.nome }}">
