@@ -2,14 +2,20 @@ import os
 import stat
 import subprocess
 
+from config.configuracoes import config
 from config.paru import criarConfigParu
 
-
+prioridadeBaixa = ["nice", "-n", "8", "ionice", "-c", "2", "-n", "2"]
+#nice -n 19 ionice -c 2 -n 7
 def instalarPacoteParu(pacote):
     #config_paru = criarConfigParu()
     #ambiente = os.environ.copy()
     #ambiente["PARU_CONF"] = str(config_paru)
+    comando = ["paru", "-S", "--needed", "--noconfirm", '--sudoflags', '-A', pacote]
 
+    if config["buildLeve"]:
+        comando = prioridadeBaixa + comando
+    
     caminho = "/tmp/paru_gui_askpass.sh"
     with open(caminho, "w") as f:
         f.write('#!/bin/bash\n')
@@ -20,7 +26,7 @@ def instalarPacoteParu(pacote):
     ambiente['SUDO_ASKPASS'] = caminho
 
     resultado = subprocess.Popen(
-        ["paru", "-S", "--needed", "--noconfirm", '--sudoflags', '-A', pacote],
+        comando,
         env=ambiente,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,

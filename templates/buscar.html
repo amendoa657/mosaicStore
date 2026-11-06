@@ -70,12 +70,7 @@
         </form>
 
         {# Trocar de modo é só recarregar a mesma busca com ?modo= diferente. #}
-        <div class="modos-busca">
-            <a class="mo-chip {{ 'ativo' if modo == 'aur' }}"
-               href="/buscar?q={{ termo | urlencode }}&modo=aur">AUR</a>
-            <a class="mo-chip {{ 'ativo' if modo == 'pacman' }}"
-               href="/buscar?q={{ termo | urlencode }}&modo=pacman">Repositorios Oficiais</a>
-        </div>
+
 
     </div>
 

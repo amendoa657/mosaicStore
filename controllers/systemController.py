@@ -3,6 +3,7 @@ from flask import Blueprint, abort, jsonify, redirect, render_template, request
 import system.downloadQueue as q
 import system.packageManager as packageManager
 import system.tarefas as tarefas
+from config.configuracoes import config, salvarConfiguracoes
 from config.fontes import fontes
 
 systemBp = Blueprint("systemBp", __name__)
@@ -130,3 +131,15 @@ def estadoTarefa(nome):
     if nome not in TAREFAS:
         abort(404)
     return jsonify(tarefas.estado(nome))
+
+
+@systemBp.post("/configuracoes")
+def salvarConfig():
+    buildLeve = request.form.get("build_leve")
+
+    config["build_leve"]= buildLeve == "on"
+    
+    salvarConfiguracoes(config)
+    
+
+    return redirect("/")

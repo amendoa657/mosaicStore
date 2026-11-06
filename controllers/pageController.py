@@ -1,8 +1,11 @@
+from calendar import c
+
 from flask import Blueprint, render_template
 
 import services.pacotesService as s
 import system.downloadQueue as q
 import system.tarefas as tarefas
+from config.configuracoes import getConfiguracoes
 from config.fontes import fontes
 from config.icone import atualizarIcone
 from config.tema import getTema
@@ -20,9 +23,11 @@ def home():
     )
 
 @pageBp.get("/configuracoes")
-def getConfiguracoes():
+def getConfig():
+
     return render_template(
         "configuracoes.html",
+        prefs=getConfiguracoes(), 
         contagens=None,
         fontes=fontes
     )
