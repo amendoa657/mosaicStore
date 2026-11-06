@@ -7,6 +7,11 @@ versão está no [VERSIONAMENTO.md](VERSIONAMENTO.md).
 
 ## [Não lançado]
 
+## [0.7.2] - 2026-11-06
+
+### Adicionado
+- **configuracoes:** configuracao de limite de uso de cpu do build funcionando
+
 ## [0.7.1] - 2026-11-06
 
 ### Corrigido
