@@ -12,6 +12,8 @@ def buscarAur():
     termo = request.args.get("q", "").strip()
     modo = request.args.get("modo", "").strip()
 
+
+
     if "q" in request.args:
         current_app.config["ULTIMA_PESQUISA"] = termo
 

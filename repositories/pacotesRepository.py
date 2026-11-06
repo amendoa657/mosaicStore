@@ -24,6 +24,8 @@ def buscarPacotesPorNomes(pacotes):
 def buscarPacotes(termo):
     con = getConnection()
     cursor = con.cursor()
+        
+    print("Repositorio: "+termo)
 
     cursor.execute('''
         SELECT p.*
@@ -40,10 +42,10 @@ def buscarPacotes(termo):
             END,
             p.popularidade DESC
     ''', (
-        f"{termo}",
-        f"{termo}",
-        f'{termo}%',
-        f'%{termo}%',
+        f'"{termo}"',
+        f"'{termo}'",
+        f"'{termo}%'",
+        f"'%{termo}%'",
     ))
 
     pacotes = [Pacote.fromColuna(coluna) for coluna in cursor.fetchall()]

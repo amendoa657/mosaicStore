@@ -46,6 +46,7 @@ def buscarPacotes(termo, modo):
     if not termo:
         return None
 
+
     pacotes = r.buscarPacotes(termo)
 
     fim = time.perf_counter()
