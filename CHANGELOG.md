@@ -7,6 +7,11 @@ versão está no [VERSIONAMENTO.md](VERSIONAMENTO.md).
 
 ## [Não lançado]
 
+## [0.7.1] - 2026-11-06
+
+### Corrigido
+- **search:** bug do '-' virar lista corrigido
+
 ## [0.7.0] - 2026-10-20
 
 ### Adicionado
