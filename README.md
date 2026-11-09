@@ -25,9 +25,8 @@
 > **Sobre o uso de IA.**
 >
 > - **Grande parte do front-end deste projeto (HTML, CSS e JavaScript) foi escrita com a ajuda de IA. A paleta de cores e o sistema de temas a partir do wallpaper, o layout das telas e o nome são meus, e a identidade visual foi conduzida por mim: a direção de arte, o que entrou, o que saiu e o que precisou ser refeito até ficar com a cara que eu queria.**
-> - **Sistema de versionamento, alem do auxilio para criação do [README.md](README.md).**
+> - **Sistema de versionamento, alem do auxilio para criação do [README.md](README.md). Como os commits são escritos e como lançar uma versão nova, no [VERSIONAMENTO.md](VERSIONAMENTO.md).**
 > - **Criação dos motions graphics e videos utilizando Claude Opus 5.5**
-
 ## O que é
 
 O Mosaic coloca o `paru` atrás de uma interface calma, rápida e legível. Busca, detalhes da AUR, PKGBUILD, instalação e a saída do build ficam no mesmo fluxo, sem abrir terminal.
@@ -119,20 +118,30 @@ O Mosaic coloca o `paru` atrás de uma interface calma, rápida e legível. Busc
 
 <sub>As capturas usam dados de exemplo. Os números da barra lateral (instalados, atualizações, fila) ainda não vêm do sistema, veja <a href="#o-que-ainda-falta">o que ainda falta</a>.</sub>
 
-## Novidades
 
-As últimas versões mexeram mais no app em volta da loja do que na loja em si:
+# Stack
 
-- **Instalados e Atualizações funcionam de verdade.** A lista vem do pacman, e as atualizações do `checkupdates` e do `paru -Qua`. "Atualizar tudo" roda o `pacman -Syu` numa tela própria, e "Sincronizar mirrors" também.
-- **Tela de espera.** Antes, clicar numa tela lenta (Instalados lendo o pacman, por exemplo) deixava a janela parada. Agora o conteúdo é coberto na hora e diz o que está vindo. <kbd>Esc</kbd> desiste.
-- **Abertura.** A janela já abre na cor do tema, com a marca girando, em vez de um retângulo branco até a loja carregar.
-- **Mosaic UI.** O visual saiu da loja e virou uma biblioteca em [`mosaic-ui/`](mosaic-ui/), para servir a outros apps.
-- **Pacote para o Arch.** Tem PKGBUILD em `pkg/`, comando `mosaic-store`, ícone e atalho no menu.
-- **Versões.** O app agora tem número de versão, CHANGELOG e um script para lançar versão nova.
+| Camada            | Tecnologia                                                                                  |
+| ----------------- | ------------------------------------------------------------------------------------------- |
+| Backend           | Python + Flask                                                                              |
+| Interface desktop | pywebview (Qt WebEngine)                                                                    |
+| Pacotes           | paru, pacman, AUR e repositórios oficiais                                                   |
+| Dados             | SQLite + busca full-text (FTS5)                                                             |
+| Interface         | HTML, CSS e JavaScript, sem framework, com a [Mosaic UI](mosaic-ui/); canvas num Web Worker |
+| Fontes            | Space Grotesk e JetBrains Mono, servidas localmente                                         |
+| Empacotamento     | PKGBUILD (`pkg/`)    
 
-A lista completa está no [CHANGELOG.md](CHANGELOG.md).
+## Sobre a minha escolha de Stack
 
-## Funcionalidades
+### Vantagens
+- Enorme facilidade de integração entre o frontend web e o backend flask
+- Fluxograma intuitivo
+- Facilidade de manutenção
+### Desvantagens
+- Uso de ram acima da media comparado a outras aplicações linux: ~400mb
+- Dependencia de um compilador Python instalado
+
+# Funcionalidades
 
 - Busca local em SQLite com full-text na AUR, core e extra, ordenada por correspondência e popularidade.
 - Página do pacote com dependências, votos, mantenedor, link do projeto e PKGBUILD da AUR.
@@ -146,72 +155,31 @@ A lista completa está no [CHANGELOG.md](CHANGELOG.md).
 
 ## O que ainda falta
 
-Os botões abaixo já estão na tela, mas ainda não fazem nada:
+**Os botões abaixo já estão na tela, mas ainda não fazem nada:**
 
 - Remover um pacote, na tela de Instalados.
 - Cancelar um pacote da fila, ou a fila inteira.
-- Salvar as Configurações.
 - Ligar e desligar as fontes (aur, core, extra) pela barra lateral.
 
-E o que ainda não existe:
+**E o que ainda não existe:**
 
 - Contagens reais na barra lateral e no rodapé.
 - Categorias no Descobrir. A tela já tem o espaço, falta de onde tirar os dados.
 - Um destaque que mude. Hoje é sempre o mesmo pacote.
 - O repositório multilib no banco local.
-- Builds com limite de CPU e memória, para um build pesado não travar a máquina.
 - Publicar na AUR. O cadastro de contas está fechado no momento, então por enquanto a instalação é pelo PKGBUILD daqui.
 
-## Stack
+## Novidades
 
-| Camada            | Tecnologia                                                                                  |
-| ----------------- | ------------------------------------------------------------------------------------------- |
-| Backend           | Python + Flask                                                                              |
-| Interface desktop | pywebview (Qt WebEngine)                                                                    |
-| Pacotes           | paru, pacman, AUR e repositórios oficiais                                                   |
-| Dados             | SQLite + busca full-text (FTS5)                                                             |
-| Interface         | HTML, CSS e JavaScript, sem framework, com a [Mosaic UI](mosaic-ui/); canvas num Web Worker |
-| Fontes            | Space Grotesk e JetBrains Mono, servidas localmente                                         |
-| Empacotamento     | PKGBUILD (`pkg/`)                                                                           |
+As últimas versões mexeram mais no app em volta da loja do que na loja em si:
 
-## Rodando localmente
-
-Instale as ferramentas do Arch necessárias para compilar pacotes da AUR:
-
-```bash
-sudo pacman -S --needed base-devel python-setuptools paru
-```
-
-Crie o ambiente e instale as dependências:
-
-```bash
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-```
-
-Abra a aplicação desktop:
-
-```bash
-python app.py --janela
-```
-
-Para testar só as telas no navegador durante o desenvolvimento (o Flask em `http://127.0.0.1:5000`):
-
-```bash
-python app.py
-```
-
-## Instalando
-
-Com o PKGBUILD da pasta `pkg/`, o Mosaic vira um pacote do sistema, com o comando `mosaic-store` e o atalho no menu:
-
-```bash
-cd pkg
-makepkg -si
-```
-
-O banco de pacotes e os downloads ficam em `~/.cache/mosaic-store`. Na primeira vez que abre, o app baixa a lista da AUR e dos repositórios, e o Descobrir fica vazio até terminar.
+- **Instalados e Atualizações funcionam de verdade.** A lista vem do pacman, e as atualizações do `checkupdates` e do `paru -Qua`. "Atualizar tudo" roda o `pacman -Syu` numa tela própria, e "Sincronizar mirrors" também.
+- **Tela de espera.** Antes, clicar numa tela lenta (Instalados lendo o pacman, por exemplo) deixava a janela parada. Agora o conteúdo é coberto na hora e diz o que está vindo. <kbd>Esc</kbd> desiste.
+- **Abertura.** A janela já abre na cor do tema, com a marca girando, em vez de um retângulo branco até a loja carregar.
+- **Mosaic UI.** O visual saiu da loja e virou uma biblioteca em [`mosaic-ui/`](mosaic-ui/), para servir a outros apps.
+- **Pacote para o Arch.** Tem PKGBUILD em `pkg/`, comando `mosaic-store`, ícone e atalho no menu.
+- **Versões.** O app agora tem número de versão, CHANGELOG e um script para lançar versão nova.
+- **Desempenho** Builds com limite de CPU e memória, para um build pesado não travar a máquina.
 
 ## Tema com o Matugen
 
@@ -241,14 +209,50 @@ post_hook = "mosaic-store --icone"
 
 Se a sua barra (Quickshell, por exemplo) recarrega quando o tema muda, ela precisa recarregar depois desse comando, senão continua mostrando o ícone de antes.
 
-## Versões
 
-O que mudou em cada versão está no [CHANGELOG.md](CHANGELOG.md). Como os commits são escritos e como lançar uma versão nova, no [VERSIONAMENTO.md](VERSIONAMENTO.md).
+A lista completa está no [CHANGELOG.md](CHANGELOG.md).
+
+# Como instalar?
+
+```bash
+cd pkg
+makepkg -si
+```
+O banco de pacotes e os downloads ficam em `~/.cache/mosaic-store`. Na primeira vez que abre, o app baixa a lista da AUR e dos repositórios, e o Descobrir fica vazio até terminar.
+
+
+## Como desenvolver?
+
+Instale as ferramentas do Arch necessárias para compilar pacotes da AUR:
+
+```bash
+sudo pacman -S --needed base-devel python-setuptools paru
+```
+
+Crie o ambiente e instale as dependências:
+
+```bash
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+Abra a aplicação desktop:
+
+```bash
+python app.py --janela
+```
+
+Para testar só as telas no navegador durante o desenvolvimento (o Flask em `http://127.0.0.1:5000`):
+
+```bash
+python app.py
+```
 
 ## Licença
 
 [GPL-3.0-or-later](LICENSE).
 
-## Créditos
+# Créditos
 
 Space Grotesk e JetBrains Mono são distribuídas sob a SIL Open Font License 1.1 (licenças em [`mosaic-ui/fontes`](mosaic-ui/fontes)).
